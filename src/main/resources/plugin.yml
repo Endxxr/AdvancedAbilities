@@ -1,0 +1,14 @@
+name: AdvancedHCFAbilities
+version: ${project.version}
+main: me.delected.advancedhcfabilities.AdvancedHCFAbilities
+authors: [ Delected_ ]
+description: Some HCF abilities for your HCF/KitMap server!
+website: https://delected.me/
+
+commands:
+  getitem:
+    aliases: [giveitem, gi, hcfitem, ability]
+    usage: /<command> [itemName] [(optional) player]
+  ahareload:
+    aliases: [ahcfreload]
+    usage: /<command>
