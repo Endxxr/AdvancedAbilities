@@ -53,6 +53,9 @@ public class Saviour extends RemovableAbility implements Effect {
                     .replace("{time}", String.valueOf(Math.abs(TimeUnit.MILLISECONDS.toSeconds(getTimeLeft(p)) - getCooldownConfig())))));
             return;
         }
+
+//        if (checkGlobalCooldown(p)) return;
+
         p.sendMessage(Chat.color(config.getString("message_to_saviour_user")));
         Location loc = p.getLocation();
         e.setCancelled(true);

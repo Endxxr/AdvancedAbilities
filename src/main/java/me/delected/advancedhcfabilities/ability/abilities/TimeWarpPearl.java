@@ -59,13 +59,17 @@ public class TimeWarpPearl extends Ability {
             e.setCancelled(true);
             return;
         }
+
+//        if (checkGlobalCooldown(p)) {
+//            p.getInventory().addItem(item());
+//            e.setCancelled(true);
+//            return;
+//        }
+
         if (warpList.containsKey(p)) {
             p.sendMessage(ChatColor.RED + "You already have an out-going warp pearl!");
             return;
         }
-
-
-
 
         // add to list
         warpList.put(p, p.getLocation());

@@ -55,6 +55,13 @@ public class SwitcherSnowball extends Ability {
             e.setCancelled(true);
             return;
         }
+
+//        if (checkGlobalCooldown(shooter)) {
+//            e.setCancelled(true);
+//            return;
+//        }
+
+
         snowballPlayers.add(shooter);
     }
 

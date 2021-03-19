@@ -53,6 +53,8 @@ public class Bamboozle extends RemovableAbility {
             return;
         }
 
+//        if (checkGlobalCooldown(e.getPlayer())) return;
+
         rc.sendMessage(Chat.color(config.getString("message_to_bamboozle_hit"))
                 .replace("{hitter}", e.getPlayer().getDisplayName()).replace("{hit}", rc.getDisplayName()));
         e.getPlayer().sendMessage(Chat.color(config.getString("message_to_bamboozle_hitter"))

@@ -2,6 +2,7 @@
 # plugin made with <3 by Delected
 # use https://www.spigotmc.org/attachments/example2-png.188806/ as a reference for color codes
 # replace special characters with unicode (I.E: \u00BB will become »)
+# way cooldowns get evaluated in order: [TBD: Global] -> Item -> Blacklisted Area
 
 ########################
 #        General       #
@@ -10,6 +11,23 @@
 # message sent when player is on cooldown. Use {time} to display the time
 cooldown_message: "&6&lAbilities &8\u00BB &7Woah, slow down there! You're on cooldown for another &6{time} &7seconds!"
 
+######################################################## TBD, not implemented yet
+# cooldown for every ability (seconds)
+global_cooldown_time: 10
+
+# cooldown message for every ability. Use {time} to display the time
+global_cooldown_message: "&6&lAbilities &8\u00BB &7You cannot use another ability for &6{time} &7seconds!"
+#########################################################
+
+# coords of an area where abilities can't be used (usually spawn)
+ability_blacklisted_area:
+  x1: 0
+  z1: 0
+  x2: 0
+  z2: 0
+
+# message sent when player
+ability_blacklisted_message: "&6&lAbilities &8\u00BB &7You cannot use abilities in this area!"
 
 ########################
 #      Rotten Egg      #

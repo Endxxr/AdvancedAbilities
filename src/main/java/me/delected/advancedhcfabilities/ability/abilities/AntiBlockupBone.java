@@ -71,6 +71,8 @@ public class AntiBlockupBone extends RemovableAbility {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) return;
+
         if (!boneCount.containsKey(rc)) {
             boneCount.put(rc, 1);
         } else {

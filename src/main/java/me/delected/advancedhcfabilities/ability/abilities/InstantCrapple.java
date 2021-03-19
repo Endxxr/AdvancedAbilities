@@ -7,13 +7,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.material.DirectionalContainer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class InstantCrapple extends RemovableAbility implements Effect {
+    List<Player> crappleCooldown = new ArrayList<>();
 
     public InstantCrapple() {
         super("crapple", "goldenapple");
@@ -48,16 +52,30 @@ public class InstantCrapple extends RemovableAbility implements Effect {
 
         Player p = e.getPlayer();
 
-        e.setCancelled(true);
+
         if (isOnCooldown(p)) {
             p.sendMessage(Chat.color(config.getString("cooldown_message")
                     .replace("{time}", String.valueOf(Math.abs(TimeUnit.MILLISECONDS.toSeconds(getTimeLeft(p)) - getCooldownConfig())))));
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                p.getInventory().addItem(item());
-            }
+            crappleCooldown.add(p);
+            e.setCancelled(true);
             return;
         }
 
+//        if (checkGlobalCooldown(p)) {
+//            crappleCooldown.add(p);
+//            e.setCancelled(true);
+//            return;
+//        }
+
+        if (isInBlacklistedArea(p)) {
+            p.sendMessage(Chat.color(config.getString("ability_blacklisted_message")));
+            crappleCooldown.add(p);
+            e.setCancelled(true);
+            return;
+        }
+
+
+        e.setCancelled(true);
         p.sendMessage(Chat.color(config.getString("message_to_crapple_eater")));
         removeFrom(p);
 
@@ -65,5 +83,14 @@ public class InstantCrapple extends RemovableAbility implements Effect {
         giveEffect(p);
 
         setCooldown(p);
+    }
+
+    @EventHandler
+    public void onPlayerEatCrapple(PlayerItemConsumeEvent e) {
+        if (crappleCooldown.contains(e.getPlayer())) {
+            e.setCancelled(true);
+            crappleCooldown.remove(e.getPlayer());
+            e.getPlayer().getInventory().addItem(item());
+        }
     }
 }

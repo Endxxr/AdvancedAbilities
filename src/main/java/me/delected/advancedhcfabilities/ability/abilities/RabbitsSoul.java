@@ -51,6 +51,8 @@ public class RabbitsSoul extends RemovableAbility implements Effect {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) return;
+
         p.sendMessage(Chat.color(config.getString("message_to_rabbit_user")));
         removeFrom(p);
 

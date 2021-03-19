@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.DirectionalContainer;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class InstantGapple extends RemovableAbility implements Effect {
+    List<Player> gappleCooldown = new ArrayList<>();
 
     public InstantGapple() {
         super("gapple", "enchantedgoldenapple");
@@ -68,16 +70,28 @@ public class InstantGapple extends RemovableAbility implements Effect {
 
         Player p = e.getPlayer();
 
-        e.setCancelled(true);
         if (isOnCooldown(p)) {
             p.sendMessage(Chat.color(config.getString("cooldown_message")
                     .replace("{time}", String.valueOf(Math.abs(TimeUnit.MILLISECONDS.toSeconds(getTimeLeft(p)) - getCooldownConfig())))));
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                p.getInventory().addItem(item());
-            }
+            gappleCooldown.add(p);
+            e.setCancelled(true);
             return;
         }
 
+//        if (checkGlobalCooldown(p)) {
+//            gappleCooldown.add(p);
+//            e.setCancelled(true);
+//            return;
+//        }/
+
+        if (isInBlacklistedArea(p)) {
+            p.sendMessage(Chat.color(config.getString("ability_blacklisted_message")));
+            gappleCooldown.add(p);
+            e.setCancelled(true);
+            return;
+        }
+
+        e.setCancelled(true);
         p.sendMessage(Chat.color(config.getString("message_to_gapple_eater")));
         removeFrom(p);
 
@@ -85,9 +99,14 @@ public class InstantGapple extends RemovableAbility implements Effect {
         giveEffect(p);
 
         setCooldown(p);
+    }
 
-
-
-
+    @EventHandler
+    public void onPlayerEatGapple(PlayerItemConsumeEvent e) {
+        if (gappleCooldown.contains(e.getPlayer())) {
+            e.setCancelled(true);
+            gappleCooldown.remove(e.getPlayer());
+            e.getPlayer().getInventory().addItem(item());
+        }
     }
 }

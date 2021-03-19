@@ -52,6 +52,12 @@ public class FakePearl extends Ability {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) {
+//            p.getInventory().addItem(item());
+//            e.setCancelled(true);
+//            return;
+//        }
+
         // add to list
         fakeList.add(p);
 

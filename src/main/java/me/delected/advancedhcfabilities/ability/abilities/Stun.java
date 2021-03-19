@@ -86,6 +86,8 @@ public class Stun extends RemovableAbility {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) return;
+
         rc.sendMessage(Chat.color(config.getString("message_to_stun_hit"))
                 .replace("{hitter}", p.getDisplayName()).replace("{hit}", rc.getDisplayName()));
         p.sendMessage(Chat.color(config.getString("message_to_stun_hitter", "&8You hit &9{hit} &8with a stunner!"))

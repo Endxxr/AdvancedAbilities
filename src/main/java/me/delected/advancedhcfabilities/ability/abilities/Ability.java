@@ -3,6 +3,7 @@ package me.delected.advancedhcfabilities.ability.abilities;
 import me.delected.advancedhcfabilities.AdvancedHCFAbilities;
 import me.delected.advancedhcfabilities.Chat;
 import me.delected.advancedhcfabilities.CooldownManager;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -84,5 +85,18 @@ public abstract class Ability implements Listener {
         return item;
     }
 
+    public boolean isInBlacklistedArea(Player p) {
+        p.sendMessage(String.valueOf(config.getDouble("ability_blacklisted_area.x1")));
+        Location loc = p.getLocation();
+        Location l1 = new Location(p.getWorld(), config.getDouble("ability_blacklisted_area.x1"), 0, config.getDouble("ability_blacklisted_area.z1"));
+        Location l2 = new Location(p.getWorld(), config.getDouble("ability_blacklisted_area.x2"), 256, config.getDouble("ability_blacklisted_area.z2"));
+        int x1 = Math.min(l1.getBlockX(), l2.getBlockX());
+        int y1 = Math.min(l1.getBlockY(), l2.getBlockY());
+        int z1 = Math.min(l1.getBlockZ(), l2.getBlockZ());
+        int x2 = Math.max(l1.getBlockX(), l2.getBlockX());
+        int y2 = Math.max(l1.getBlockY(), l2.getBlockY());
+        int z2 = Math.max(l1.getBlockZ(), l2.getBlockZ());
 
+        return loc.getX() >= x1 && loc.getX() <= x2 && loc.getY() >= y1 && loc.getY() <= y2 && loc.getZ() >= z1 && loc.getZ() <= z2;
+    }
 }

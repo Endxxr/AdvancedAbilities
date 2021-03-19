@@ -56,6 +56,8 @@ public class PortableBard extends RemovableAbility implements GUI {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) return;
+
         removeFrom(p);
         open(p);
         setCooldown(p);
@@ -64,6 +66,8 @@ public class PortableBard extends RemovableAbility implements GUI {
 
     @EventHandler
     public void onInvClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() == null) return;
+        if (e.getClickedInventory().getName() == null) return;
         if (!e.getClickedInventory().getName().equals(Chat.color(config.getString("bard_gui_name")))) return;
 
         e.setCancelled(true);

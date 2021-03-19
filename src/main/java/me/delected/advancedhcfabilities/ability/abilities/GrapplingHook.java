@@ -77,6 +77,7 @@ public class GrapplingHook extends Ability {
             return;
         }
 
+//        if (checkGlobalCooldown(p)) return;
 
         Location loc = p.getLocation();
         Location hookLoc = e.getHook().getLocation();

@@ -66,6 +66,13 @@ public class RottenEgg extends Ability implements Effect {
             e.setCancelled(true);
             return;
         }
+
+//        if (checkGlobalCooldown(shooter)) {
+//            shooter.getInventory().addItem(item());
+//            e.setCancelled(true);
+//            return;
+//        }
+
         eggPlayers.add(shooter);
     }
 
