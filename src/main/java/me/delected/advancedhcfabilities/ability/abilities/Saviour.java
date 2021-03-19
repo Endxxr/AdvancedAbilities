@@ -57,13 +57,13 @@ public class Saviour extends RemovableAbility implements Effect {
 //        if (checkGlobalCooldown(p)) return;
 
         p.sendMessage(Chat.color(config.getString("message_to_saviour_user")));
+        removeFrom(p);
         Location loc = p.getLocation();
         e.setCancelled(true);
         p.teleport(loc);
         p.setHealth(20);
         p.setFoodLevel(20);
         giveEffect(p);
-        removeFrom(p);
         setCooldown(p);
     }
 }
