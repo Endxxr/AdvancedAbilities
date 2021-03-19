@@ -86,7 +86,6 @@ public abstract class Ability implements Listener {
     }
 
     public boolean isInBlacklistedArea(Player p) {
-        p.sendMessage(String.valueOf(config.getDouble("ability_blacklisted_area.x1")));
         Location loc = p.getLocation();
         Location l1 = new Location(p.getWorld(), config.getDouble("ability_blacklisted_area.x1"), 0, config.getDouble("ability_blacklisted_area.z1"));
         Location l2 = new Location(p.getWorld(), config.getDouble("ability_blacklisted_area.x2"), 256, config.getDouble("ability_blacklisted_area.z2"));
