@@ -180,4 +180,18 @@ public class CooldownManager {
     }
 
     public long getRabbitsSoulCooldown(UUID player) { return rabbitssoul.getOrDefault(player, 0L); }
+
+
+
+    /*
+            POT COUNTER
+     */
+    private final Map<UUID, Long> potcounter = new HashMap<>();
+
+    public void setPotCounterCooldown(UUID player, long time) {
+        if (time < 1) potcounter.remove(player);
+        else potcounter.put(player, time);
+    }
+
+    public long getPotCounterCooldown(UUID player) { return potcounter.getOrDefault(player, 0L); }
 }

@@ -268,6 +268,7 @@ bard_strength_duration: 8
 bard_res_level: 3
 bard_res_duration: 8
 
+
 ########################
 #     Rabbit's Soul    #
 ########################
@@ -287,3 +288,20 @@ jump_boost_duration: 15
 
 speed_level: 4
 speed_duration: 15
+
+
+########################
+#    Potion Counter    #
+########################
+
+pot_counter_displayname: "&dPotion Counter"
+
+pot_counter_lore:
+  - "&8Click a player with this"
+  - "&8item to see how many"
+  - "&8potions they have!"
+
+# use {count} to show how many potions the {user} has
+message_sent_to_user: "&6&lAbilities &8\u00BB &6{user} &7has &6{count} &7pots left!"
+
+pot_counter_cooldown_time: 30
