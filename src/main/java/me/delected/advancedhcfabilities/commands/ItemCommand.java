@@ -18,7 +18,7 @@ public class ItemCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender.hasPermission("hcfabils.getitem"))) {
-            ((Player) sender).sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+            sender.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
             return true;
         }
 
@@ -32,10 +32,11 @@ public class ItemCommand implements CommandExecutor {
             sender.sendMessage("The player specified is not online, or does not exist!");
             return true;
         }
-        int amount = 0;
+        int amount;
         try {amount = args.length == 2 ? 1 : Integer.parseInt(args[2]); } 
         catch (NumberFormatException nfe) {
-            sender.sendMessage("The ");
+            sender.sendMessage("The number given is incorrect");
+            return true;
         }
 
         Ability abil = Ability.getFromString(args[1]);

@@ -305,3 +305,23 @@ pot_counter_lore:
 message_sent_to_user: "&6&lAbilities &8\u00BB &6{user} &7has &6{count} &7pots left!"
 
 pot_counter_cooldown_time: 30
+
+
+########################
+#  Ghost Block (IN THE WORKS, DOESNT NOT WORK RN)     #
+########################
+
+ghost_block_displayname: ""
+
+ghost_block_lore:
+  - ""
+
+# when player places ghost block
+message_sent_to_ghost_block_placer: "&6&lAbilities &8\u00BB &6{user} &7has &6{count} &7pots left!"
+
+# when block disappears because of restart
+
+# message to player when they mine a ghost block
+
+# cooldown in between usages (in seconds)
+ghost_block_cooldown_time: 30
