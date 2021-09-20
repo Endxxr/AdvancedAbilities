@@ -33,7 +33,7 @@ public class Saviour extends RemovableAbility implements Effect {
     public void setCooldown(Player p) { cm.setSaviourCooldown(p.getUniqueId(), System.currentTimeMillis()); }
 
     @Override
-    public Material getMaterial() { return Material.BOOK; }
+    public Material getMaterial() { return Material.NETHER_STAR; }
 
     @Override
     public void giveEffect(Player p) {
@@ -42,6 +42,7 @@ public class Saviour extends RemovableAbility implements Effect {
                 new PotionEffect(PotionEffectType.REGENERATION, config.getInt("regeneration_seconds", 10) * 20, 2));
         p.addPotionEffects(effects);
     }
+
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
@@ -57,13 +58,13 @@ public class Saviour extends RemovableAbility implements Effect {
 //        if (checkGlobalCooldown(p)) return;
 
         p.sendMessage(Chat.color(config.getString("message_to_saviour_user")));
-        removeFrom(p);
         Location loc = p.getLocation();
         e.setCancelled(true);
         p.teleport(loc);
         p.setHealth(20);
         p.setFoodLevel(20);
         giveEffect(p);
+        removeFrom(p);
         setCooldown(p);
     }
 }
