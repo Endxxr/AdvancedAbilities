@@ -34,33 +34,39 @@ ability_blacklisted_message: "&6&lAbilities &8\u00BB &7You cannot use abilities 
 ########################
 
 # you can use {hit} to display hit player's name, and {thrower} to display thrower's name
-message_to_egg_hit: "&6&lAbilities &8\u00BB &6{thrower} &7hit you with a rotten egg, giving you poison, nausea, and blindness!"
+rotten_egg:
 
-message_to_egg_thrower: "&6&lAbilities &8\u00BB &7You hit &6{hit} &7with a rotten egg, giving them poison, nausea, and blindness!"
+  item:
+    material: STONE:1
 
-##### levels/amplifiers for each effect (number must be 1-255) ####
-nausea_level: 1
-poison_level: 1
-blindness_level: 2
 
-#### duration/time for each effect (time in seconds) ####
-nausea_duration: 10
-poison_duration: 5
-blindness_duration: 10
+  message_to_egg_hit: "&6&lAbilities &8\u00BB &6{thrower} &7hit you with a rotten egg, giving you poison, nausea, and blindness!"
 
-# Egg item display name
-egg_displayname: "&6Rotten Egg"
+  message_to_egg_thrower: "&6&lAbilities &8\u00BB &7You hit &6{hit} &7with a rotten egg, giving them poison, nausea, and blindness!"
 
-# Egg item lore
-egg_lore:
-  - "&8Gives a player the following"
-  - "&8effects when hit:"
-  - "&7- Nausea 1 &e(10s)"
-  - "&7- Poison 1 &e(5s)"
-  - "&7- Blindness 1 &e(10s)"
+  ##### levels/amplifiers for each effect (number must be 1-255) ####
+  nausea_level: 1
+  poison_level: 1
+  blindness_level: 2
 
-# cooldown time in seconds
-egg_cooldown_time: 30
+  #### duration/time for each effect (time in seconds) ####
+  nausea_duration: 10
+  poison_duration: 5
+  blindness_duration: 10
+
+  # Egg item display name
+  egg_displayname: "&6Rotten Egg"
+
+  # Egg item lore
+  egg_lore:
+    - "&8Gives a player the following"
+    - "&8effects when hit:"
+    - "&7- Nausea 1 &e(10s)"
+    - "&7- Poison 1 &e(5s)"
+    - "&7- Blindness 1 &e(10s)"
+
+  # cooldown time in seconds
+  egg_cooldown_time: 30
 
 
 
