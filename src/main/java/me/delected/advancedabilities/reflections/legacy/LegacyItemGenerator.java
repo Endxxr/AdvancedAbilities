@@ -58,6 +58,8 @@ public class LegacyItemGenerator implements ItemGenerator {
     }
 
     private void colorizeLore(String lore, Ability ability) {
-        ChatUtils.colorize(lore.replaceAll("%cooldown%", ChatUtils.parseTime(ability.getCooldownTime())));
+        String seconds = ability.getConfigSection().getString("seconds");
+        if (seconds == null) seconds = "0";
+        ChatUtils.colorize(lore.replaceAll("%cooldown%", ChatUtils.parseTime(ability.getCooldownTime())).replaceAll("%seconds%", seconds));
     }
 }

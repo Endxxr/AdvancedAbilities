@@ -17,7 +17,7 @@ public abstract class TargetAbility extends Ability implements Listener {
     private final ConcurrentHashMap<UUID, Integer> hitPlayers = new ConcurrentHashMap<>();
 
     public String getTargetMessage() {
-        return getConfigSection().getString("message.target");
+        return getConfigSection().getString("messages.target");
     }
     public abstract void run(Player player, Player target);
     public int getNeededHits() {

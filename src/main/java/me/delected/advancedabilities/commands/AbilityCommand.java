@@ -5,8 +5,12 @@ import me.delected.advancedabilities.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 
-public class AbilityCommand implements CommandExecutor {
+import java.util.Arrays;
+import java.util.List;
+
+public class AbilityCommand implements CommandExecutor, TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -52,4 +56,13 @@ public class AbilityCommand implements CommandExecutor {
     }
 
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+
+        if (args.length==1) {
+            return Arrays.asList("reload", "clearcooldowns");
+        }
+
+        return null;
+    }
 }

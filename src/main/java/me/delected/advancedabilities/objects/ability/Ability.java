@@ -27,7 +27,7 @@ public abstract class Ability {
     }
 
     public String getExecuteMessage() {
-        return getConfigSection().getString("message.done");
+        return getConfigSection().getString("messages.done");
     }
     public int getCooldownTime() {
         return getConfigSection().getInt("cooldown");

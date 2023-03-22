@@ -46,6 +46,8 @@ public class GrapplingHook extends Ability implements Listener {
         Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
 
+        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(shooter, this)) return;
+
         if (cooldownPlayers.containsKey(shooter.getUniqueId())) return;
         grapple.put(shooter.getUniqueId(), event.getEntity().getVelocity());
     }

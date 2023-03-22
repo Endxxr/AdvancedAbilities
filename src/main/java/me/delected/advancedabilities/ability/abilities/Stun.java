@@ -33,7 +33,7 @@ public class Stun extends TargetAbility implements Listener {
     @Override
     public void run(Player player, Player target) {
         if (stunnedPlayers.contains(target.getUniqueId())) {
-            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("alreadyStun")));
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.already-stun")));
             return;
         }
         stunnedPlayers.add(target.getUniqueId());

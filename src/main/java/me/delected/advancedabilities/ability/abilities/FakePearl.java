@@ -1,5 +1,6 @@
 package me.delected.advancedabilities.ability.abilities;
 
+import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.objects.ability.Ability;
 import me.delected.advancedabilities.utils.ChatUtils;
 import org.bukkit.entity.EntityType;
@@ -34,11 +35,16 @@ public class FakePearl extends Ability implements Listener {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         Player player = (Player) event.getEntity().getShooter();
 
+
         if (fakePearls.contains(player.getUniqueId())) {
             player.sendMessage("messages.wait-before-pearl");
             return;
         }
         if (!player.getItemInHand().isSimilar(getItem())) return;
+        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)) {
+            event.setCancelled(true);
+            return;
+        };
         fakePearls.add(player.getUniqueId());
         addCooldown(player);
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));

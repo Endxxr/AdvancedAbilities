@@ -59,10 +59,7 @@ public class AbilityListener implements Listener {
 
         Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
-        if (!(ability instanceof ClickableAbility)) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("hit-enemy")));
-            return;
-        }
+        if (!(ability instanceof ClickableAbility)) return;
 
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
@@ -73,7 +70,7 @@ public class AbilityListener implements Listener {
             return;
         }
 
-        if (inCooldown(player, ability)) return;
+        if (instance.getAbilityManager().inCooldown(player, ability)) return;
 
         if (inSpawn(player.getLocation())) return;
 
@@ -101,7 +98,10 @@ public class AbilityListener implements Listener {
         Player target = (Player) event.getEntity();
         ItemStack item = player.getItemInHand();
 
-        if (item==null) return;
+        if (item==null) {
+            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("hit-enemy")));
+            return;
+        }
 
         Ability ability = instance.getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
@@ -118,7 +118,7 @@ public class AbilityListener implements Listener {
             return;
         }
 
-        if (inCooldown(player, ability)) return;
+        if (instance.getAbilityManager().inCooldown(player, ability)) return;
 
         if (inSpawn(player.getLocation())) return;
 
@@ -128,27 +128,7 @@ public class AbilityListener implements Listener {
 
     }
 
-    private boolean inCooldown(Player player, Ability ability) {
 
-        //Global Cooldown
-        long globalWait = instance.getAbilityManager().getGlobalCooldown().get(player.getUniqueId())/1000;
-        if (globalWait>0) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.cooldown")
-                    .replaceAll("%cooldown%", ChatUtils.parseTime(globalWait))));
-            return true;
-        }
-
-        //Ability Cooldown
-        long wait = ability.getRemainingTime(player)/1000;
-        if (wait>0) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.cooldown")
-                    .replaceAll("%cooldown%", ChatUtils.parseTime(wait))));
-            return true;
-        }
-
-        return false;
-
-    }
 
     private boolean inSpawn(Location location) {
 

@@ -5,6 +5,7 @@ import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.ability.abilities.*;
 import me.delected.advancedabilities.objects.ability.Ability;
 import me.delected.advancedabilities.objects.ability.TargetAbility;
+import me.delected.advancedabilities.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -127,6 +128,29 @@ public class AbilityManager {
                 targetAbility.getHitPlayers().clear();
             }
         }
+
+    }
+
+
+    public boolean inCooldown(Player player, Ability ability) {
+
+        //Global Cooldown
+        long globalWait = instance.getAbilityManager().getGlobalCooldown().get(player.getUniqueId())/1000;
+        if (globalWait>0) {
+            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.cooldown")
+                    .replaceAll("%cooldown%", ChatUtils.parseTime(globalWait))));
+            return true;
+        }
+
+        //Ability Cooldown
+        long wait = ability.getRemainingTime(player)/1000;
+        if (wait>0) {
+            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.cooldown")
+                    .replaceAll("%cooldown%", ChatUtils.parseTime(wait))));
+            return true;
+        }
+
+        return false;
 
     }
 

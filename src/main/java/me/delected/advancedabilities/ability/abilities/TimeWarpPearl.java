@@ -38,6 +38,10 @@ public class TimeWarpPearl extends Ability implements Listener {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         Player player = (Player) event.getEntity().getShooter();
         if (!player.getItemInHand().isSimilar(getItem())) return;
+        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)){
+            event.setCancelled(true);
+            return;
+        }
         if (waitingPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
             event.setCancelled(true);

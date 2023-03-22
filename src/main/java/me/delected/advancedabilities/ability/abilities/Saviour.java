@@ -1,6 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.objects.ability.Ability;
 import me.delected.advancedabilities.objects.ability.ClickableAbility;
 import me.delected.advancedabilities.utils.ChatUtils;
 import org.bukkit.Material;
@@ -16,10 +17,10 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Saviour extends ClickableAbility implements Listener {
+public class Saviour extends Ability implements Listener {
     @Override
     public String getId() {
-        return "savior";
+        return "saviour";
     }
 
     @Override
@@ -27,16 +28,14 @@ public class Saviour extends ClickableAbility implements Listener {
         return true;
     }
 
-    @Override
-    public void run(Player player) {
-        player.sendMessage(ChatUtils.colorize(getConfigSection().getString("message.info")));
-    }
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player) || event.isCancelled()) return;
         final Player player = (Player) event.getEntity();
         if (!(player.getHealth() - event.getFinalDamage() <= 0)) return;
+
+        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)) return;
 
         int position = getSaviourPosition(player.getInventory());
         if (position < 0) return;
