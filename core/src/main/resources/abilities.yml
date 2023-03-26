@@ -1,0 +1,191 @@
+antiBlockUp:
+  messages:
+    done: "&c%player% &fnon può costruire per &c%seconds% &fsecondi" #The message that the player will see when he uses the ability
+    target: "Non puoi costruire per &c%seconds% &fsecondi" #The message that the target will see when he is hit by the ability
+  seconds: 10 #The time in seconds that the player can't build
+  cooldown: 60 #The cooldown in seconds
+  sound: ANVIL_LAND #The sound that the player will hear when he uses the ability. List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Sound.html
+  item:
+    material: OBSIDIAN #List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Material.html
+    data: 0 #The data of the item, only Legacy Version (<1.13)
+    custom-model-data: 0 #The custom model data of the item, only Modern Version (>1.13)
+    glow: true
+    name: "&4&lAnti Build" #The name of the item
+    lore:
+      - "&fImpedisce al nemico &cattaccato"
+      - "di &ccostruire &fper &c%seconds% secondi"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+bamboozle:
+  messages:
+    done: "&fHai scombinato la hotbar di &c%player%"
+    target: "&fLa tua hotbar è stata scombinata da &c%player%"
+  target: "&fLa tua hotbar è stata scombinata da &c%player%"
+  cooldown: 120
+  material: BLAZE_ROD
+  glow: true
+  name: "&e&lBamboozle"
+  lore:
+    - "&fScombina la &ehotbar"
+    - "&fdell'avversario &ecolpito"
+    - ""
+    - "&e&lCooldown: &f%cooldown%"
+
+fakePearl:
+  messages:
+    done: "&fHai lanciato una &dFake Pearl"
+    wait-before-pearl: "&fAspetta prima di lanciare un'altra &dperla"
+  cooldown: 60
+  item:
+    glow: true
+    name: "&d&lFake &fPearl"
+    lore:
+      - "&fLancia un EnderPearl"
+      - "&fnon funzionante"
+      - ""
+      - "&d&lCooldown: &f%cooldown%"
+grappling-hook:
+  cooldown: 10
+  item:
+    glow: true
+    name: "&3&lRampino"
+    lore:
+      - "&fUsa il &erampino &rper muoverti"
+      - "&fvelocemente nella mappa"
+      - ""
+      - "&b&lCooldown: &f%cooldown%"
+instantCrapple:
+  messages:
+    done: "&fHai mangiato una Mela &eInstantanea"
+  cooldown: 15
+  item:
+    glow: true
+    name: "&f&lMela &e&lInstantanea"
+    lore:
+      - "&fMangia una mela &einstantanea"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
+
+instantGapple:
+  messages:
+    done: "&fHai mangiato una Mela &6Instantanea"
+  cooldown: 60
+  item:
+    glow: true
+    name: "&fMela &6&lInstantanea"
+    lore:
+      - "&fMangia una mela &6instantanea"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
+
+invulnerability:
+  messages:
+    done: "&fSei ora &cinvincibile &f &c%seconds% secondi"
+  cooldown: 6000
+  seconds: 5
+  item:
+    material: WITHER_STAR
+    glow: true
+    name: "&6&lInvincibilità"
+    lore:
+      - "&fCon questa abilità, i nemici"
+      - "&fnon potranno colpirti &fper"
+      - "&6%seconds% secondi"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
+
+leap:
+  messages:
+    done: "&fHai fatto uno &cscatto in avanti"
+  cooldown: 15
+  multiply-x: 5
+  multiply-y: 1.5
+  item:
+    material: RABBIT_FOOT
+    glow: true
+    name: "&3&lScatto"
+    lore:
+      - "&fFai un scatto &bin aria"
+      - "&fper scappare dai nemici"
+      - ""
+      - "&3&lCooldown: &f%cooldown%"
+
+
+repair:
+  messages:
+    done: "&fHai riparato &cl'armatura"
+  cooldown: 120
+  item:
+    glow: true
+    name: "&4&lArmor &c&lRepair"
+    material: ANVIL
+    lore:
+      - "&fRipara &cl'armatura"
+      - "&findossata"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+repair-all:
+  messages:
+    done: "&fHai riparato &cl'inventario"
+  cooldown: 300
+  item:
+    material: ANVIL
+    glow: true
+    name: "&4&lRepair&c&lAll"
+    lore:
+      - "&fRipara &ctutto l'inventario"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+
+saviour:
+  messages:
+    done: "&cIl totem &fti ha salvato &cdalla morte"
+  cooldown: 600
+  item:
+    glow: true
+    material: BOOK
+    name: "&6&lTotem"
+    lore:
+      - "Ti salva dalla &emorte"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
+  duration: 10
+  effects:
+    - CONFUSION:2
+    - BLINDNESS:2
+    - REGENERATION:3
+
+
+stun:
+  messages:
+    done: "&c%player% &fè bloccato per &c%seconds% &fsecondi"
+    target: "&c%player% &fti ha bloccato per &c%seconds% &fsecondi"
+    already-stun: "&cQuesto giocatore è già bloccato."
+  seconds: 5
+  cooldown: 120
+  item:
+    material: ICE
+    glow: false
+    name: "&c&lStun"
+    lore:
+      - "&cBlocca &fper &c5 secondi"
+      - "&fla persona attaccata"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+
+time-warp-pearl:
+  message: "&fHai lanciato una &cEnderpearl Temporale"
+  wait: "&fHai già lanciato &cuna perla"
+  cooldown: 300
+  seconds: 5
+  item:
+    glow: true
+    material: ENDER_PEARL
+    name: "&5&lEnderpearl &dTemporale"
+    lore:
+      - "&fLancia una EnderPearl"
+      - "&fche &dti teletrasporta"
+      - "&fnella &dposizione originale"
+      - "&fdopo &d%seconds% secondi"
+      - ""
+      - "&5&lCooldown: &f%cooldown%"

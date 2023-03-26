@@ -7,17 +7,25 @@
     <groupId>me.delected</groupId>
     <artifactId>AdvancedAbilities</artifactId>
     <version>4.0.0-BETA</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>AdvancedAbilities</name>
 
     <description>Abilities for your server!</description>
+    <modules>
+        <module>core</module>
+        <module>legacy</module>
+        <module>modern</module>
+        <module>api</module>
+    </modules>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
+        <directory>../target</directory>
+        <finalName>AdvancedAbilities-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -66,16 +74,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>compile</scope>
+            <version>1.18.26</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
