@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Ability {
 
-    @Getter private final ItemStack item;
-    @Getter protected final ConcurrentHashMap<UUID, Long> cooldownPlayers;
+    @Getter public final ItemStack item;
+    @Getter public final ConcurrentHashMap<UUID, Long> cooldownPlayers;
     public abstract String getId();
     public abstract boolean removeItem();
     public Ability() {
@@ -52,7 +52,7 @@ public abstract class Ability {
         return (cooldown == null ? 0 : cooldown-System.currentTimeMillis());
     }
 
-    protected void addCooldown(Player player) {
+    public void addCooldown(Player player) {
         AdvancedAPI.Provider.getAPI().runTaskAsync(() -> {
             if (cooldownPlayers.containsKey(player.getUniqueId())) {
                 cooldownPlayers.replace(player.getUniqueId(), getCooldownTime() * 1000L + System.currentTimeMillis());

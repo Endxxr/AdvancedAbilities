@@ -24,8 +24,7 @@
     </properties>
 
     <build>
-        <directory>../target</directory>
-        <finalName>AdvancedAbilities-${project.version}</finalName>
+        <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -53,6 +52,7 @@
                 </executions>
             </plugin>
         </plugins>
+        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

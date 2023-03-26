@@ -18,7 +18,7 @@ public interface AdvancedAPI {
 
 
     class Provider {
-        private static AdvancedAPI api;
+        public static AdvancedAPI api;
         public static void setAPI(AdvancedAPI api) {
             Provider.api = api;
         }

@@ -24,7 +24,7 @@ public enum NMSVersion {
     v1_19_r1(191),
     v1_19_r2(192);
 
-    private final int shortVersion;
+    public final int shortVersion;
 
     NMSVersion(int i) {
         this.shortVersion = i;
