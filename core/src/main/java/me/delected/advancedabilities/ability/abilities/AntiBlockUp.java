@@ -6,6 +6,7 @@ import me.delected.advancedabilities.api.ability.TargetAbility;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.HashSet;
@@ -52,6 +53,12 @@ public class AntiBlockUp extends TargetAbility {
     public void onPlayerPlaceEvent(BlockPlaceEvent event) {
         if (blockedPlayers.contains(event.getPlayer().getUniqueId())) event.setCancelled(true);
     }
+
+    @EventHandler
+    public void onPlayerBreakEvent(BlockBreakEvent event) {
+        if (blockedPlayers.contains(event.getPlayer().getUniqueId())) event.setCancelled(true);
+    }
+
 
 
 

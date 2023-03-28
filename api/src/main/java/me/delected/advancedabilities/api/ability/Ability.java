@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Ability {
 
-    @Getter public final ItemStack item;
-    @Getter public final ConcurrentHashMap<UUID, Long> cooldownPlayers;
+    @Getter private final ItemStack item;
+    @Getter protected final ConcurrentHashMap<UUID, Long> cooldownPlayers;
     public abstract String getId();
     public abstract boolean removeItem();
     public Ability() {

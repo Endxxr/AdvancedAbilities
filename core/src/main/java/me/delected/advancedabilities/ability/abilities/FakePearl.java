@@ -3,12 +3,16 @@ package me.delected.advancedabilities.ability.abilities;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.ability.Ability;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +32,19 @@ public class FakePearl extends Ability implements Listener {
         return true;
     }
 
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if (event.useItemInHand() == PlayerInteractEvent.Result.DENY) return;
+        if (event.getItem() == null || !event.getItem().getType().equals(Material.ENDER_PEARL)) return;
+
+        Player player = event.getPlayer();
+        if (fakePearls.contains(player.getUniqueId())) {
+            event.setCancelled(true);
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        }
+    }
+
     @EventHandler
     public void onThrow(ProjectileLaunchEvent event) {
         if (event.isCancelled()) return;
@@ -36,7 +53,7 @@ public class FakePearl extends Ability implements Listener {
         Player player = (Player) event.getEntity().getShooter();
 
         if (fakePearls.contains(player.getUniqueId())) {
-            player.sendMessage("messages.wait-before-pearl");
+            player.sendMessage(ChatUtils.colorize("messages.wait-before-pearl"));
             event.setCancelled(true);
             return;
         }

@@ -24,7 +24,7 @@ public enum NMSVersion {
     v1_19_r1(191),
     v1_19_r2(192);
 
-    public final int shortVersion;
+    private final int shortVersion;
 
     NMSVersion(int i) {
         this.shortVersion = i;
@@ -44,19 +44,12 @@ public enum NMSVersion {
 
 
     public static NMSVersion getSeverVersion() {
-
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-
         return fromString(version);
     }
 
-
     public static boolean isLegacy() {
-
         return getSeverVersion().shortVersion < 130;
-
     }
-
-
 }

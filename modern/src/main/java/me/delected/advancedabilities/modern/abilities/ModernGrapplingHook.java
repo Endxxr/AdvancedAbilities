@@ -2,7 +2,6 @@ package me.delected.advancedabilities.modern.abilities;
 
 import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.api.enums.NMSVersion;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -20,7 +19,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ModernGrapplingHook extends Ability implements Listener {
-
     private final HashMap<UUID, Vector> grapple = new HashMap<>();
     private final Set<UUID> fallList = new HashSet<>();
 
@@ -47,9 +45,7 @@ public class ModernGrapplingHook extends Ability implements Listener {
             return;
         if (AdvancedAPI.Provider.getAPI().getAbilityManager().inCooldown(shooter, this))
             return;
-        if (this.cooldownPlayers.containsKey(shooter.getUniqueId()))
-            return;
-        this.grapple.put(shooter.getUniqueId(), event.getEntity().getVelocity());
+        this.grapple.putIfAbsent(shooter.getUniqueId(), event.getEntity().getVelocity());
     }
 
     @EventHandler
@@ -60,38 +56,30 @@ public class ModernGrapplingHook extends Ability implements Listener {
         Ability ability = AdvancedAPI.Provider.getAPI().getAbilityManager().getAbilityByItem(item);
         if (ability == null)
             return;
-        if (!event.getState().equals(PlayerFishEvent.State.FAILED_ATTEMPT))
-            return;
         Player player = event.getPlayer();
 
-        if (!this.grapple.containsKey(player.getUniqueId()))
-            return;
         Location loc = player.getLocation();
+        Location hookLoc = event.getHook().getLocation();
+        Vector v = this.grapple.get(player.getUniqueId());
+        if (!this.grapple.containsKey(player.getUniqueId())) return;
 
-        Location hookLoc;
-        if (NMSVersion.isLegacy()) {
-            hookLoc = event.getHook().getLocation();
-        } else {
-            hookLoc = event.getHook().getLocation();
-        }
-
-
-
-        double dis = loc.distance(hookLoc);
-        double X = (1.0D + 0.24D * dis) * (hookLoc.getX() - loc.getX()) / dis;
-        double Y = (1.0D + 0.12D * dis) * (hookLoc.getY() - loc.getY()) / dis - -0.04D * dis;
-        double Z = (1.0D + 0.24D * dis) * (hookLoc.getZ() - loc.getZ()) / dis;
-        Vector v = player.getVelocity();
-        v.setX(X);
-        v.setY(Y);
-        v.setZ(Z);
-        player.setVelocity(v);
-        player.setVelocity(this.grapple.get(player.getUniqueId()).multiply(dis * 0.3D).setY((dis * 0.1D > 1.0D) ? 1.0D : ((player.getLocation().getPitch() < -70.0F) ? 1.25D : ((player.getLocation().getPitch() < -50.0F) ? 1.125D : 1.0D))));
         this.grapple.remove(player.getUniqueId());
+        double dis = loc.distance(hookLoc);
         item.setDurability((short)0);
         if (!getConfigSection().getBoolean("fall-damage"))
             this.fallList.add(player.getUniqueId());
         addCooldown(player);
+
+
+        double X = (1.0D + 0.24D * dis) * (hookLoc.getX() - loc.getX()) / dis;
+        double Y = (1.0D + 0.12D * dis) * (hookLoc.getY() - loc.getY()) / dis - -0.04D * dis;
+        double Z = (1.0D + 0.24D * dis) * (hookLoc.getZ() - loc.getZ()) / dis;
+        Vector playerVector = player.getVelocity();
+        playerVector.setX(X);
+        playerVector.setY(Y);
+        playerVector.setZ(Z);
+        player.setVelocity(playerVector);
+        player.setVelocity(v.multiply(dis * 0.3D).setY((dis * 0.1D > 1.0D) ? 1.0D : ((player.getLocation().getPitch() < -70.0F) ? 1.25D : ((player.getLocation().getPitch() < -50.0F) ? 1.125D : 1.0D))));
     }
 
     @EventHandler
@@ -105,5 +93,4 @@ public class ModernGrapplingHook extends Ability implements Listener {
             event.setCancelled(true);
         }
     }
-
 }

@@ -1,4 +1,4 @@
-antiBlockUp:
+anti-blockup:
   messages:
     done: "&c%player% &fnon può costruire per &c%seconds% &fsecondi" #The message that the player will see when he uses the ability
     target: "Non puoi costruire per &c%seconds% &fsecondi" #The message that the target will see when he is hit by the ability
@@ -22,19 +22,20 @@ bamboozle:
     target: "&fLa tua hotbar è stata scombinata da &c%player%"
   target: "&fLa tua hotbar è stata scombinata da &c%player%"
   cooldown: 120
-  material: BLAZE_ROD
-  glow: true
-  name: "&e&lBamboozle"
-  lore:
-    - "&fScombina la &ehotbar"
-    - "&fdell'avversario &ecolpito"
-    - ""
-    - "&e&lCooldown: &f%cooldown%"
+  item:
+    material: BLAZE_ROD
+    glow: true
+    name: "&e&lBamboozle"
+    lore:
+      - "&fScombina la &ehotbar"
+      - "&fdell'avversario &ecolpito"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
 
-fakePearl:
+fake-pearl:
   messages:
     done: "&fHai lanciato una &dFake Pearl"
-    wait-before-pearl: "&fAspetta prima di lanciare un'altra &dperla"
+    wait: "&fAspetta prima di lanciare un'altra &dperla"
   cooldown: 60
   item:
     glow: true
@@ -54,7 +55,7 @@ grappling-hook:
       - "&fvelocemente nella mappa"
       - ""
       - "&b&lCooldown: &f%cooldown%"
-instantCrapple:
+instant-crapple:
   messages:
     done: "&fHai mangiato una Mela &eInstantanea"
   cooldown: 15
@@ -66,7 +67,7 @@ instantCrapple:
       - ""
       - "&e&lCooldown: &f%cooldown%"
 
-instantGapple:
+instant-gapple:
   messages:
     done: "&fHai mangiato una Mela &6Instantanea"
   cooldown: 60
@@ -80,11 +81,11 @@ instantGapple:
 
 invulnerability:
   messages:
-    done: "&fSei ora &cinvincibile &f &c%seconds% secondi"
+    done: "&fSei ora &cinvincibile &fper &c%seconds% secondi."
   cooldown: 6000
   seconds: 5
   item:
-    material: WITHER_STAR
+    material: NETHER_STAR
     glow: true
     name: "&6&lInvincibilità"
     lore:
@@ -98,8 +99,8 @@ leap:
   messages:
     done: "&fHai fatto uno &cscatto in avanti"
   cooldown: 15
-  multiply-x: 5
-  multiply-y: 1.5
+  multiply-x: 3
+  multiply-y: 1
   item:
     material: RABBIT_FOOT
     glow: true
@@ -174,8 +175,9 @@ stun:
       - "&4&lCooldown: &f%cooldown%"
 
 time-warp-pearl:
-  message: "&fHai lanciato una &cEnderpearl Temporale"
-  wait: "&fHai già lanciato &cuna perla"
+  messages:
+    done: "&fHai lanciato una &cEnderpearl Temporale"
+    wait: "&fHai già lanciato &cuna perla"
   cooldown: 300
   seconds: 5
   item:

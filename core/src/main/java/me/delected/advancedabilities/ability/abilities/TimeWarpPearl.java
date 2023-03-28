@@ -5,12 +5,14 @@ import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.ability.Ability;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
@@ -30,6 +32,18 @@ public class TimeWarpPearl extends Ability implements Listener {
         return true;
     }
 
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if (event.useItemInHand() == PlayerInteractEvent.Result.DENY) return;
+        if (event.getItem() == null || !event.getItem().getType().equals(Material.ENDER_PEARL)) return;
+
+        Player player = event.getPlayer();
+        if (waitingPlayers.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        }
+    }
+
 
     @EventHandler
     public void onLaunch(ProjectileLaunchEvent event) {
@@ -37,13 +51,13 @@ public class TimeWarpPearl extends Ability implements Listener {
         if (event.getEntity().getType() != EntityType.ENDER_PEARL) return;
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         Player player = (Player) event.getEntity().getShooter();
-        if (!player.getItemInHand().isSimilar(getItem())) return;
-        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)){
+        if (waitingPlayers.containsKey(player.getUniqueId())) {
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
             event.setCancelled(true);
             return;
         }
-        if (waitingPlayers.containsKey(player.getUniqueId())) {
-            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        if (!player.getItemInHand().isSimilar(getItem())) return;
+        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)){
             event.setCancelled(true);
             return;
         }
@@ -62,6 +76,7 @@ public class TimeWarpPearl extends Ability implements Listener {
         Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getPlugin(), () -> {
             player.teleport(waitingPlayers.get(player.getUniqueId()), PlayerTeleportEvent.TeleportCause.PLUGIN);
             waitingPlayers.remove(player.getUniqueId());
+            player.playSound(player.getLocation(), getSound(), 1, 1);
         }, getConfigSection().getInt("seconds")* 20L);
 
 

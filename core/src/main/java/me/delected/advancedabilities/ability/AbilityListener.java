@@ -59,12 +59,14 @@ public class AbilityListener implements Listener {
 
         Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
-        if (!(ability instanceof ClickableAbility)) return;
 
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.DENY);
-        
+
+        if (!(ability instanceof ClickableAbility)) return;
+
+
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
             player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
             return;
@@ -108,10 +110,10 @@ public class AbilityListener implements Listener {
         if (!(ability instanceof TargetAbility)) return;
 
         if (item.getAmount()==1) {
-            item.setType(Material.AIR);
-            return;
+            player.setItemInHand(new ItemStack(Material.AIR));
+        } else {
+            item.setAmount(item.getAmount()-1);
         }
-        item.setAmount(item.getAmount()-1);
 
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
             player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));

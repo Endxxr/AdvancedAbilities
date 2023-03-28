@@ -42,7 +42,7 @@ public class Stun extends TargetAbility implements Listener {
         int seconds = getConfigSection().getInt("seconds");
 
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()
-                        .replace("%seconds", String.valueOf(seconds)))
+                        .replace("%seconds%", String.valueOf(seconds)))
                 .replace("%player%", target.getDisplayName()));
         target.sendMessage(ChatUtils.colorize(getTargetMessage()
                 .replace("%player%", player.getDisplayName())
@@ -55,8 +55,8 @@ public class Stun extends TargetAbility implements Listener {
         }, seconds*20L);
     }
 
-
-    public void onPlayerEnderpearl(ProjectileLaunchEvent event) {
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         final Player shooter = (Player) event.getEntity().getShooter();
         if (!stunnedPlayers.contains(shooter.getUniqueId())) {return;}
@@ -74,7 +74,7 @@ public class Stun extends TargetAbility implements Listener {
 
 
     @EventHandler
-    public void onPlayerJump(PlayerMoveEvent event) {
+    public void onPlayerMove(PlayerMoveEvent event) {
         if (stunnedPlayers.isEmpty()) return;
         if (!stunnedPlayers.contains(event.getPlayer().getUniqueId())) return;
         if (event.getTo().getY() > event.getFrom().getY()) {

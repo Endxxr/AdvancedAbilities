@@ -24,7 +24,7 @@ public abstract class TargetAbility extends Ability implements Listener {
     public void processHit(Player player, Player target) {
         hitPlayers.putIfAbsent(player.getUniqueId(), getNeededHits());
         hitPlayers.replace(player.getUniqueId(), hitPlayers.get(player.getUniqueId())-1);
-        if (hitPlayers.get(player.getUniqueId())==0) {
+        if (hitPlayers.get(player.getUniqueId())<=0) {
             hitPlayers.remove(player.getUniqueId());
             run(player, target);
         }

@@ -1,5 +1,6 @@
 package me.delected.advancedabilities.legacy;
 
+import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -28,6 +29,10 @@ public class LegacyItemGenerator implements ItemGenerator {
         Material material = FORCED_ITEMS.get(ability.getId());
         if (material==null) {
             material=Material.getMaterial(ability.getConfigSection().getString("item.material").toUpperCase());
+            if (material==null) {
+                material = Material.STICK;
+                AdvancedAPI.Provider.getAPI().getLogger().warning("Material " + ability.getConfigSection().getString("item.material") + " for ability " + ability.getId() + " is invalid! Using STICK instead.");
+            }
         }
 
         short data = (short) ability.getConfigSection().getInt("item.data");
@@ -41,7 +46,7 @@ public class LegacyItemGenerator implements ItemGenerator {
         meta.setDisplayName(ChatUtils.colorize(ability.getConfigSection().getString("item.name")));
 
         List<String> lore = ability.getConfigSection().getStringList("item.lore");
-        lore.forEach(s -> colorizeLore(s, ability));
+        lore.replaceAll(s -> colorizeLore(s, ability));
         meta.setLore(lore);
 
         meta.spigot().setUnbreakable(true);
@@ -58,9 +63,9 @@ public class LegacyItemGenerator implements ItemGenerator {
         return FORCED_ITEMS;
     }
 
-    private void colorizeLore(String lore, Ability ability) {
+    private String colorizeLore(String lore, Ability ability) {
         String seconds = ability.getConfigSection().getString("seconds");
         if (seconds == null) seconds = "0";
-        ChatUtils.colorize(lore.replaceAll("%cooldown%", ChatUtils.parseTime(ability.getCooldownTime())).replaceAll("%seconds%", seconds));
+        return ChatUtils.colorize(lore.replaceAll("%cooldown%", ChatUtils.parseTime(ability.getCooldownTime())).replaceAll("%seconds%", seconds));
     }
 }

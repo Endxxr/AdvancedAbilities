@@ -49,7 +49,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         registerListeners();
         getLogger().info("Done ✓");
         getLogger().info("§8§l§m------------------");
-        AdvancedAPI.Provider.setAPI(this);
+
 
     }
 
@@ -97,6 +97,8 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     }
 
     private void setInstances() {
+
+        AdvancedAPI.Provider.setAPI(this);
 
         if (NMSVersion.isLegacy()) {
             itemGenerator = new LegacyItemGenerator();

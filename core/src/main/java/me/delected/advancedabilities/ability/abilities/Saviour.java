@@ -30,20 +30,22 @@ public class Saviour extends Ability implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player) || event.isCancelled()) return;
-        final Player player = (Player) event.getEntity();
-        if (!(player.getHealth() - event.getFinalDamage() <= 0)) return;
 
+        Player player = (Player) event.getEntity();
+        ItemStack item = player.getItemInHand();
+
+        if (!(player.getHealth() - event.getFinalDamage() <= 0)) return;
         if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)) return;
 
         int position = getSaviourPosition(player.getInventory());
         if (position < 0) return;
 
-        ItemStack item = player.getInventory().getItem(position);
+        ItemStack savior = player.getInventory().getItem(position);
 
-        if (item.getAmount()==1) {
-            player.setItemInHand(new ItemStack(Material.AIR));
+        if (savior.getAmount()==1) {
+            player.getInventory().setItem(position, null);
         } else {
-            item.setAmount(item.getAmount()-1);
+            savior.setAmount(savior.getAmount()-1);
         }
 
         event.setCancelled(true);

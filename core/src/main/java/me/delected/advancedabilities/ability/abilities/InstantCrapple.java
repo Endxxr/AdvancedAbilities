@@ -2,8 +2,8 @@ package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.ClickableAbility;
+import me.delected.advancedabilities.utils.PlayerUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class InstantCrapple extends ClickableAbility {
@@ -21,10 +21,10 @@ public class InstantCrapple extends ClickableAbility {
     public void run(Player player) {
 
 
-        player.sendMessage(ChatUtils.colorize(getConfigSection().getString("message.done")));
+        player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         player.setFoodLevel(player.getFoodLevel()+4);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 1));;
+        PlayerUtils.addPotionEffect(player, PotionEffectType.ABSORPTION, 2400, 0);
+        PlayerUtils.addPotionEffect(player, PotionEffectType.REGENERATION, 100, 1);
 
         addCooldown(player);
 

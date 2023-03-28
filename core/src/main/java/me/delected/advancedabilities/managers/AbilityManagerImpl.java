@@ -9,7 +9,10 @@ import me.delected.advancedabilities.ability.abilities.Bamboozle;
 import me.delected.advancedabilities.ability.abilities.FakePearl;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.ability.TargetAbility;
+import me.delected.advancedabilities.api.enums.NMSVersion;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
+import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
+import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -34,16 +37,32 @@ public class AbilityManagerImpl implements AbilityManager {
         this.instance = instance;
         this.abilities = new HashMap<>();
 
+
         //Register abilities
         registerAbility(new AntiBlockUp());
         registerAbility(new Bamboozle());
         registerAbility(new FakePearl());
-        registerAbility(new GrapplingHook());
+        registerAbility(new InstantCrapple());
+        registerAbility(new InstantGapple());
+        registerAbility(new Invulnerability());
+        registerAbility(new Leap());
+        registerAbility(new Repair());
+        registerAbility(new RepairAll());
+        registerAbility(new Saviour());
+        registerAbility(new Stun());
+        registerAbility(new TimeWarpPearl());
+
+        if (NMSVersion.isLegacy()) {
+            registerAbility(new LegacyGrapplingHook());
+        } else {
+            registerAbility(new ModernGrapplingHook());
+        }
 
 
         boolean globalCooldownEnabled = instance.getConfig().getBoolean("global-cooldown.enabled");
         if (globalCooldownEnabled) globalCooldown = new ConcurrentHashMap<>();
 
+        instance.getLogger().info("Registered " + abilities.size() + " abilities");
 
         startCleanup(globalCooldownEnabled);
     }
@@ -118,6 +137,8 @@ public class AbilityManagerImpl implements AbilityManager {
     @Override
     public boolean inCooldown(Player player, Ability ability) {
 
+        if (player.hasPermission("advancedabilities.bypass.cooldown")) return false;
+
         //Global Cooldown
         if (globalCooldown!=null) {
             long globalWait = instance.getAbilityManager().getGlobalCooldown().get(player.getUniqueId()) / 1000;
@@ -143,17 +164,8 @@ public class AbilityManagerImpl implements AbilityManager {
     @Override
     public void registerAbility(Ability ability) {
         abilities.put(ability.getItem(), ability);
-
-        boolean hasListener = false;
-        for (Class<?> clazz : ability.getClass().getInterfaces()) {
-            if (clazz.getSimpleName().equalsIgnoreCase("Listener")) {
-                hasListener = true;
-                break;
-            }
-        }
-
-        if (hasListener) Bukkit.getPluginManager().registerEvents((Listener) ability, instance);
-
+        if (ability instanceof Listener) Bukkit.getPluginManager().registerEvents((Listener) ability, instance);
+        instance.getLogger().info("Registered ability " + ability.getId());
     }
 
 

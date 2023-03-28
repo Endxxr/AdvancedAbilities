@@ -28,6 +28,7 @@ public class RepairAll extends ClickableAbility {
             if (isRepairable(armor)) armor.setDurability((short) -armor.getType().getMaxDurability());
         }
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
+        player.updateInventory();
         addCooldown(player);
     }
 

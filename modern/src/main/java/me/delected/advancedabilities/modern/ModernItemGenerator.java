@@ -1,5 +1,6 @@
 package me.delected.advancedabilities.modern;
 
+import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -28,7 +29,11 @@ public class ModernItemGenerator implements ItemGenerator {
     public ItemStack createItem(Ability ability) {
         Material material = FORCED_ITEMS.get(ability.getId());
         if (material==null) {
-            material=Material.getMaterial(ability.getConfigSection().getString("item.material"));
+            material=Material.getMaterial(ability.getConfigSection().getString("item.material").toUpperCase());
+            if (material==null) {
+                material = Material.STICK;
+                AdvancedAPI.Provider.getAPI().getLogger().warning("Material " + ability.getConfigSection().getString("item.material") + " for ability " + ability.getId() + " is invalid! Using STICK instead.");
+            }
         }
 
         ItemStack item = new ItemStack(material);
