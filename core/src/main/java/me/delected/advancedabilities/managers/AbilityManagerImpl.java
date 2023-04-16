@@ -15,6 +15,7 @@ import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
 import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -49,8 +50,10 @@ public class AbilityManagerImpl implements AbilityManager {
         registerAbility(new RabbitSoul());
         registerAbility(new Repair());
         registerAbility(new RepairAll());
+        registerAbility(new RottenEgg());
         registerAbility(new Saviour());
         registerAbility(new Stun());
+        registerAbility(new SwitcherSnowBall());
         registerAbility(new TimeWarpPearl());
 
         if (NMSVersion.isLegacy()) {

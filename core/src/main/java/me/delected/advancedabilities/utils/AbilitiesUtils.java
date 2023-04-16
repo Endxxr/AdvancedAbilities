@@ -62,7 +62,11 @@ public class AbilitiesUtils {
         final int duration = ability.getConfigSection().getInt("duration");
         for (String effects : ability.getConfigSection().getStringList("effects")) {
             final String[] split = effects.split(":");
-            temp.add(new PotionEffect(PotionEffectType.getByName(split[0]), duration*20, Integer.parseInt(split[1]), false, false));
+            try {
+                temp.add(new PotionEffect(PotionEffectType.getByName(split[0]), duration*20, Integer.parseInt(split[1]), false, false));
+            } catch (IllegalArgumentException e) {
+                AdvancedAbilities.getPlugin().getLogger().info("Invalid potion effect type: " + split[0]);
+            }
         }
         return temp;
     }

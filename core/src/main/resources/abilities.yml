@@ -159,20 +159,21 @@ rotten-egg:
   messages:
     done: "&fHai colpito &c%target% &fcon un &cUovo Putrido"
     hit: "&fSei stato colpito da un &cUovo Putrido &flanciato da &c%player%"
+    wait: "&fHai già lanciato un &cuovo!"
   cooldown: 30
   item:
     glow: true
     name: "&c&lUovo &f&lPutrido"
     lore:
-    - "&fLancia un &cUovo Putrido"
-    - "&fche infligge &ceffetti negativi"
-    - ""
-    - "&c&lCooldown: &f%cooldown%"
-  duration: 3
+      - "&fLancia un &cUovo Putrido"
+      - "&fche infligge &ceffetti negativi"
+      - ""
+      - "&c&lCooldown: &f%cooldown%"
+  duration: 5
   effects:
     - CONFUSION:2
     - BLINDNESS:2
-    - SLOWNESS:1
+    - SLOW:1
 
 
 
@@ -211,6 +212,21 @@ stun:
       - "&fla persona attaccata"
       - ""
       - "&4&lCooldown: &f%cooldown%"
+switcher-snowball:
+  messages:
+    done: "&fHai colpito &c%target% &fcon una &cPalla di Neve"
+    hit: "&fSei stato colpito da una &cPalla di Neve &flanciata da &c%player%"
+    wait: "&fHai già lanciato &cuna palla di neve"
+  cooldown: 600
+  item:
+    glow: true
+    name: "&f&lPalla di &b&lNeve"
+    lore:
+      - "&fLancia una &bPalla di Neve"
+      - "&fche &bti teletrasporta"
+      - "&fnella &bposizione dell'avversario"
+      - ""
+      - "&b&lCooldown: &f%cooldown%"
 
 time-warp-pearl:
   messages:

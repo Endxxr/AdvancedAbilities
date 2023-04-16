@@ -6,10 +6,12 @@ import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class ModernItemGenerator implements ItemGenerator {
         put("instant-crapple", Material.ENCHANTED_GOLDEN_APPLE);
         put("instant-gapple", Material.ENCHANTED_BOOK);
         put("grappling-hook", Material.FISHING_ROD);
+        put("rotten-egg", Material.EGG);
+        put("switcher-snowball", Material.SNOWBALL);
     }};
 
 

@@ -80,6 +80,9 @@ public class AbilityListener implements Listener {
 
         Player player = (Player) event.getDamager();
         Player target = (Player) event.getEntity();
+
+        if (target.hasMetadata("NPC")) return;
+
         ItemStack item = player.getItemInHand();
 
         if (item==null) {
