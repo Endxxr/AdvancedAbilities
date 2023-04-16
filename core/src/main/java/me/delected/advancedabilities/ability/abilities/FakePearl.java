@@ -1,18 +1,17 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +51,7 @@ public class FakePearl extends Ability implements Listener {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         Player player = (Player) event.getEntity().getShooter();
 
+        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
         if (fakePearls.contains(player.getUniqueId())) {
             player.sendMessage(ChatUtils.colorize("messages.wait-before-pearl"));
             event.setCancelled(true);
@@ -71,6 +71,7 @@ public class FakePearl extends Ability implements Listener {
     @EventHandler
     public void onPlayerTeleportPearl(PlayerTeleportEvent event) {
         if (event.getCause() != PlayerTeleportEvent.TeleportCause.ENDER_PEARL) return;
+        if (AbilitiesUtils.inSpawn(event.getPlayer(), event.getPlayer().getLocation())) return;
         if (fakePearls.contains(event.getPlayer().getUniqueId())) {
             fakePearls.remove(event.getPlayer().getUniqueId());
             event.setCancelled(true);

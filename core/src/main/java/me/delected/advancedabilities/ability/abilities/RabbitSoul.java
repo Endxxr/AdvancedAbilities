@@ -6,10 +6,10 @@ import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-public class InstantCrapple extends ClickableAbility {
+public class RabbitSoul extends ClickableAbility {
     @Override
     public String getId() {
-        return "instant-crapple";
+        return "rabbit-soul";
     }
 
     @Override
@@ -19,14 +19,10 @@ public class InstantCrapple extends ClickableAbility {
 
     @Override
     public void run(Player player) {
-
-
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
-        player.setFoodLevel(player.getFoodLevel()+4);
-        AbilitiesUtils.addPotionEffect(player, PotionEffectType.ABSORPTION, 2400, 0);
-        AbilitiesUtils.addPotionEffect(player, PotionEffectType.REGENERATION, 100, 1);
-
+        AbilitiesUtils.addPotionEffect(player, PotionEffectType.SPEED, getConfigSection().getInt("speed.duration"), getConfigSection().getInt("speed.level"));
+        AbilitiesUtils.addPotionEffect(player, PotionEffectType.JUMP, getConfigSection().getInt("jump-boost.duration"), getConfigSection().getInt("jump-boost.level"));
         addCooldown(player);
-
     }
+
 }

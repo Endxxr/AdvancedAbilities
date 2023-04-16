@@ -46,6 +46,7 @@ public class AbilityManagerImpl implements AbilityManager {
         registerAbility(new InstantGapple());
         registerAbility(new Invulnerability());
         registerAbility(new Leap());
+        registerAbility(new RabbitSoul());
         registerAbility(new Repair());
         registerAbility(new RepairAll());
         registerAbility(new Saviour());

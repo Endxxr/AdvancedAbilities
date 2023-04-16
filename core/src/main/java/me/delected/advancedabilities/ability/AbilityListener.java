@@ -1,19 +1,19 @@
 package me.delected.advancedabilities.ability;
 
-import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.ability.ClickableAbility;
 import me.delected.advancedabilities.api.ability.TargetAbility;
-import org.bukkit.Location;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.Material;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -24,26 +24,8 @@ public class AbilityListener implements Listener {
 
     private final AdvancedAbilities instance = AdvancedAbilities.getPlugin();
     private final Set<String> ignoredItems = new HashSet<>();
-    private final Location coord1;
-    private final Location coord2;
-
     public AbilityListener() {
         ignoredItems.addAll(Arrays.asList("SNOWBALL", "ENDER-PEARL", "EGG"));
-
-
-        Configuration configuration = instance.getConfig();
-        coord1=new Location(
-                instance.getServer().getWorld(configuration.getString("spawn-region.world")),
-                configuration.getDouble("spawn-location.x1"),
-                configuration.getDouble("spawn-location.y1"),
-                configuration.getDouble("spawn-location.z1"));
-        coord2=new Location(
-                instance.getServer().getWorld(configuration.getString("spawn-region.world")),
-                configuration.getDouble("spawn-location.x2"),
-                configuration.getDouble("spawn-location.y2"),
-                configuration.getDouble("spawn-location.z2"));
-
-
     }
 
 
@@ -74,7 +56,7 @@ public class AbilityListener implements Listener {
 
         if (instance.getAbilityManager().inCooldown(player, ability)) return;
 
-        if (inSpawn(player.getLocation())) return;
+        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
 
         if (ability.removeItem()) {
             if (item.getAmount()==1) {
@@ -122,24 +104,25 @@ public class AbilityListener implements Listener {
 
         if (instance.getAbilityManager().inCooldown(player, ability)) return;
 
-        if (inSpawn(player.getLocation())) return;
+        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
 
         player.updateInventory();
         instance.getAbilityManager().addGlobalCooldown(player);
         ((TargetAbility) ability).processHit(player, target);
-
     }
 
 
 
-    private boolean inSpawn(Location location) {
 
-        if ((location.getBlockX() > coord1.getBlockX()) && (location.getBlockX() < coord2.getBlockX())) {
-            if ((location.getBlockY() > coord1.getBlockY()) && (location.getBlockY() < coord2.getBlockY())) {
-                return (location.getBlockZ() > coord1.getBlockZ()) && (location.getBlockZ() < coord2.getBlockZ());
-            }
-        }
-        return false;
+
+    @EventHandler
+    public void antiEat(PlayerItemConsumeEvent event) {
+
+        if (event.isCancelled()) return;
+        if (instance.getAbilityManager().getAbilityByItem(event.getItem())!=null) event.setCancelled(true);
+
     }
+
+
 
 }

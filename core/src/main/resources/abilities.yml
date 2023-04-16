@@ -111,7 +111,25 @@ leap:
       - ""
       - "&3&lCooldown: &f%cooldown%"
 
-
+rabbit-soul:
+  messages:
+    done: "&fHai attivato &el'animo di coniglio!"
+  cooldown: 15
+  jump-boost:
+    level: 1
+    seconds: 5
+  speed:
+    level: 1
+    seconds: 5
+  item:
+    material: RABBIT_FOOT
+    glow: true
+    name: "&6&lAnima di Coniglio"
+    lore:
+      - "&fFai un scatto &ein aria"
+      - "&fper scappare dai nemici"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
 repair:
   messages:
     done: "&fHai riparato &cl'armatura"
@@ -137,6 +155,26 @@ repair-all:
       - "&fRipara &ctutto l'inventario"
       - ""
       - "&4&lCooldown: &f%cooldown%"
+rotten-egg:
+  messages:
+    done: "&fHai colpito &c%target% &fcon un &cUovo Putrido"
+    hit: "&fSei stato colpito da un &cUovo Putrido &flanciato da &c%player%"
+  cooldown: 30
+  item:
+    glow: true
+    name: "&c&lUovo &f&lPutrido"
+    lore:
+    - "&fLancia un &cUovo Putrido"
+    - "&fche infligge &ceffetti negativi"
+    - ""
+    - "&c&lCooldown: &f%cooldown%"
+  duration: 3
+  effects:
+    - CONFUSION:2
+    - BLINDNESS:2
+    - SLOWNESS:1
+
+
 
 saviour:
   messages:

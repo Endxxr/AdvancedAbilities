@@ -19,6 +19,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 
+//TODO add worldguard region support
+
 public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Getter
     private static AdvancedAbilities plugin;

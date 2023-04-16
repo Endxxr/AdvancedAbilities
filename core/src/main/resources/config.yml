@@ -11,6 +11,7 @@ spawn-region:
   x2: 217
   y2: 257
   z2: 1331
+  deny: "&cNon puoi utilizzare questa abilità qui"
 
 commands:
   give:

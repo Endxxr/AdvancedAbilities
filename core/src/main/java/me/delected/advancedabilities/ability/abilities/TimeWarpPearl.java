@@ -3,6 +3,7 @@ package me.delected.advancedabilities.ability.abilities;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,6 +52,7 @@ public class TimeWarpPearl extends Ability implements Listener {
         if (event.getEntity().getType() != EntityType.ENDER_PEARL) return;
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         Player player = (Player) event.getEntity().getShooter();
+        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
         if (waitingPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
             event.setCancelled(true);
