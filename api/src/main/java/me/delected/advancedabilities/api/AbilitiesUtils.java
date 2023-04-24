@@ -1,43 +1,26 @@
-package me.delected.advancedabilities.utils;
+package me.delected.advancedabilities.api;
 
-import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.AdvancedAPI;
-import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AbilitiesUtils {
 
-    private final static Location coord1;
-    private final static Location coord2;
+    private static Location coord1;
+    private static Location coord2;
 
     static {
-
-        FileConfiguration configuration = AdvancedAbilities.getPlugin().getConfig();
-        coord1 =new Location(
-                Bukkit.getWorld(configuration.getString("spawn-region.world")),
-                configuration.getDouble("spawn-region.x1"),
-                configuration.getDouble("spawn-region.y1"),
-                configuration.getDouble("spawn-region.z1"));
-
-        coord2 =new Location(
-                Bukkit.getWorld(configuration.getString("spawn-region.world")),
-                configuration.getDouble("spawn-region.x2"),
-                configuration.getDouble("spawn-region.y2"),
-                configuration.getDouble("spawn-region.z2"));
-
-
-
+        setSpawn();
     }
+
 
     public static void addPotionEffect(Player player, PotionEffectType type, int duration, int amplifier) {
         PotionEffect effect = getPotionEffect(player, type);
@@ -65,7 +48,7 @@ public class AbilitiesUtils {
             try {
                 temp.add(new PotionEffect(PotionEffectType.getByName(split[0]), duration*20, Integer.parseInt(split[1]), false, false));
             } catch (IllegalArgumentException e) {
-                AdvancedAbilities.getPlugin().getLogger().info("Invalid potion effect type: " + split[0]);
+                AdvancedProvider.getAPI().getLogger().info("Invalid potion effect type: " + split[0]);
             }
         }
         return temp;
@@ -87,7 +70,7 @@ public class AbilitiesUtils {
         if  (location.getBlockX() >= min.getBlockX() && location.getBlockX() <= max.getBlockX()
                 && location.getBlockY() >= min.getBlockY() && location.getBlockY() <= max.getBlockY()
                 && location.getBlockZ() >= min.getBlockZ() && location.getBlockZ() <= max.getBlockZ()) {
-            player.sendMessage(ChatUtils.colorize(AdvancedAbilities.getPlugin().getConfig().getString("spawn-region.deny")));
+            player.sendMessage(ChatUtils.colorize(AdvancedProvider.getAPI().getConfig().getString("spawn-region.deny")));
             return true;
         }
 
@@ -103,5 +86,39 @@ public class AbilitiesUtils {
         }
         return null;
     }
+
+    public static boolean isNPC(Player player) {
+        return player.hasMetadata("NPC");
+    }
+
+    public static void setSpawn() {
+        FileConfiguration configuration = AdvancedProvider.getAPI().getConfig();
+        coord1 =new Location(
+                Bukkit.getWorld(configuration.getString("spawn-region.world")),
+                configuration.getDouble("spawn-region.x1"),
+                configuration.getDouble("spawn-region.y1"),
+                configuration.getDouble("spawn-region.z1"));
+
+        coord2 =new Location(
+                Bukkit.getWorld(configuration.getString("spawn-region.world")),
+                configuration.getDouble("spawn-region.x2"),
+                configuration.getDouble("spawn-region.y2"),
+                configuration.getDouble("spawn-region.z2"));
+
+    }
+
+    public static boolean canExecute(Player player, Ability ability) {
+        AbilityManager abilityManager = AdvancedProvider.getAPI().getAbilityManager();
+
+
+        if (AbilitiesUtils.inSpawn(player, player.getLocation())) {
+            return false;
+        }
+
+        return !abilityManager.inCooldown(player, ability);
+    }
+
+
+
 
 }

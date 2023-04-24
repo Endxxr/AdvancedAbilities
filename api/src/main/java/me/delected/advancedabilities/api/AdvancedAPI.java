@@ -10,21 +10,34 @@ import java.util.logging.Logger;
 public interface AdvancedAPI {
 
 
+    /**
+     *
+     * Gets the item generator
+     *
+     * @return the item generator
+     */
     ItemGenerator getItemGenerator();
+
+    FileConfiguration getConfig();
+
+    /**
+     *
+     * Gets the abilities' config (ability.yml)
+     *
+     * @return the abilities config
+     */
     FileConfiguration getAbilitiesConfig();
+
+    /**
+     *
+     * Gets the ability manager
+     *
+     * @return the ability manager
+     */
     AbilityManager getAbilityManager();
     Logger getLogger();
     BukkitTask runTaskAsync(Runnable runnable);
 
 
-    class Provider {
-        public static AdvancedAPI api;
-        public static void setAPI(AdvancedAPI api) {
-            Provider.api = api;
-        }
-        public static AdvancedAPI getAPI() {
-            return api;
-        }
-    }
 
 }

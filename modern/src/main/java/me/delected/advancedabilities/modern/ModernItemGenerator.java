@@ -1,6 +1,8 @@
 package me.delected.advancedabilities.modern;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.delected.advancedabilities.api.AdvancedAPI;
+import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -36,7 +38,7 @@ public class ModernItemGenerator implements ItemGenerator {
             material=Material.getMaterial(ability.getConfigSection().getString("item.material").toUpperCase());
             if (material==null) {
                 material = Material.STICK;
-                AdvancedAPI.Provider.getAPI().getLogger().warning("Material " + ability.getConfigSection().getString("item.material") + " for ability " + ability.getId() + " is invalid! Using STICK instead.");
+                AdvancedProvider.getAPI().getLogger().warning("Material " + ability.getConfigSection().getString("item.material") + " for ability " + ability.getId() + " is invalid! Using STICK instead.");
             }
         }
 
@@ -54,6 +56,10 @@ public class ModernItemGenerator implements ItemGenerator {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
         item.setItemMeta(meta);
 
+        NBTItem nbtItem = new NBTItem(item);
+        nbtItem.setString("ability", ability.getId());
+        nbtItem.setBoolean("ability-item", true);
+        item = nbtItem.getItem();
 
         return item;
     }

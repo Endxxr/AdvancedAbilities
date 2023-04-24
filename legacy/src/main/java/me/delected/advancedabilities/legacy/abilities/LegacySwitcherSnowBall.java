@@ -1,25 +1,28 @@
-package me.delected.advancedabilities.ability.abilities;
+package me.delected.advancedabilities.legacy.abilities;
 
-import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.AbilitiesUtils;
+import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.utils.AbilitiesUtils;
+import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class SwitcherSnowBall extends Ability implements Listener {
+public class LegacySwitcherSnowBall extends Ability implements Listener {
 
     private final Set<UUID> snowPlayers = new HashSet<>();
 
@@ -33,27 +36,6 @@ public class SwitcherSnowBall extends Ability implements Listener {
         return true;
     }
 
-    @EventHandler
-    public void onSnowBallThrow(ProjectileLaunchEvent event) {
-        if (event.isCancelled()) return;
-        if (event.getEntity().getType() != EntityType.SNOWBALL) return;
-        if (!(event.getEntity().getShooter() instanceof Player)) return;
-        Player player = (Player) event.getEntity().getShooter();
-
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
-        if (snowPlayers.contains(player.getUniqueId())) {
-            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
-            event.setCancelled(true);
-            return;
-        }
-        if (!player.getItemInHand().isSimilar(getItem())) return;
-        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)) {
-            event.setCancelled(true);
-            return;
-        };
-        snowPlayers.add(player.getUniqueId());
-        addCooldown(player);
-    }
 
     @EventHandler
     public void onPlayerHitBySnowball(EntityDamageByEntityEvent e) {
@@ -65,6 +47,7 @@ public class SwitcherSnowBall extends Ability implements Listener {
 
         Snowball snowball = (Snowball) damager;
 
+        if (AbilitiesUtils.isNPC(hit)) return;
         if (!(snowball.getShooter() instanceof Player)) return;
         if (snowball.getShooter() == hit) return;
         Player shooter = (Player) snowball.getShooter();
@@ -101,5 +84,34 @@ public class SwitcherSnowBall extends Ability implements Listener {
         snowPlayers.remove(player.getUniqueId());
     }
 
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if (event.useItemInHand() == PlayerInteractEvent.Result.DENY) return;
+        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) return;
+        if (event.getItem() == null) return;
+        if (!event.getItem().getType().equals(Material.SNOW_BALL)) return;
 
+        Player player = event.getPlayer();
+
+        if (snowPlayers.contains(player.getUniqueId())) {
+            event.setCancelled(true);
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        }
+
+        if (AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(player.getItemInHand()) != this) return;
+
+        if (!AbilitiesUtils.canExecute(player, this)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (snowPlayers.contains(player.getUniqueId())) {
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+            event.setCancelled(true);
+            return;
+        }
+
+        snowPlayers.add(player.getUniqueId());
+        addCooldown(player);
+    }
 }

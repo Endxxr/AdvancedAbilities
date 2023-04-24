@@ -2,6 +2,7 @@ package me.delected.advancedabilities;
 
 import lombok.Getter;
 import me.delected.advancedabilities.ability.AbilityListener;
+import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.managers.AbilityManagerImpl;
 import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -10,6 +11,7 @@ import me.delected.advancedabilities.commands.GetAbilityCommand;
 import me.delected.advancedabilities.legacy.LegacyItemGenerator;
 import me.delected.advancedabilities.modern.ModernItemGenerator;
 import me.delected.advancedabilities.api.enums.NMSVersion;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,6 +54,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         getLogger().info("Done ✓");
         getLogger().info("§8§l§m------------------");
 
+        new Metrics(this, 18224);
 
     }
 
@@ -100,7 +103,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
 
     private void setInstances() {
 
-        AdvancedAPI.Provider.setAPI(this);
+        AdvancedProvider.setApi(this);
 
         if (NMSVersion.isLegacy()) {
             itemGenerator = new LegacyItemGenerator();

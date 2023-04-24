@@ -117,10 +117,10 @@ rabbit-soul:
   cooldown: 15
   jump-boost:
     level: 1
-    seconds: 5
+    duration: 5
   speed:
     level: 1
-    seconds: 5
+    duration: 5
   item:
     material: RABBIT_FOOT
     glow: true

@@ -6,6 +6,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
+/**
+ *
+ * An interface for creating the item of the abilities.
+ *
+ */
+
 public interface ItemGenerator {
 
     ItemStack createItem(Ability ability);

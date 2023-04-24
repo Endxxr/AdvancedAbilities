@@ -2,7 +2,7 @@ package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.ClickableAbility;
-import me.delected.advancedabilities.utils.AbilitiesUtils;
+import me.delected.advancedabilities.api.AbilitiesUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 

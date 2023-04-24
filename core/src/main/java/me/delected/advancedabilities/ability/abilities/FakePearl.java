@@ -3,13 +3,12 @@ package me.delected.advancedabilities.ability.abilities;
 import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.utils.AbilitiesUtils;
+import me.delected.advancedabilities.api.AbilitiesUtils;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -35,36 +34,32 @@ public class FakePearl extends Ability implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (event.useItemInHand() == PlayerInteractEvent.Result.DENY) return;
+        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) return;
         if (event.getItem() == null || !event.getItem().getType().equals(Material.ENDER_PEARL)) return;
 
         Player player = event.getPlayer();
+
         if (fakePearls.contains(player.getUniqueId())) {
             event.setCancelled(true);
             player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
         }
-    }
 
-    @EventHandler
-    public void onThrow(ProjectileLaunchEvent event) {
-        if (event.isCancelled()) return;
-        if (event.getEntity().getType() != EntityType.ENDER_PEARL) return;
-        if (!(event.getEntity().getShooter() instanceof Player)) return;
-        Player player = (Player) event.getEntity().getShooter();
+        if (AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(player.getItemInHand()) != this) return;
 
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
-        if (fakePearls.contains(player.getUniqueId())) {
-            player.sendMessage(ChatUtils.colorize("messages.wait-before-pearl"));
+        if (!AbilitiesUtils.canExecute(player, this)) {
             event.setCancelled(true);
             return;
         }
-        if (!player.getItemInHand().isSimilar(getItem())) return;
-        if (AdvancedAbilities.getPlugin().getAbilityManager().inCooldown(player, this)) {
+
+        if (fakePearls.contains(player.getUniqueId())) {
+            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
             event.setCancelled(true);
             return;
-        };
+        }
+
+        player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         fakePearls.add(player.getUniqueId());
         addCooldown(player);
-        player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
 
     }
 

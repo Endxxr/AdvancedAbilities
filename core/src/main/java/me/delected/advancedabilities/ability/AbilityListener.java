@@ -5,7 +5,7 @@ import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.ability.ClickableAbility;
 import me.delected.advancedabilities.api.ability.TargetAbility;
-import me.delected.advancedabilities.utils.AbilitiesUtils;
+import me.delected.advancedabilities.api.AbilitiesUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

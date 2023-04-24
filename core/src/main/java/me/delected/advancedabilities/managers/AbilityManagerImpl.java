@@ -1,21 +1,21 @@
 package me.delected.advancedabilities.managers;
 
+import de.tr7zw.nbtapi.NBTItem;
 import lombok.Getter;
-import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.ability.abilities.*;
-import me.delected.advancedabilities.ability.abilities.AntiBlockUp;
-import me.delected.advancedabilities.ability.abilities.Bamboozle;
-import me.delected.advancedabilities.ability.abilities.FakePearl;
+import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.ability.TargetAbility;
 import me.delected.advancedabilities.api.enums.NMSVersion;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
+import me.delected.advancedabilities.legacy.abilities.LegacySwitcherSnowBall;
 import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
+import me.delected.advancedabilities.modern.abilities.ModernSwitcherSnowBall;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AbilityManagerImpl implements AbilityManager {
 
     private final AdvancedAbilities instance;
-    private final HashMap<ItemStack, Ability> abilities;
+    private final HashMap<String, Ability> abilities;
     @Getter
     private ConcurrentHashMap<UUID, Long> globalCooldown;
     private BukkitTask cleanupTask;
@@ -53,13 +53,14 @@ public class AbilityManagerImpl implements AbilityManager {
         registerAbility(new RottenEgg());
         registerAbility(new Saviour());
         registerAbility(new Stun());
-        registerAbility(new SwitcherSnowBall());
         registerAbility(new TimeWarpPearl());
 
         if (NMSVersion.isLegacy()) {
             registerAbility(new LegacyGrapplingHook());
+            registerAbility(new LegacySwitcherSnowBall());
         } else {
             registerAbility(new ModernGrapplingHook());
+            registerAbility(new ModernSwitcherSnowBall());
         }
 
 
@@ -73,19 +74,22 @@ public class AbilityManagerImpl implements AbilityManager {
 
     @Override
     public Ability getAbilityByItem(ItemStack item) {
-        ItemStack cloned = item.clone();
-        cloned.setAmount(1);
-        return abilities.get(cloned);
+
+        if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) {
+            AdvancedAbilities.getPlugin().getLogger().warning("Attempted to get ability from null item");
+            return null;
+        }
+
+        NBTItem nbtItem = new NBTItem(item);
+        if (!nbtItem.getBoolean("ability-item")) return null;
+
+        String abilityId = nbtItem.getString("ability");
+        return getAbilityByName(abilityId);
     }
 
     @Override
     public Ability getAbilityByName(String name) {
-        for (Ability ability : abilities.values()) {
-            if (ability.getId().equalsIgnoreCase(name)) {
-                return ability;
-            }
-        }
-        return null;
+        return abilities.get(name);
     }
 
     @Override
@@ -167,7 +171,7 @@ public class AbilityManagerImpl implements AbilityManager {
 
     @Override
     public void registerAbility(Ability ability) {
-        abilities.put(ability.getItem(), ability);
+        abilities.put(ability.getId(), ability);
         if (ability instanceof Listener) Bukkit.getPluginManager().registerEvents((Listener) ability, instance);
         instance.getLogger().info("Registered ability " + ability.getId());
     }

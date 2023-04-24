@@ -1,6 +1,7 @@
 package me.delected.advancedabilities.legacy.abilities;
 
 import me.delected.advancedabilities.api.AdvancedAPI;
+import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.enums.NMSVersion;
 import org.bukkit.Location;
@@ -45,10 +46,10 @@ public class LegacyGrapplingHook extends Ability implements Listener {
         ItemStack item = shooter.getItemInHand();
         if (item == null)
             return;
-        Ability ability = AdvancedAPI.Provider.getAPI().getAbilityManager().getAbilityByItem(item);
+        Ability ability = AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item);
         if (ability == null)
             return;
-        if (AdvancedAPI.Provider.getAPI().getAbilityManager().inCooldown(shooter, this))
+        if (AdvancedProvider.getAPI().getAbilityManager().inCooldown(shooter, this))
             return;
         this.grapple.putIfAbsent(shooter.getUniqueId(), event.getEntity().getVelocity());
     }
@@ -58,7 +59,7 @@ public class LegacyGrapplingHook extends Ability implements Listener {
         ItemStack item = event.getPlayer().getItemInHand();
         if (item == null)
             return;
-        Ability ability = AdvancedAPI.Provider.getAPI().getAbilityManager().getAbilityByItem(item);
+        Ability ability = AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item);
         if (ability == null)
             return;
         Player player = event.getPlayer();

@@ -34,12 +34,32 @@
         </resources>
     </build>
 
+    <repositories>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api-plugin</artifactId>
+            <version>2.11.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.delected</groupId>
@@ -59,5 +79,6 @@
             <version>4.0.0-BETA</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 </project>
