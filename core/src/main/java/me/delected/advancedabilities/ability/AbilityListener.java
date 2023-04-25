@@ -42,7 +42,7 @@ public class AbilityListener implements Listener {
         Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
 
-        if (item.getType().isBlock() && !item.getType().isInteractable()) {
+        if (checkItem(item)) {
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
         }
@@ -51,7 +51,7 @@ public class AbilityListener implements Listener {
 
         event.setCancelled(true);
 
-        if (runAbility(player, ability)) return;
+        if (isRunnable(player, ability)) return;
 
         if (ability.removeItem()) {
             if (item.getAmount()==1) {
@@ -92,14 +92,14 @@ public class AbilityListener implements Listener {
             item.setAmount(item.getAmount()-1);
         }
 
-        if (runAbility(player, ability)) return;
+        if (isRunnable(player, ability)) return;
 
         player.updateInventory();
         instance.getAbilityManager().addGlobalCooldown(player);
         ((TargetAbility) ability).processHit(player, target);
     }
 
-    private boolean runAbility(Player player, Ability ability) {
+    private boolean isRunnable(Player player, Ability ability) {
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
             player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
             return true;
@@ -110,6 +110,19 @@ public class AbilityListener implements Listener {
         return AbilitiesUtils.inSpawn(player, player.getLocation());
     }
 
+    private boolean checkItem(ItemStack item) {
+        
+        Material material = item.getType();
+
+        if (material.isBlock() || material.isInteractable() || material.isEdible() || material.isFuel()) {
+            return true;
+        }
+
+        if (material.getId()==351 && item.getDurability()==15) return true; //Bone Meal
+        if (material.toString().contains("SEEDS")) return true;
+
+        return false;
+    }
 
 
     @EventHandler
