@@ -32,7 +32,7 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void onClickableAbility(PlayerInteractEvent event) {
 
-        if (event.isCancelled()) return;
+        if (event.useItemInHand() == Event.Result.DENY) return;
 
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
@@ -42,21 +42,16 @@ public class AbilityListener implements Listener {
         Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
 
-        event.setCancelled(true);
-        event.setUseInteractedBlock(Event.Result.DENY);
-        event.setUseItemInHand(Event.Result.DENY);
+        if (item.getType().isBlock() && !item.getType().isInteractable()) {
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.setUseItemInHand(Event.Result.DENY);
+        }
 
         if (!(ability instanceof ClickableAbility)) return;
 
+        event.setCancelled(true);
 
-        if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
-            return;
-        }
-
-        if (instance.getAbilityManager().inCooldown(player, ability)) return;
-
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
+        if (runAbility(player, ability)) return;
 
         if (ability.removeItem()) {
             if (item.getAmount()==1) {
@@ -85,10 +80,7 @@ public class AbilityListener implements Listener {
 
         ItemStack item = player.getItemInHand();
 
-        if (item==null) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("hit-enemy")));
-            return;
-        }
+        if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return;
 
         Ability ability = instance.getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
@@ -100,21 +92,23 @@ public class AbilityListener implements Listener {
             item.setAmount(item.getAmount()-1);
         }
 
-        if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
-            return;
-        }
-
-        if (instance.getAbilityManager().inCooldown(player, ability)) return;
-
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
+        if (runAbility(player, ability)) return;
 
         player.updateInventory();
         instance.getAbilityManager().addGlobalCooldown(player);
         ((TargetAbility) ability).processHit(player, target);
     }
 
+    private boolean runAbility(Player player, Ability ability) {
+        if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
+            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
+            return true;
+        }
 
+        if (instance.getAbilityManager().inCooldown(player, ability)) return true;
+
+        return AbilitiesUtils.inSpawn(player, player.getLocation());
+    }
 
 
 

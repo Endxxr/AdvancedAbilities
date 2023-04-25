@@ -38,8 +38,6 @@ public class ModernGrapplingHook extends Ability implements Listener {
         if (event.getEntity().getType() != EntityType.FISHING_HOOK)
             return;
         ItemStack item = shooter.getItemInHand();
-        if (item == null)
-            return;
         Ability ability = AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item);
         if (ability == null)
             return;
@@ -51,8 +49,6 @@ public class ModernGrapplingHook extends Ability implements Listener {
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         ItemStack item = event.getPlayer().getItemInHand();
-        if (item == null)
-            return;
         Ability ability = AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item);
         if (ability == null)
             return;

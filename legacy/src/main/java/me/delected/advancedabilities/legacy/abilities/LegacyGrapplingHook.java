@@ -1,18 +1,14 @@
 package me.delected.advancedabilities.legacy.abilities;
 
-import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.api.enums.NMSVersion;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -24,7 +20,6 @@ import java.util.UUID;
 
 public class LegacyGrapplingHook extends Ability implements Listener {
     private final HashMap<UUID, Vector> grapple = new HashMap<>();
-    private final HashMap<UUID, FishHook> hook = new HashMap<>();
     private final Set<UUID> fallList = new HashSet<>();
 
 

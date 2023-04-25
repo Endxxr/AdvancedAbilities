@@ -1,19 +1,16 @@
 package me.delected.advancedabilities.modern;
 
 import de.tr7zw.nbtapi.NBTItem;
-import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,7 +43,9 @@ public class ModernItemGenerator implements ItemGenerator {
         if (ability.getConfigSection().getBoolean("item.glow")) item.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatUtils.colorize(ability.getConfigSection().getString("item.name")));
+        String displayName = ability.getConfigSection().getString("item.name");
+        if (displayName == null) displayName = ability.getId();
+        meta.setDisplayName(ChatUtils.colorize(displayName));
 
         List<String> lore = ability.getConfigSection().getStringList("item.lore");
         lore.forEach(ChatUtils::colorize);

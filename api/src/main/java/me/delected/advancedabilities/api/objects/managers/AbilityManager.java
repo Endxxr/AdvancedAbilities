@@ -28,7 +28,7 @@ public interface AbilityManager {
      *
      * Gets the ability by the name
      *
-     * @param name
+     * @param name the name
      * @return the ability or null if not found
      */
     Ability getAbilityByName(String name);

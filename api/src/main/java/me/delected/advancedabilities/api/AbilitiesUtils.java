@@ -112,10 +112,10 @@ public class AbilitiesUtils {
 
 
         if (AbilitiesUtils.inSpawn(player, player.getLocation())) {
-            return false;
+            return true;
         }
 
-        return !abilityManager.inCooldown(player, ability);
+        return abilityManager.inCooldown(player, ability);
     }
 
 

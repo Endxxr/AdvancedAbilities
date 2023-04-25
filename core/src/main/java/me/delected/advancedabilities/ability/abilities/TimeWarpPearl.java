@@ -48,7 +48,7 @@ public class TimeWarpPearl extends Ability implements Listener {
 
         if (AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(player.getItemInHand()) != this) return;
 
-        if (!AbilitiesUtils.canExecute(player, this)) {
+        if (AbilitiesUtils.canExecute(player, this)) {
             event.setCancelled(true);
             return;
         }

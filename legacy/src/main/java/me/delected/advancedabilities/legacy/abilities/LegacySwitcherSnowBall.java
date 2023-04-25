@@ -4,7 +4,6 @@ import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -100,7 +99,7 @@ public class LegacySwitcherSnowBall extends Ability implements Listener {
 
         if (AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(player.getItemInHand()) != this) return;
 
-        if (!AbilitiesUtils.canExecute(player, this)) {
+        if (AbilitiesUtils.canExecute(player, this)) {
             event.setCancelled(true);
             return;
         }
