@@ -111,10 +111,10 @@ public class AbilityListener implements Listener {
     }
 
     private boolean checkItem(ItemStack item) {
-        
+
         Material material = item.getType();
 
-        if (material.isBlock() || material.isInteractable() || material.isEdible() || material.isFuel()) {
+        if (material.isBlock()) {
             return true;
         }
 
