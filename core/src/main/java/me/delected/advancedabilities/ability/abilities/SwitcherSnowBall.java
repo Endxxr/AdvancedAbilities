@@ -1,36 +1,40 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.ThrowableAbility;
-import org.bukkit.entity.Egg;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
-
-public class RottenEgg extends ThrowableAbility {
+public class SwitcherSnowBall extends ThrowableAbility {
 
 
     @Override
     public String getId() {
-        return "rotten-egg";
+        return "switcher-snowball";
     }
 
     @Override
     public boolean removeItem() {
-        return false;
+        return true;
+    }
+
+    @EventHandler
+    public void onSnowballHit(ProjectileHitEvent event) {
+        if (event.getEntity().getType() != EntityType.SNOWBALL) return;
+        if (!(event.getEntity().getShooter() instanceof Player)) return;
+        Player player = (Player) event.getEntity().getShooter();
+        if (!playerList.contains(player.getUniqueId())) return;
+        playerList.remove(player.getUniqueId());
+        removeThrow(player);
     }
 
     @Override
     public EntityType getEntityType() {
-        return EntityType.EGG;
+        return EntityType.SNOWBALL;
     }
 
     @Override
@@ -40,24 +44,14 @@ public class RottenEgg extends ThrowableAbility {
 
     @Override
     public void run(Player player, ItemStack item) {
+        playerList.add(player.getUniqueId());
         addCooldown(player);
-    }
-
-    @EventHandler
-    public void onEggGroundHit(ProjectileHitEvent event) {
-
-        if (!(event.getEntity() instanceof Egg)) return;
-        if (!(event.getEntity().getShooter() instanceof Player)) return;
-
-        UUID projectileUUID = event.getEntity().getUniqueId();
-        if (!throwList.contains(projectileUUID)) return;
-
-        throwList.remove(projectileUUID);
-
     }
 
     @Override
     public void onHit(Player player, Player hit, ItemStack item) {
+
+        // send messages
         player.sendMessage(ChatUtils.colorize(getExecuteMessage())
                 .replace("%target%", hit.getDisplayName()));
 
@@ -65,15 +59,10 @@ public class RottenEgg extends ThrowableAbility {
                 .replace("%target%", hit.getDisplayName())
                 .replace("%player%", player.getDisplayName()));
 
+        Location hitLocation = hit.getLocation().clone();
+        Location shooterLocation = player.getLocation().clone();
 
-        // add effects
-        hit.addPotionEffects(AbilitiesUtils.getPotionEffects(this));
+        hit.teleport(shooterLocation);
+        player.teleport(hitLocation);
     }
-
-    @EventHandler
-    public void onChickenSpawn(PlayerEggThrowEvent e) {
-        e.setHatching(false);
-    }
-
-
 }

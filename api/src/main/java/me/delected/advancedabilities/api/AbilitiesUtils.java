@@ -5,6 +5,7 @@ import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -87,9 +88,6 @@ public class AbilitiesUtils {
         return null;
     }
 
-    public static boolean isNPC(Player player) {
-        return player.hasMetadata("NPC");
-    }
 
     public static void setSpawn() {
         FileConfiguration configuration = AdvancedProvider.getAPI().getConfig();
@@ -107,16 +105,7 @@ public class AbilitiesUtils {
 
     }
 
-    public static boolean canExecute(Player player, Ability ability) {
-        AbilityManager abilityManager = AdvancedProvider.getAPI().getAbilityManager();
 
-
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) {
-            return true;
-        }
-
-        return abilityManager.inCooldown(player, ability);
-    }
 
 
 

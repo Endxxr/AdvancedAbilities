@@ -23,7 +23,7 @@ public class AbilityCommand implements CommandExecutor, TabExecutor {
                     return true;
                 }
                 sender.sendMessage(ChatUtils.colorize("&eReloading..."));
-                AdvancedAbilities.getPlugin().reloadPlugin();
+                AdvancedAbilities.getInstance().reloadPlugin();
                 sender.sendMessage(ChatUtils.colorize("&eReloaded!"));
                 return true;
 
@@ -34,7 +34,7 @@ public class AbilityCommand implements CommandExecutor, TabExecutor {
                     return true;
                 }
 
-                AdvancedAbilities.getPlugin().getAbilityManager().clearCooldowns();
+                AdvancedAbilities.getInstance().getAbilityManager().clearCooldowns();
                 sender.sendMessage(ChatUtils.colorize("&eCleared all cooldowns!"));
                 return true;
 

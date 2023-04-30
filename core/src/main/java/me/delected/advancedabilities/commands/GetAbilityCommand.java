@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GetAbilityCommand implements CommandExecutor, TabExecutor {
 
-    private final AdvancedAbilities instance = AdvancedAbilities.getPlugin();
+    private final AdvancedAbilities instance = AdvancedAbilities.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -85,7 +85,7 @@ public class GetAbilityCommand implements CommandExecutor, TabExecutor {
 
         if (args.length==2) {
             List<String> temp = new ArrayList<>();
-            AdvancedAbilities.getPlugin().getAbilityManager().getAbilities().iterator().forEachRemaining(ability -> {
+            AdvancedAbilities.getInstance().getAbilityManager().getAbilities().iterator().forEachRemaining(ability -> {
                 if (ability.getId().startsWith(args[1])) {
                     temp.add(ability.getId());
                 }

@@ -45,7 +45,7 @@ public class AntiBlockUp extends TargetAbility {
         target.playSound(target.getLocation(), getSound(), 0, 1);
 
         addCooldown(player);
-        Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getPlugin(), () -> blockedPlayers.remove(target.getUniqueId()), seconds*20L);
+        Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getInstance(), () -> blockedPlayers.remove(target.getUniqueId()), seconds*20L);
 
     }
 

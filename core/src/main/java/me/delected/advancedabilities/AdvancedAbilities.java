@@ -16,16 +16,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 
-//TODO add worldguard region support
+//TODO add worldguard region support, timewarp pearl daeath
 
 public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Getter
-    private static AdvancedAbilities plugin;
+    private static AdvancedAbilities instance;
     @Getter
     private FileConfiguration abilitiesConfig;
     @Getter
@@ -38,7 +39,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Override
     public void onEnable() {
 
-        plugin = this;
+        instance = this;
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
         getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.0");
@@ -134,5 +135,10 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Override
     public BukkitTask runTaskAsync(Runnable runnable) {
         return Bukkit.getScheduler().runTaskAsynchronously(this, runnable);
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return this;
     }
 }

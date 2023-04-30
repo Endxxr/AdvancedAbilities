@@ -59,7 +59,7 @@ public abstract class Ability {
      * @return remaining time in seconds
      */
     public long getRemainingTime(Player player) {
-        final Long cooldown = cooldownPlayers.get(player.getUniqueId());
+        Long cooldown = cooldownPlayers.get(player.getUniqueId());
         return (cooldown == null ? 0 : cooldown-System.currentTimeMillis());
     }
 

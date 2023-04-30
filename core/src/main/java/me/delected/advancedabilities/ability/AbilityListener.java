@@ -1,102 +1,128 @@
 package me.delected.advancedabilities.ability;
 
 import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.ability.Ability;
 import me.delected.advancedabilities.api.ability.ClickableAbility;
 import me.delected.advancedabilities.api.ability.TargetAbility;
-import me.delected.advancedabilities.api.AbilitiesUtils;
+import me.delected.advancedabilities.api.ability.ThrowableAbility;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 public class AbilityListener implements Listener {
 
-    private final AdvancedAbilities instance = AdvancedAbilities.getPlugin();
-    private final Set<String> ignoredItems = new HashSet<>();
-    public AbilityListener() {
-        ignoredItems.addAll(Arrays.asList("SNOWBALL", "ENDER-PEARL", "EGG"));
-    }
-
+    private final AdvancedAbilities instance = AdvancedAbilities.getInstance();
 
     @EventHandler
     public void onClickableAbility(PlayerInteractEvent event) {
-
         if (event.useItemInHand() == Event.Result.DENY) return;
-
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (item==null) return; //Interacts with AIR
-        if (ignoredItems.contains(item.getType().name())) return;
-
-        Ability ability = AdvancedAbilities.getPlugin().getAbilityManager().getAbilityByItem(item);
+        Ability ability = AdvancedAbilities.getInstance().getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
-
         if (checkItem(item)) {
-            event.setUseInteractedBlock(Event.Result.DENY);
-            event.setUseItemInHand(Event.Result.DENY);
+            event.setCancelled(true);
+            player.updateInventory();
         }
-
-        if (!(ability instanceof ClickableAbility)) return;
-
-        event.setCancelled(true);
-
-        if (isRunnable(player, ability)) return;
-
-        if (ability.removeItem()) {
-            if (item.getAmount()==1) {
-                player.setItemInHand(new ItemStack(Material.AIR));
-            } else {
-                item.setAmount(item.getAmount()-1);
+        if (ability instanceof ClickableAbility) {
+            event.setCancelled(true);
+            if (isRunnable(player, ability)) return;
+            if (ability.removeItem()) {
+                if (item.getAmount() == 1) {
+                    player.setItemInHand(new ItemStack(Material.AIR));
+                } else {
+                    item.setAmount(item.getAmount() - 1);
+                }
             }
-        }
+            player.updateInventory();
+            instance.getAbilityManager().addGlobalCooldown(player);
+            ((ClickableAbility) ability).run(player);
 
-        player.updateInventory();
-        instance.getAbilityManager().addGlobalCooldown(player);
-        ((ClickableAbility) ability).run(player);
+        } else if (ability instanceof ThrowableAbility) {
+
+            if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) return; // It's not punching something
+
+            ThrowableAbility throwableAbility = (ThrowableAbility) ability;
+            if (throwableAbility.isRunnable(player, event.getItem())) return;
+
+            throwableAbility.run(player, event.getItem());
+            throwableAbility.addThrow(player);
+        }
     }
 
     @EventHandler
     public void onTargetAbility(EntityDamageByEntityEvent event) {
 
         if (event.isCancelled()) return;
-        if (!(event.getDamager() instanceof Player)) return;
         if (!(event.getEntity() instanceof Player)) return;
-
-        Player player = (Player) event.getDamager();
         Player target = (Player) event.getEntity();
-
         if (target.hasMetadata("NPC")) return;
 
-        ItemStack item = player.getItemInHand();
-
-        if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return;
-
-        Ability ability = instance.getAbilityManager().getAbilityByItem(item);
-        if (ability==null) return;
-        if (!(ability instanceof TargetAbility)) return;
-
-        if (item.getAmount()==1) {
-            player.setItemInHand(new ItemStack(Material.AIR));
+        Player player;
+        if (event.getDamager() instanceof Player) {
+            player = (Player) event.getDamager();
+        } else if (event.getDamager() instanceof org.bukkit.entity.Projectile && ((org.bukkit.entity.Projectile) event.getDamager()).getShooter() instanceof Player) {
+            player = (Player) ((org.bukkit.entity.Projectile) event.getDamager()).getShooter();
         } else {
-            item.setAmount(item.getAmount()-1);
+            return;
         }
 
-        if (isRunnable(player, ability)) return;
 
-        player.updateInventory();
-        instance.getAbilityManager().addGlobalCooldown(player);
-        ((TargetAbility) ability).processHit(player, target);
+        Ability ability;
+        ItemStack item = player.getItemInHand();
+
+        /*
+        Quick explanation: If the damager is a projectile, it will get the ability from the metadata of the projectile,
+         set in the ThrowableAbility class. If it's not a projectile, it will get the ability from the item in the player's hand.
+         */
+
+
+        if (event.getDamager() instanceof org.bukkit.entity.Projectile) {
+            Projectile projectile = (Projectile) event.getDamager();
+            if (target == projectile.getShooter()) return; //Damage from EnderPearl TP
+            if (projectile.hasMetadata("ability_id")) {
+                ability = instance.getAbilityManager().getAbilityByName(projectile.getMetadata("ability_id").get(0).asString());
+            } else {
+                return;
+            }
+        } else {
+            if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return;
+            ability = instance.getAbilityManager().getAbilityByItem(item);
+        }
+
+
+        if (ability==null) return;
+        if (ability instanceof TargetAbility) {
+
+            if (item.getAmount() == 1) {
+                player.setItemInHand(new ItemStack(Material.AIR));
+            } else {
+                item.setAmount(item.getAmount() - 1);
+            }
+
+            if (isRunnable(player, ability)) return;
+
+            player.updateInventory();
+            instance.getAbilityManager().addGlobalCooldown(player);
+            ((TargetAbility) ability).processHit(player, target);
+
+        } else if (ability instanceof ThrowableAbility) {
+            ThrowableAbility throwableAbility = (ThrowableAbility) ability;
+            Projectile projectile = (Projectile) event.getDamager();
+            if (throwableAbility.isHittable(player, target, projectile)) return;
+            throwableAbility.onHit(player, target, item);
+        }
     }
 
     private boolean isRunnable(Player player, Ability ability) {

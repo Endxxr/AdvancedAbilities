@@ -10,9 +10,8 @@ import me.delected.advancedabilities.api.ability.TargetAbility;
 import me.delected.advancedabilities.api.enums.NMSVersion;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
-import me.delected.advancedabilities.legacy.abilities.LegacySwitcherSnowBall;
+import me.delected.advancedabilities.ability.abilities.SwitcherSnowBall;
 import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
-import me.delected.advancedabilities.modern.abilities.ModernSwitcherSnowBall;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,10 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AbilityManagerImpl implements AbilityManager {
@@ -31,12 +27,15 @@ public class AbilityManagerImpl implements AbilityManager {
     private final AdvancedAbilities instance;
     private final HashMap<String, Ability> abilities;
     @Getter
+    private final Set<UUID> projectiles;
+    @Getter
     private ConcurrentHashMap<UUID, Long> globalCooldown;
     private BukkitTask cleanupTask;
 
     public AbilityManagerImpl(AdvancedAbilities instance) {
         this.instance = instance;
         this.abilities = new HashMap<>();
+        projectiles = new HashSet<>();
 
 
         //Register abilities
@@ -53,14 +52,13 @@ public class AbilityManagerImpl implements AbilityManager {
         registerAbility(new RottenEgg());
         registerAbility(new Saviour());
         registerAbility(new Stun());
+        registerAbility(new SwitcherSnowBall());
         registerAbility(new TimeWarpPearl());
 
         if (NMSVersion.isLegacy()) {
             registerAbility(new LegacyGrapplingHook());
-            registerAbility(new LegacySwitcherSnowBall());
         } else {
             registerAbility(new ModernGrapplingHook());
-            registerAbility(new ModernSwitcherSnowBall());
         }
 
 
@@ -76,7 +74,7 @@ public class AbilityManagerImpl implements AbilityManager {
     public Ability getAbilityByItem(ItemStack item) {
 
         if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) {
-            AdvancedAbilities.getPlugin().getLogger().warning("Attempted to get ability from null item");
+            AdvancedAbilities.getInstance().getLogger().warning("Attempted to get ability from null item");
             return null;
         }
 
@@ -114,7 +112,7 @@ public class AbilityManagerImpl implements AbilityManager {
                     targetAbility.getHitPlayers().entrySet().removeIf(entry -> Bukkit.getPlayer(entry.getKey())==null);
                 }
             }
-        }, 0, 20);
+        }, 0, 20*10L); //Every 10 seconds the cooldown will be checked and removed if expired
     }
 
     public void stopCleanup() {
@@ -165,6 +163,7 @@ public class AbilityManagerImpl implements AbilityManager {
             return true;
         }
 
+        ability.getCooldownPlayers().remove(player.getUniqueId()); //Remove player from cooldown map if they are not in cooldown anymore
         return false;
 
     }
