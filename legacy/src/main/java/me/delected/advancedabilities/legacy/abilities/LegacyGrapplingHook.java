@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.legacy.abilities;
 
 import me.delected.advancedabilities.api.AdvancedProvider;
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -21,7 +21,6 @@ import java.util.UUID;
 public class LegacyGrapplingHook extends Ability implements Listener {
     private final HashMap<UUID, Vector> grapple = new HashMap<>();
     private final Set<UUID> fallList = new HashSet<>();
-
 
     public String getId() {
         return "grappling-hook";
@@ -67,7 +66,7 @@ public class LegacyGrapplingHook extends Ability implements Listener {
         this.grapple.remove(player.getUniqueId());
         double dis = loc.distance(hookLoc);
         item.setDurability((short)0);
-        if (!getConfigSection().getBoolean("fall-damage"))
+        if (!getConfig().getBoolean("fall-damage"))
             this.fallList.add(player.getUniqueId());
         addCooldown(player);
 

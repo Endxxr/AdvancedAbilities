@@ -1,12 +1,11 @@
 package me.delected.advancedabilities.ability;
 
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.api.ability.ClickableAbility;
-import me.delected.advancedabilities.api.ability.TargetAbility;
-import me.delected.advancedabilities.api.ability.ThrowableAbility;
+import me.delected.advancedabilities.api.objects.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
+import me.delected.advancedabilities.api.objects.ability.TargetAbility;
+import me.delected.advancedabilities.api.objects.ability.ThrowableAbility;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -21,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class AbilityListener implements Listener {
 
-    private final AdvancedAbilities instance = AdvancedAbilities.getInstance();
+    private final AdvancedAbilities plugin = AdvancedAbilities.getInstance();
 
     @EventHandler
     public void onClickableAbility(PlayerInteractEvent event) {
@@ -46,7 +45,7 @@ public class AbilityListener implements Listener {
                 }
             }
             player.updateInventory();
-            instance.getAbilityManager().addGlobalCooldown(player);
+            plugin.getAbilityManager().addGlobalCooldown(player);
             ((ClickableAbility) ability).run(player);
 
         } else if (ability instanceof ThrowableAbility) {
@@ -92,13 +91,13 @@ public class AbilityListener implements Listener {
             Projectile projectile = (Projectile) event.getDamager();
             if (target == projectile.getShooter()) return; //Damage from EnderPearl TP
             if (projectile.hasMetadata("ability_id")) {
-                ability = instance.getAbilityManager().getAbilityByName(projectile.getMetadata("ability_id").get(0).asString());
+                ability = plugin.getAbilityManager().getAbilityByName(projectile.getMetadata("ability_id").get(0).asString());
             } else {
                 return;
             }
         } else {
             if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return;
-            ability = instance.getAbilityManager().getAbilityByItem(item);
+            ability = plugin.getAbilityManager().getAbilityByItem(item);
         }
 
 
@@ -114,7 +113,7 @@ public class AbilityListener implements Listener {
             if (isRunnable(player, ability)) return;
 
             player.updateInventory();
-            instance.getAbilityManager().addGlobalCooldown(player);
+            plugin.getAbilityManager().addGlobalCooldown(player);
             ((TargetAbility) ability).processHit(player, target);
 
         } else if (ability instanceof ThrowableAbility) {
@@ -127,15 +126,17 @@ public class AbilityListener implements Listener {
 
     private boolean isRunnable(Player player, Ability ability) {
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
-            player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.no-permission")));
+            player.sendMessage(ChatUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
             return true;
         }
 
-        if (instance.getAbilityManager().inCooldown(player, ability)) return true;
+        if (plugin.getAbilityManager().inCooldown(player, ability)) return true;
 
-        return AbilitiesUtils.inSpawn(player, player.getLocation());
+        return plugin.getAbilityManager().inSpawn(player, player.getLocation());
     }
 
+
+    //Check if the item is something that do something when right-clicked
     private boolean checkItem(ItemStack item) {
 
         Material material = item.getType();
@@ -145,9 +146,7 @@ public class AbilityListener implements Listener {
         }
 
         if (material.getId()==351 && item.getDurability()==15) return true; //Bone Meal
-        if (material.toString().contains("SEEDS")) return true;
-
-        return false;
+        return material.toString().contains("SEEDS");
     }
 
 
@@ -155,7 +154,7 @@ public class AbilityListener implements Listener {
     public void antiEat(PlayerItemConsumeEvent event) {
 
         if (event.isCancelled()) return;
-        if (instance.getAbilityManager().getAbilityByItem(event.getItem())!=null) event.setCancelled(true);
+        if (plugin.getAbilityManager().getAbilityByItem(event.getItem())!=null) event.setCancelled(true);
 
     }
 

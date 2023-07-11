@@ -1,6 +1,7 @@
 package me.delected.advancedabilities.api.objects.managers;
 
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.Ability;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,14 +39,22 @@ public interface AbilityManager {
      *
      * @return the list of abilities
      */
+
     List<Ability> getAbilities();
+
+
     /**
-     *
-     * Registers the ability and its listeners
-     *
+     * 
+     * Registers the ability and its listeners, you can use this to register your own abilities.
+     * 
      * @param ability the ability
+     *               
      */
+    
     void registerAbility(Ability ability);
+
+
+
     /**
      *
      * Adds a player to the global cooldown
@@ -70,5 +79,22 @@ public interface AbilityManager {
      */
     boolean inCooldown(Player player, Ability ability);
 
+    /**
+     * 
+     * Check if a player is in spawn
+     * 
+     * @param player the player
+     * @param location the location of the player
+     * @return true if the player is in spawn, false if not
+     */
+    
+    boolean inSpawn(Player player, Location location);
 
+    /**
+     * 
+     * Loads the spawn from the config
+     * 
+     */
+    void setSpawn();
+    
 }

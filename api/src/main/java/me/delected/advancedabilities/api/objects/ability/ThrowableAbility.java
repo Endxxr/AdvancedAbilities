@@ -1,6 +1,5 @@
-package me.delected.advancedabilities.api.ability;
+package me.delected.advancedabilities.api.objects.ability;
 
-import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
@@ -21,6 +20,8 @@ public abstract class ThrowableAbility extends Ability implements Listener {
     protected final Set<UUID> throwList = new HashSet<>(); //Projectiles List, used to check if landed projectile is one of ours
     protected final Set<UUID> playerList = new HashSet<>(); //Players List, used to check if player has already thrown a projectile
     private final Set<UUID> waitingPlayers = new HashSet<>(); //Players waiting for projectile to be thrown
+
+
     public abstract EntityType getEntityType();
     public abstract boolean allowMultipleProjectiles();
 
@@ -42,16 +43,16 @@ public abstract class ThrowableAbility extends Ability implements Listener {
 
     public abstract void run(Player player, ItemStack item);
     public void onHit(Player player, Player hit, ItemStack item) {}
-    public boolean isRunnable(Player player, ItemStack item) {
+    public boolean isRunnable(Player player, ItemStack item) { // True = cant run, false = can run
         if (item == null || !item.getType().equals(getItem().getType())) return false;
         if (AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item) != this) return false; //Avoid bugs
         AbilityManager abilityManager = AdvancedProvider.getAPI().getAbilityManager();
-        if (AbilitiesUtils.inSpawn(player, player.getLocation())) {
+        if (AdvancedProvider.getAPI().getAbilityManager().inSpawn(player, player.getLocation())) {
             return true;
         }
         if (abilityManager.inCooldown(player, this)) return false;
-        if (getConfigSection().getBoolean("multipleProjectiles") && playerList.contains(player.getUniqueId()) && !allowMultipleProjectiles()) {
-            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        if (getConfig().getBoolean("multipleProjectiles") && playerList.contains(player.getUniqueId()) && !allowMultipleProjectiles()) {
+            player.sendMessage(ChatUtils.colorize(getConfig().getString("messages.wait")));
             return true;
         }
         return false;
@@ -63,8 +64,8 @@ public abstract class ThrowableAbility extends Ability implements Listener {
         if (hit == null) return true;
         if (hit == shooter) return true;
         if (!(projectile.getShooter() instanceof Player)) return true;
-        if (getConfigSection().getBoolean("multipleProjectiles") && playerList.contains(shooter.getUniqueId()) && !allowMultipleProjectiles()) {
-            shooter.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.wait")));
+        if (getConfig().getBoolean("multipleProjectiles") && playerList.contains(shooter.getUniqueId()) && !allowMultipleProjectiles()) {
+            shooter.sendMessage(ChatUtils.colorize(getConfig().getString("messages.wait")));
             return true;
         }
 
@@ -73,17 +74,16 @@ public abstract class ThrowableAbility extends Ability implements Listener {
 
     public void addThrow(Player player) {
         waitingPlayers.add(player.getUniqueId());
-        if (getConfigSection().getBoolean("wait")) {
+        if (getConfig().getBoolean("wait")) {
             playerList.add(player.getUniqueId());
         }
     }
 
     protected void removeThrow(Player player) {
         throwList.remove(player.getUniqueId());
-        if (getConfigSection().getBoolean("wait")) {
+        if (getConfig().getBoolean("wait")) {
             playerList.remove(player.getUniqueId());
         }
     }
-
 
 }

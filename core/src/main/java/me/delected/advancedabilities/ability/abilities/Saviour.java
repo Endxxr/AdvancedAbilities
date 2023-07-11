@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,8 +57,8 @@ public class Saviour extends Ability implements Listener {
 
     public List<PotionEffect> getEffects() {
         final List<PotionEffect> temp = new ArrayList<>();
-        final int duration = getConfigSection().getInt("duration");
-        for (String effects : getConfigSection().getStringList("effects")) {
+        final int duration = getConfig().getInt("duration");
+        for (String effects : getConfig().getStringList("effects")) {
             final String[] split = effects.split(":");
             temp.add(new PotionEffect(PotionEffectType.getByName(split[0]), duration*20, Integer.parseInt(split[1]), false, false));
         }

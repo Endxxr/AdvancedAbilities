@@ -3,17 +3,15 @@ package me.delected.advancedabilities.managers;
 import de.tr7zw.nbtapi.NBTItem;
 import lombok.Getter;
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.ability.abilities.*;
+import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.Ability;
-import me.delected.advancedabilities.api.ability.TargetAbility;
-import me.delected.advancedabilities.api.enums.NMSVersion;
+import me.delected.advancedabilities.api.objects.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.TargetAbility;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
-import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
-import me.delected.advancedabilities.ability.abilities.SwitcherSnowBall;
-import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -29,44 +27,21 @@ public class AbilityManagerImpl implements AbilityManager {
     @Getter
     private final Set<UUID> projectiles;
     @Getter
-    private ConcurrentHashMap<UUID, Long> globalCooldown;
+    private ConcurrentHashMap<UUID, Long> globalCoolDownPlayers;
     private BukkitTask cleanupTask;
+    private Location location1;
+    private Location location2;
+
 
     public AbilityManagerImpl(AdvancedAbilities instance) {
         this.instance = instance;
         this.abilities = new HashMap<>();
         projectiles = new HashSet<>();
 
-
-        //Register abilities
-        registerAbility(new AntiBlockUp());
-        registerAbility(new Bamboozle());
-        registerAbility(new FakePearl());
-        registerAbility(new InstantCrapple());
-        registerAbility(new InstantGapple());
-        registerAbility(new Invulnerability());
-        registerAbility(new Leap());
-        registerAbility(new RabbitSoul());
-        registerAbility(new Repair());
-        registerAbility(new RepairAll());
-        registerAbility(new RottenEgg());
-        registerAbility(new Saviour());
-        registerAbility(new Stun());
-        registerAbility(new SwitcherSnowBall());
-        registerAbility(new TimeWarpPearl());
-
-        if (NMSVersion.isLegacy()) {
-            registerAbility(new LegacyGrapplingHook());
-        } else {
-            registerAbility(new ModernGrapplingHook());
-        }
-
-
         boolean globalCooldownEnabled = instance.getConfig().getBoolean("global-cooldown.enabled");
-        if (globalCooldownEnabled) globalCooldown = new ConcurrentHashMap<>();
+        if (globalCooldownEnabled) globalCoolDownPlayers = new ConcurrentHashMap<>();
 
-        instance.getLogger().info("Registered " + abilities.size() + " abilities");
-
+        setSpawn();
         startCleanup(globalCooldownEnabled);
     }
 
@@ -100,8 +75,8 @@ public class AbilityManagerImpl implements AbilityManager {
         cleanupTask = Bukkit.getScheduler().runTaskTimerAsynchronously(instance, () -> {
 
             if (globalCooldownEnabled) {
-                globalCooldown.forEach((uuid, aLong) -> {
-                    if (aLong < System.currentTimeMillis()) globalCooldown.remove(uuid);
+                globalCoolDownPlayers.forEach((uuid, aLong) -> {
+                    if (aLong < System.currentTimeMillis()) globalCoolDownPlayers.remove(uuid);
                 });
             }
 
@@ -121,14 +96,15 @@ public class AbilityManagerImpl implements AbilityManager {
 
     @Override
     public void addGlobalCooldown(Player player) {
-        if (globalCooldown==null) return;
-        globalCooldown.put(player.getUniqueId(), System.currentTimeMillis() + instance.getConfig().getLong("global-cooldown.cooldown")*1000);
+        if (globalCoolDownPlayers ==null) return;
+        globalCoolDownPlayers.put(player.getUniqueId(), System.currentTimeMillis() + instance.getConfig().getLong("global-cooldown.cooldown")*1000);
     }
 
     //Clears all cooldowns
     @Override
     public void clearCooldowns() {
-        globalCooldown.clear();
+        if (globalCoolDownPlayers ==null) return;
+        globalCoolDownPlayers.clear();
         for (Ability ability : abilities.values()) {
             ability.getCooldownPlayers().clear();
             if (ability instanceof TargetAbility) {
@@ -146,8 +122,8 @@ public class AbilityManagerImpl implements AbilityManager {
         if (player.hasPermission("advancedabilities.bypass.cooldown")) return false;
 
         //Global Cooldown
-        if (globalCooldown!=null) {
-            long globalWait = instance.getAbilityManager().getGlobalCooldown().get(player.getUniqueId()) / 1000;
+        if (globalCoolDownPlayers !=null) {
+            long globalWait = globalCoolDownPlayers.get(player.getUniqueId()) / 1000;
             if (globalWait > 0) {
                 player.sendMessage(ChatUtils.colorize(instance.getConfig().getString("messages.cooldown")
                         .replaceAll("%cooldown%", ChatUtils.parseTime(globalWait))));
@@ -169,11 +145,51 @@ public class AbilityManagerImpl implements AbilityManager {
     }
 
     @Override
+    public boolean inSpawn(Player player, Location location) {
+
+        //Sort the two coordinates in min and max coordinates
+        int minX = Math.min(location1.getBlockX(), location2.getBlockX());
+        int minY = Math.min(location1.getBlockY(), location2.getBlockY());
+        int minZ = Math.min(location1.getBlockZ(), location2.getBlockZ());
+        int maxX = Math.max(location1.getBlockX(), location2.getBlockX());
+        int maxY = Math.max(location1.getBlockY(), location2.getBlockY());
+        int maxZ = Math.max(location1.getBlockZ(), location2.getBlockZ());
+
+        Location min = new Location(location.getWorld(), minX, minY, minZ);
+        Location max = new Location(location.getWorld(), maxX, maxY, maxZ);
+
+        if  (location.getBlockX() >= min.getBlockX() && location.getBlockX() <= max.getBlockX()
+                && location.getBlockY() >= min.getBlockY() && location.getBlockY() <= max.getBlockY()
+                && location.getBlockZ() >= min.getBlockZ() && location.getBlockZ() <= max.getBlockZ()) {
+            player.sendMessage(ChatUtils.colorize(AdvancedProvider.getAPI().getConfig().getString("spawn-region.deny")));
+            return true;
+        }
+
+        return false;
+    }
+
+
+    @Override
     public void registerAbility(Ability ability) {
         abilities.put(ability.getId(), ability);
         if (ability instanceof Listener) Bukkit.getPluginManager().registerEvents((Listener) ability, instance);
         instance.getLogger().info("Registered ability " + ability.getId());
+
     }
 
+    public void setSpawn() {
+        FileConfiguration configuration = AdvancedProvider.getAPI().getConfig();
+        location1 = new Location(
+                Bukkit.getWorld(configuration.getString("spawn-region.world")),
+                configuration.getDouble("spawn-region.x1"),
+                configuration.getDouble("spawn-region.y1"),
+                configuration.getDouble("spawn-region.z1"));
 
+        location2 = new Location(
+                Bukkit.getWorld(configuration.getString("spawn-region.world")),
+                configuration.getDouble("spawn-region.x2"),
+                configuration.getDouble("spawn-region.y2"),
+                configuration.getDouble("spawn-region.z2"));
+
+    }
 }

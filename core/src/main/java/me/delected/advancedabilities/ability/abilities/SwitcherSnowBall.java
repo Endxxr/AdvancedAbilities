@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ThrowableAbility;
+import me.delected.advancedabilities.api.objects.ability.ThrowableAbility;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,7 +10,6 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class SwitcherSnowBall extends ThrowableAbility {
-
 
     @Override
     public String getId() {
@@ -55,7 +54,7 @@ public class SwitcherSnowBall extends ThrowableAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage())
                 .replace("%target%", hit.getDisplayName()));
 
-        hit.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.hit"))
+        hit.sendMessage(ChatUtils.colorize(getConfig().getString("messages.hit"))
                 .replace("%target%", hit.getDisplayName())
                 .replace("%player%", player.getDisplayName()));
 

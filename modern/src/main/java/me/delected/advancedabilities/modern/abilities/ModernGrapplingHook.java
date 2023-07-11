@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.modern.abilities;
 
 import me.delected.advancedabilities.api.AdvancedProvider;
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -62,7 +62,7 @@ public class ModernGrapplingHook extends Ability implements Listener {
         this.grapple.remove(player.getUniqueId());
         double dis = loc.distance(hookLoc);
         item.setDurability((short)0);
-        if (!getConfigSection().getBoolean("fall-damage"))
+        if (!getConfig().getBoolean("fall-damage"))
             this.fallList.add(player.getUniqueId());
         addCooldown(player);
 

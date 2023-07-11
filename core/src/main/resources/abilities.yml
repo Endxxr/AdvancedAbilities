@@ -111,6 +111,73 @@ leap:
       - ""
       - "&3&lCooldown: &f%cooldown%"
 
+portable-bard:
+
+  cooldown: 60
+  item:
+    material: ENCHANTED_BOOK
+    glow: true
+    name: "&a&lPortable &fBard"
+    lore:
+      - "&fChoose an effect from the bard"
+      - "&fto get it immediatly"
+      - ""
+      - "&3&lCooldown: &f%cooldown%"
+
+  inventory:
+    size: 9
+    title: "&b&lPortable Bard"
+    items:
+      fill: # Required
+        material: STAINED_GLASS_PANE
+        data: 15
+        name: ""
+        lore: []
+
+      speed:
+        material: SUGAR
+        amount: 2
+        slot: 2
+        name: "&f&lSpeed"
+        lore:
+          - "&fDa un effetto di &bVelocità"
+          - ""
+          - "&f&lDurata: &c%seconds% &fsecondi"
+          - "&f&lCooldown: &c%cooldown% &fsecondi"
+        effects:
+          - SPEED:2:20 #EFFECT:LEVEl:DURATION
+
+      resistance:
+        material: IRON_CHESTPLATE
+        amount: 1
+        slot: 6
+        name: "&f&lResistance"
+        lore:
+          - "&fDa un effetto di &cResistenza"
+          - ""
+          - "&f&lDurata: &c%seconds% &fsecondi"
+          - "&f&lCooldown: &c%cooldown% &fsecondi"
+        effects:
+          - RESISTANCE:2:20
+
+
+
+pot-counter:
+  messages:
+    done: "&c%target% &fhas &c%pot% &fpots"
+    target: "&c%player% &fhas used on you the pot counter!"
+  cooldown: 10
+  item:
+    material: ENCHANTED_BOOK
+    glow: true
+    name: "&c&lPot &fCounter"
+    lore:
+      - "&fGet the numbers of potions"
+      - "&fwhich a player has in their inventory"
+      - ""
+      - "&c&lCooldown: &f%cooldown%"
+
+
 rabbit-soul:
   messages:
     done: "&fHai attivato &el'animo di coniglio!"

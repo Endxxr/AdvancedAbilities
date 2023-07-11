@@ -1,12 +1,13 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ClickableAbility;
-import me.delected.advancedabilities.api.AbilitiesUtils;
+import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 public class InstantGapple extends ClickableAbility {
+
     @Override
     public String getId() {
         return "instant-gapple";

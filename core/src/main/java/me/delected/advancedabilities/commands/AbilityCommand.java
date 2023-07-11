@@ -12,6 +12,14 @@ import java.util.List;
 
 public class AbilityCommand implements CommandExecutor, TabExecutor {
 
+
+    private final AdvancedAbilities instance;
+
+    public AbilityCommand(AdvancedAbilities instance) {
+        this.instance = instance;
+    }
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -23,7 +31,7 @@ public class AbilityCommand implements CommandExecutor, TabExecutor {
                     return true;
                 }
                 sender.sendMessage(ChatUtils.colorize("&eReloading..."));
-                AdvancedAbilities.getInstance().reloadPlugin();
+                instance.reloadPlugin();
                 sender.sendMessage(ChatUtils.colorize("&eReloaded!"));
                 return true;
 
@@ -49,9 +57,6 @@ public class AbilityCommand implements CommandExecutor, TabExecutor {
             sender.sendMessage(ChatUtils.colorize("&e/ability &6[reload|clearcooldowns] &7- &fReloads the plugin"));
             sender.sendMessage(ChatUtils.colorize("&e/getability &7- &fGets an ability"));
         }
-
-
-
 
         return true;
     }

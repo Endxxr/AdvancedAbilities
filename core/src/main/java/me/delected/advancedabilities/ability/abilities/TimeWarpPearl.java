@@ -1,9 +1,8 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.AbilitiesUtils;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ThrowableAbility;
+import me.delected.advancedabilities.api.objects.ability.ThrowableAbility;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -58,11 +57,11 @@ public class TimeWarpPearl extends ThrowableAbility {
         removeThrow(player);
         Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getInstance(), () -> {
             if (!teleportedPlayers.containsKey(player.getUniqueId())) return; // check if they died or something
-            if (AbilitiesUtils.inSpawn(player, player.getLocation())) return;
+            if (api.getAbilityManager().inSpawn(player, player.getLocation())) return;
             player.teleport(teleportedPlayers.get(player.getUniqueId()), PlayerTeleportEvent.TeleportCause.PLUGIN);
             teleportedPlayers.remove(player.getUniqueId());
             player.playSound(player.getLocation(), getSound(), 1, 1);
-        }, getConfigSection().getInt("seconds")* 20L);
+        }, getConfig().getInt("seconds")* 20L);
     }
 
 

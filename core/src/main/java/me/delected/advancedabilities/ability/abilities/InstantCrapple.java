@@ -1,8 +1,8 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ClickableAbility;
-import me.delected.advancedabilities.api.AbilitiesUtils;
+import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,7 +19,6 @@ public class InstantCrapple extends ClickableAbility {
 
     @Override
     public void run(Player player) {
-
 
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         player.setFoodLevel(player.getFoodLevel()+4);

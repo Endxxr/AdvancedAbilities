@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.TargetAbility;
+import me.delected.advancedabilities.api.objects.ability.TargetAbility;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,7 +25,7 @@ public class Bamboozle extends TargetAbility {
     @Override
     public void run(Player player, Player target) {
 
-        int seconds = getConfigSection().getInt("seconds");
+        int seconds = getConfig().getInt("seconds");
         List<ItemStack> hotbar = new ArrayList<>();
 
         for (int i = 0 ; i <= 8 ; i++) {

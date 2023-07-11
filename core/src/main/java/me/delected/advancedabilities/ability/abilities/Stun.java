@@ -2,7 +2,7 @@ package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.ability.TargetAbility;
+import me.delected.advancedabilities.api.objects.ability.TargetAbility;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,13 +33,13 @@ public class Stun extends TargetAbility implements Listener {
     @Override
     public void run(Player player, Player target) {
         if (stunnedPlayers.contains(target.getUniqueId())) {
-            player.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.already-stun")));
+            player.sendMessage(ChatUtils.colorize(getConfig().getString("messages.already-stun")));
             return;
         }
         stunnedPlayers.add(target.getUniqueId());
         addCooldown(player);
 
-        int seconds = getConfigSection().getInt("seconds");
+        int seconds = getConfig().getInt("seconds");
 
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()
                         .replace("%seconds%", String.valueOf(seconds)))

@@ -1,6 +1,7 @@
 package me.delected.advancedabilities.api.objects;
 
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.AdvancedAPI;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,8 +13,11 @@ import java.util.HashMap;
  *
  */
 
-public interface ItemGenerator {
+public abstract class ItemGenerator {
 
-    ItemStack createItem(Ability ability);
-    HashMap<String, Material> getForcedItems();
+    public ItemGenerator(AdvancedAPI api) {
+    }
+
+    public abstract ItemStack createItem(Ability ability);
+    public abstract HashMap<String, Material> getForcedItems();
 }

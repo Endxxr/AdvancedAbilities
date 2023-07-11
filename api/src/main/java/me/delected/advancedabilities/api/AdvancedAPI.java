@@ -4,8 +4,6 @@ import me.delected.advancedabilities.api.objects.ItemGenerator;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.logging.Logger;
 
@@ -38,7 +36,7 @@ public interface AdvancedAPI {
      */
     AbilityManager getAbilityManager();
     Logger getLogger();
-    BukkitTask runTaskAsync(Runnable runnable);
+    void runTaskAsync(Runnable runnable);
     Plugin getPlugin();
 
 

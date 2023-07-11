@@ -1,4 +1,4 @@
-package me.delected.advancedabilities.api.ability;
+package me.delected.advancedabilities.api.objects.ability;
 
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -14,11 +14,11 @@ public abstract class TargetAbility extends Ability implements Listener {
     public final ConcurrentHashMap<UUID, Integer> hitPlayers = new ConcurrentHashMap<>();
 
     public String getTargetMessage() {
-        return getConfigSection().getString("messages.target");
+        return getConfig().getString("messages.target");
     }
     public abstract void run(Player player, Player target);
     public int getNeededHits() {
-        return getConfigSection().getInt("needed-hits");
+        return getConfig().getInt("needed-hits");
     }
 
     public void processHit(Player player, Player target) {

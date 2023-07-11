@@ -1,12 +1,13 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ClickableAbility;
+import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Repair extends ClickableAbility {
+
     @Override
     public String getId() {
         return "repair";

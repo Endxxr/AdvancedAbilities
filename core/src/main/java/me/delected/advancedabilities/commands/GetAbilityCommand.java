@@ -2,7 +2,7 @@ package me.delected.advancedabilities.commands;
 
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.AdvancedAbilities;
-import me.delected.advancedabilities.api.ability.Ability;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

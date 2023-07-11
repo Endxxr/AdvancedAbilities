@@ -1,14 +1,12 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import me.delected.advancedabilities.api.AbilitiesUtils;
+import me.delected.advancedabilities.utils.AbilitiesUtils;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.ability.ThrowableAbility;
+import me.delected.advancedabilities.api.objects.ability.ThrowableAbility;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class RottenEgg extends ThrowableAbility {
-
 
     @Override
     public String getId() {
@@ -61,7 +58,7 @@ public class RottenEgg extends ThrowableAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage())
                 .replace("%target%", hit.getDisplayName()));
 
-        hit.sendMessage(ChatUtils.colorize(getConfigSection().getString("messages.hit"))
+        hit.sendMessage(ChatUtils.colorize(getConfig().getString("messages.hit"))
                 .replace("%target%", hit.getDisplayName())
                 .replace("%player%", player.getDisplayName()));
 
