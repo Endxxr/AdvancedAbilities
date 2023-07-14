@@ -65,6 +65,8 @@ public class RottenEgg extends ThrowableAbility {
 
         // add effects
         hit.addPotionEffects(AbilitiesUtils.getPotionEffects(this));
+        playSound(player);
+        playSound(hit);
     }
 
     @EventHandler

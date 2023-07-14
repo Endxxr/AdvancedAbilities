@@ -1,6 +1,6 @@
 package me.delected.advancedabilities.listeners;
 
-import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ChatUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,15 +9,21 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinListener implements Listener {
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    private final AdvancedAPI api;
 
-        Player player = e.getPlayer();
-        if (!player.hasPermission("advancedabilities.update") || !AdvancedAbilities.getInstance().isUpdateAvailable()) {
+    public JoinListener(AdvancedAPI api) {
+        this.api = api;
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+
+        Player player = event.getPlayer();
+        if (!player.hasPermission("advancedabilities.update") || !api.isUpdateAvailable()) {
             return;
         }
 
-        String latestVersion = AdvancedAbilities.getInstance().getLatestVersion();
+        String latestVersion = api.getLatestVersion();
 
         player.sendMessage("");
         player.sendMessage(ChatUtils.colorize("&6&lAdvanced&e&lAbilities &7- &6Update Available &7(&e&l"+latestVersion+"&r&7)"));

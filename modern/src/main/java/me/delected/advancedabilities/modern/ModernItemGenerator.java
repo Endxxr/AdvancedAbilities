@@ -26,8 +26,8 @@ public class ModernItemGenerator extends ItemGenerator {
             {
                 put("fake-pearl", Material.ENDER_PEARL);
                 put("timewarp-pearl", Material.ENDER_PEARL);
-                put("instant-crapple", Material.ENCHANTED_GOLDEN_APPLE);
-                put("instant-gapple", Material.ENCHANTED_BOOK);
+                put("instant-crapple", Material.GOLDEN_APPLE);
+                put("instant-gapple", Material.ENCHANTED_GOLDEN_APPLE);
                 put("grappling-hook", Material.FISHING_ROD);
                 put("rotten-egg", Material.EGG);
                 put("switcher-snowball", Material.SNOWBALL);

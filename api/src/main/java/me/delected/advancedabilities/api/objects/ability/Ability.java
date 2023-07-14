@@ -76,12 +76,16 @@ public abstract class Ability {
      * Returns the sound to play when the ability is used.
      * Only for certain abilities.
      *
-     * @return the sound or NOTE_PLING (or BLOCK_NOTE_BLOCK_PLING) if invalid
+     * @return the sound or NOTE_PLING (or BLOCK_NOTE_BLOCK_PLING) if invalid.
+     * Null if not specified in the config
      */
     public Sound getSound() {
+        String soundName = getConfig().getString("sound");
+        if (soundName == null || soundName.equalsIgnoreCase("none")) return null;
+
         Sound sound;
         try {
-            sound = Sound.valueOf(getConfig().getString("sound"));
+            sound = Sound.valueOf(soundName);
         } catch (Exception exception) {
             sound = NMSVersion.isLegacy() ? Sound.valueOf("NOTE_PLING") : Sound.valueOf("BLOCK_NOTE_BLOCK_PLING");
             AdvancedProvider.getAPI().getLogger().warning("Invalid sound name for ability " + getId() + "!");
@@ -109,6 +113,12 @@ public abstract class Ability {
                 cooldownPlayers.put(player.getUniqueId(), getCooldownTime() * 1000L + System.currentTimeMillis());
             }
         });
+    }
+
+    protected void playSound(Player player) {
+        Sound sound = getSound();
+        if (sound == null) return;
+        player.playSound(player.getLocation(), sound, 0, 1);
     }
 }
 

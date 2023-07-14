@@ -1,7 +1,7 @@
 anti-blockup:
   messages:
-    done: "&c%player% &fnon può costruire per &c%seconds% &fsecondi" #The message that the player will see when he uses the ability
-    target: "Non puoi costruire per &c%seconds% &fsecondi" #The message that the target will see when he is hit by the ability
+    done: "&c%player% &fcan't build for &c%seconds% &fseconds" #The message that the player will see when he uses the ability
+    target: "You can't build for &c%seconds% &fseconds" #The message that the target will see when he is hit by the ability
   seconds: 10 #The time in seconds that the player can't build
   cooldown: 60 #The cooldown in seconds
   sound: ANVIL_LAND #The sound that the player will hear when he uses the ability. List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Sound.html
@@ -12,102 +12,99 @@ anti-blockup:
     glow: true
     name: "&4&lAnti Build" #The name of the item
     lore:
-      - "&fImpedisce al nemico &cattaccato"
-      - "di &ccostruire &fper &c%seconds% secondi"
+      - "&fDenies the targeted enemy"
+      - "&fto &cbuild or destroy &ffor &c%seconds% seconds"
       - ""
       - "&4&lCooldown: &f%cooldown%"
 bamboozle:
   messages:
-    done: "&fHai scombinato la hotbar di &c%player%"
-    target: "&fLa tua hotbar è stata scombinata da &c%player%"
-  target: "&fLa tua hotbar è stata scombinata da &c%player%"
+    done: "&fYou bamboozled &c%player%&f's hotbar"
+    target: "&fYour hotbar has been &cbamboozled &fby &c%player%"
   cooldown: 120
   item:
     material: BLAZE_ROD
     glow: true
     name: "&e&lBamboozle"
     lore:
-      - "&fScombina la &ehotbar"
-      - "&fdell'avversario &ecolpito"
+      - "&fBamboozles the enemy &ehotbar"
       - ""
       - "&e&lCooldown: &f%cooldown%"
 
 fake-pearl:
   messages:
-    done: "&fHai lanciato una &dFake Pearl"
-    wait: "&fAspetta prima di lanciare un'altra &dperla"
+    done: "&fYou threw a &dFake Pearl"
+    wait: "&fWait before throwing another &dpearl"
   cooldown: 60
   item:
     glow: true
     name: "&d&lFake &fPearl"
     lore:
-      - "&fLancia un EnderPearl"
-      - "&fnon funzionante"
+      - "&fThrow an EnderPearl"
+      - "&fthat won't teleport you"
       - ""
       - "&d&lCooldown: &f%cooldown%"
 grappling-hook:
   cooldown: 10
   item:
     glow: true
-    name: "&3&lRampino"
+    name: "&3&lGrappling Hook"
     lore:
-      - "&fUsa il &erampino &rper muoverti"
-      - "&fvelocemente nella mappa"
+      - "&fUse the &egrapling hook &rto move"
+      - "&frapidly in the map"
       - ""
       - "&b&lCooldown: &f%cooldown%"
 instant-crapple:
   messages:
-    done: "&fHai mangiato una Mela &eInstantanea"
+    done: "&fYou ate an &eInstant Crapple"
   cooldown: 15
   item:
     glow: true
-    name: "&f&lMela &e&lInstantanea"
+    name: "&f&lInstant &e&lCrapple"
     lore:
-      - "&fMangia una mela &einstantanea"
+      - "&fGives you the effect of a &eGolden Apple"
       - ""
       - "&e&lCooldown: &f%cooldown%"
 
 instant-gapple:
   messages:
-    done: "&fHai mangiato una Mela &6Instantanea"
+    done: "&fYou ate an &6Instant Gapple"
   cooldown: 60
   item:
     glow: true
-    name: "&fMela &6&lInstantanea"
+    name: "&f&lInstant &6&lGapple"
     lore:
-      - "&fMangia una mela &6instantanea"
+      - "&fGives you the effect of a &6God Apple"
       - ""
       - "&6&lCooldown: &f%cooldown%"
 
 invulnerability:
   messages:
-    done: "&fSei ora &cinvincibile &fper &c%seconds% secondi."
+    done: "&fYou're now &cinvincible &ffor &c%seconds% seconds."
   cooldown: 6000
   seconds: 5
   item:
     material: NETHER_STAR
     glow: true
-    name: "&6&lInvincibilità"
+    name: "&6&lInvulnerability"
     lore:
-      - "&fCon questa abilità, i nemici"
-      - "&fnon potranno colpirti &fper"
-      - "&6%seconds% secondi"
+      - "&fYou won't take any kind of damage"
+      - "&ffor &6%seconds% seconds"
       - ""
       - "&6&lCooldown: &f%cooldown%"
 
 leap:
   messages:
-    done: "&fHai fatto uno &cscatto in avanti"
+    done: "&fYou made a &cleap &fforward! "
   cooldown: 15
   multiply-x: 3
   multiply-y: 1
   item:
     material: RABBIT_FOOT
     glow: true
-    name: "&3&lScatto"
+    name: "&3&lLeap"
     lore:
-      - "&fFai un scatto &bin aria"
-      - "&fper scappare dai nemici"
+      - "&fDo a leap &bin air"
+      - "&fto move faster"
       - ""
       - "&3&lCooldown: &f%cooldown%"
 
@@ -119,10 +116,10 @@ portable-bard:
     glow: true
     name: "&a&lPortable &fBard"
     lore:
-      - "&fChoose an effect from the bard"
-      - "&fto get it immediatly"
+      - "&fChoose an &aeffect &ffrom the bard"
+      - "&fto get &aimmediately"
       - ""
-      - "&3&lCooldown: &f%cooldown%"
+      - "&a&lCooldown: &f%cooldown%"
 
   inventory:
     size: 9
@@ -131,44 +128,43 @@ portable-bard:
       fill: # Required
         material: STAINED_GLASS_PANE
         data: 15
+        amount: 1
         name: ""
         lore: []
 
       speed:
         material: SUGAR
-        amount: 2
+        amount: 20
         slot: 2
         name: "&f&lSpeed"
         lore:
           - "&fDa un effetto di &bVelocità"
           - ""
-          - "&f&lDurata: &c%seconds% &fsecondi"
-          - "&f&lCooldown: &c%cooldown% &fsecondi"
-        effects:
-          - SPEED:2:20 #EFFECT:LEVEl:DURATION
+          - "&f&lDurata: &c%seconds% &fseconds"
+          - "&f&lCooldown: &c%cooldown% &fseconds"
+        effect: SPEED:20:2 #EFFECT:DURATION:AMPLIFIER
 
       resistance:
         material: IRON_CHESTPLATE
-        amount: 1
+        amount: 20
         slot: 6
-        name: "&f&lResistance"
+        name: "&f&lResistanza"
         lore:
           - "&fDa un effetto di &cResistenza"
           - ""
-          - "&f&lDurata: &c%seconds% &fsecondi"
-          - "&f&lCooldown: &c%cooldown% &fsecondi"
-        effects:
-          - RESISTANCE:2:20
+          - "&f&lDurata: &c%seconds% &fseconds"
+          - "&f&lCooldown: &c%cooldown% &fseconds"
+        effect: DAMAGE_RESISTANCE:20:2 #EFFECT:DURATION:AMPLIFIER
 
 
 
 pot-counter:
   messages:
-    done: "&c%target% &fhas &c%pot% &fpots"
+    done: "&c%target% &fhas &c%count% &fpots"
     target: "&c%player% &fhas used on you the pot counter!"
   cooldown: 10
   item:
-    material: ENCHANTED_BOOK
+    material: GLASS_BOTTLE
     glow: true
     name: "&c&lPot &fCounter"
     lore:
@@ -180,7 +176,7 @@ pot-counter:
 
 rabbit-soul:
   messages:
-    done: "&fHai attivato &el'animo di coniglio!"
+    done: "&fYou activated the &erabbit soul!"
   cooldown: 15
   jump-boost:
     level: 1
@@ -191,49 +187,47 @@ rabbit-soul:
   item:
     material: RABBIT_FOOT
     glow: true
-    name: "&6&lAnima di Coniglio"
+    name: "&6&lRabbit Soul"
     lore:
-      - "&fFai un scatto &ein aria"
-      - "&fper scappare dai nemici"
+      - "&fGives you &espeed &fand &ejump boost"
       - ""
       - "&6&lCooldown: &f%cooldown%"
 repair:
   messages:
-    done: "&fHai riparato &cl'armatura"
+    done: "&fYou repaired your &carmor"
   cooldown: 120
   item:
     glow: true
     name: "&4&lArmor &c&lRepair"
     material: ANVIL
     lore:
-      - "&fRipara &cl'armatura"
-      - "&findossata"
+      - "&fRepair the equipped &carmor"
       - ""
       - "&4&lCooldown: &f%cooldown%"
 repair-all:
   messages:
-    done: "&fHai riparato &cl'inventario"
+    done: "&fYou repaired your entire &cinventory"
   cooldown: 300
   item:
     material: ANVIL
     glow: true
     name: "&4&lRepair&c&lAll"
     lore:
-      - "&fRipara &ctutto l'inventario"
+      - "&fRepair the &centire inventory"
       - ""
       - "&4&lCooldown: &f%cooldown%"
 rotten-egg:
   messages:
-    done: "&fHai colpito &c%target% &fcon un &cUovo Putrido"
-    hit: "&fSei stato colpito da un &cUovo Putrido &flanciato da &c%player%"
-    wait: "&fHai già lanciato un &cuovo!"
+    done: "&fYou hit &c%target% &fwith a &crotten egg"
+    hit: "&fYou've been hit by a &cRotten Egg &fthrown by &c%player%"
+    wait: "&fYou already threw an &cegg!"
   cooldown: 30
   item:
     glow: true
     name: "&c&lUovo &f&lPutrido"
     lore:
-      - "&fLancia un &cUovo Putrido"
-      - "&fche infligge &ceffetti negativi"
+      - "&fThrow a &crotten egg"
+      - "&fwhich inflicts &cnegative effects"
       - ""
       - "&c&lCooldown: &f%cooldown%"
   duration: 5
@@ -246,14 +240,14 @@ rotten-egg:
 
 saviour:
   messages:
-    done: "&cIl totem &fti ha salvato &cdalla morte"
+    done: "&fThe totem &csaved you &ffrom death!"
   cooldown: 600
   item:
     glow: true
     material: BOOK
     name: "&6&lTotem"
     lore:
-      - "Ti salva dalla &emorte"
+      - "Saves you from &edeath"
       - ""
       - "&e&lCooldown: &f%cooldown%"
   duration: 10
@@ -265,40 +259,40 @@ saviour:
 
 stun:
   messages:
-    done: "&c%player% &fè bloccato per &c%seconds% &fsecondi"
-    target: "&c%player% &fti ha bloccato per &c%seconds% &fsecondi"
-    already-stun: "&cQuesto giocatore è già bloccato."
+    done: "&c%player% &fisn't able to move for &c%seconds% &fseconds"
+    target: "&c%player% &fblocked you for &c%seconds% &fseconds"
+    already-stun: "&cThis player is already stun."
   seconds: 5
   cooldown: 120
   item:
     material: ICE
     glow: false
-    name: "&c&lStun"
+    name: "&b&lStun"
     lore:
-      - "&cBlocca &fper &c5 secondi"
-      - "&fla persona attaccata"
+      - "&fStuns for &b5 seconds"
+      - "&fthe hit player"
       - ""
       - "&4&lCooldown: &f%cooldown%"
 switcher-snowball:
   messages:
-    done: "&fHai colpito &c%target% &fcon una &cPalla di Neve"
-    hit: "&fSei stato colpito da una &cPalla di Neve &flanciata da &c%player%"
-    wait: "&fHai già lanciato &cuna palla di neve"
+    done: "&fYou hit &c%target% &fwith a &cSwitcher Snowball"
+    hit: "&fYou've been hit by a &cSwitcher Snowbaal &fthrown by &c%player%"
+    wait: "&fYou already threw a &cSwitcher Snowball!"
   cooldown: 600
   item:
     glow: true
     name: "&f&lPalla di &b&lNeve"
     lore:
-      - "&fLancia una &bPalla di Neve"
-      - "&fche &bti teletrasporta"
-      - "&fnella &bposizione dell'avversario"
+      - "&fThrew a &bSwitcher Snowball"
+      - "&fthat &bteleports you"
+      - "&fto &benemy position &fand viceversa"
       - ""
       - "&b&lCooldown: &f%cooldown%"
 
 time-warp-pearl:
   messages:
-    done: "&fHai lanciato una &cEnderpearl Temporale"
-    wait: "&fHai già lanciato &cuna perla"
+    done: "&fYou threw a &cTime Warp Pearl"
+    wait: "&fYou already threw a &cTime Warp Pearl!"
   cooldown: 300
   seconds: 5
   item:
@@ -306,9 +300,9 @@ time-warp-pearl:
     material: ENDER_PEARL
     name: "&5&lEnderpearl &dTemporale"
     lore:
-      - "&fLancia una EnderPearl"
-      - "&fche &dti teletrasporta"
-      - "&fnella &dposizione originale"
-      - "&fdopo &d%seconds% secondi"
+      - "&fThrew a Time Warp Pearl"
+      - "&fthat &dteleports"
+      - "&fto the &doriginal position"
+      - "&fafter &d%seconds% seconds"
       - ""
       - "&5&lCooldown: &f%cooldown%"

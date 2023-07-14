@@ -31,6 +31,7 @@ public class RepairAll extends ClickableAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         player.updateInventory();
         addCooldown(player);
+        playSound(player);
     }
 
     private boolean isRepairable(ItemStack itemStack) {

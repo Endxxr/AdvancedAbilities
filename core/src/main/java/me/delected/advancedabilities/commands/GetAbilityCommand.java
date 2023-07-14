@@ -1,7 +1,7 @@
 package me.delected.advancedabilities.commands;
 
+import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,52 +16,57 @@ import java.util.List;
 
 public class GetAbilityCommand implements CommandExecutor, TabExecutor {
 
-    private final AdvancedAbilities instance = AdvancedAbilities.getInstance();
+    private final AdvancedAPI api;
+
+    public GetAbilityCommand(AdvancedAPI api) {
+        this.api = api;
+    }
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!sender.hasPermission("advancedabilities.get")) {
-            String message = instance.getConfig().getString("messages.no-permission");
+            String message = api.getConfig().getString("messages.no-permission");
             sender.sendMessage(ChatUtils.colorize(message));
             return true;
         }
 
         if (!(args.length==3)) {
-            sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.usage")));
+            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.usage")));
             return true;
         }
 
         Player player = Bukkit.getPlayer(args[0]);
-        Ability ability = instance.getAbilityManager().getAbilityByName(args[1]);
+        Ability ability = api.getAbilityManager().getAbilityByName(args[1]);
         int amount;
 
         try {
             amount = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.invalid")));
+            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.invalid")));
             return true;
         }
 
         if (player == null) {
-            sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.offline")));
+            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.offline")));
             return true;
         }
 
         if (ability == null) {
-            sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.invalid")));
+            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.invalid")));
             return true;
         }
 
         if (amount < 0) {
-            sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.invalid")));
+            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.invalid")));
             return true;
         }
 
         final ItemStack itemStack = ability.getItem().clone();
         itemStack.setAmount(amount);
         player.getInventory().addItem(itemStack);
-        sender.sendMessage(ChatUtils.colorize(instance.getConfig().getString("commands.give.message")
+        sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.message")
                         .replaceAll("%player%", player.getDisplayName()))
                 .replaceAll("%amount%", String.valueOf(amount))
                 .replaceAll("%item%", itemStack.getItemMeta().getDisplayName()));
@@ -85,7 +90,7 @@ public class GetAbilityCommand implements CommandExecutor, TabExecutor {
 
         if (args.length==2) {
             List<String> temp = new ArrayList<>();
-            AdvancedAbilities.getInstance().getAbilityManager().getAbilities().iterator().forEachRemaining(ability -> {
+            api.getAbilityManager().getAbilities().iterator().forEachRemaining(ability -> {
                 if (ability.getId().startsWith(args[1])) {
                     temp.add(ability.getId());
                 }

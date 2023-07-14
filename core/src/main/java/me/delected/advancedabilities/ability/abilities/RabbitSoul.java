@@ -24,6 +24,9 @@ public class RabbitSoul extends ClickableAbility {
         AbilitiesUtils.addPotionEffect(player, PotionEffectType.SPEED, getConfig().getInt("speed.duration")*20, getConfig().getInt("speed.level"));
         AbilitiesUtils.addPotionEffect(player, PotionEffectType.JUMP, getConfig().getInt("jump-boost.duration")*20, getConfig().getInt("jump-boost.level"));
         addCooldown(player);
+
+        playSound(player);
+
     }
 
 }

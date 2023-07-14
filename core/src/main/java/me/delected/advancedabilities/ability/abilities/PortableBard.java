@@ -42,9 +42,7 @@ public class PortableBard extends ClickableAbility implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getClickedInventory() == null) return;
-        if (event.getClickedInventory().getName() == null) return;
-        if (!event.getClickedInventory().getName().equals(inv.getName())) return;
+        if (event.getClickedInventory() != inv || inv == null) return;
         if (!(event.getWhoClicked() instanceof Player)) return;
 
         event.setCancelled(true);
@@ -55,11 +53,13 @@ public class PortableBard extends ClickableAbility implements Listener {
 
         if (!nbt.hasNBTData()) return;
         String effect = nbt.getString("effect");
+        if (effect == null || effect.isEmpty()) return;
 
         PotionEffect potionEffect = deserializePotionEffect(effect);
         AbilitiesUtils.addPotionEffect(player, potionEffect.getType(), potionEffect.getDuration(), player.getLevel());
 
         addCooldown(player);
+        playSound(player);
         player.closeInventory();
 
     }

@@ -24,8 +24,9 @@ public class Leap extends ClickableAbility {
 
         player.setVelocity(player.getLocation().getDirection().multiply(multiplierX).setY(multiplierY));
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
-        player.playSound(player.getLocation(), getSound(), 1, 0);
+        playSound(player);
         addCooldown(player);
+
 
     }
 }

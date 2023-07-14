@@ -27,5 +27,6 @@ public class InstantGapple extends ClickableAbility {
         AbilitiesUtils.addPotionEffect(player, PotionEffectType.FIRE_RESISTANCE, 6000, 0);
         AbilitiesUtils.addPotionEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 6000, 0);
         addCooldown(player);
+        playSound(player);
     }
 }

@@ -27,6 +27,7 @@ public class Repair extends ClickableAbility {
         player.updateInventory();
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         addCooldown(player);
+        playSound(player);
     }
 
     private boolean isRepairable(ItemStack itemStack) {

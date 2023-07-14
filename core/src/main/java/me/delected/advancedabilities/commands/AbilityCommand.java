@@ -42,7 +42,7 @@ public class AbilityCommand implements CommandExecutor, TabExecutor {
                     return true;
                 }
 
-                AdvancedAbilities.getInstance().getAbilityManager().clearCooldowns();
+                instance.getAbilityManager().clearCooldowns();
                 sender.sendMessage(ChatUtils.colorize("&eCleared all cooldowns!"));
                 return true;
 

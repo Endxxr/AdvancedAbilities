@@ -26,6 +26,7 @@ public class InstantCrapple extends ClickableAbility {
         AbilitiesUtils.addPotionEffect(player, PotionEffectType.REGENERATION, 100, 1);
 
         addCooldown(player);
+        playSound(player);
 
     }
 }

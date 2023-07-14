@@ -48,6 +48,7 @@ public class Bamboozle extends TargetAbility {
                 .replaceAll("%seconds%", String.valueOf(seconds))
                 .replaceAll("%player%", player.getDisplayName())));
 
+        playSound(target);
 
     }
 

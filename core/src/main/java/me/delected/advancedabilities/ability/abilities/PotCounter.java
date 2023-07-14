@@ -35,8 +35,8 @@ public class PotCounter extends TargetAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage().replace("%target%", target.getName()).replace("%count%", String.valueOf(count))));
         target.sendMessage(ChatUtils.colorize(getTargetMessage().replace("%player%", player.getName()).replace("%count%", String.valueOf(count))));
 
-
-
+        playSound(player);
+        playSound(target);
 
     }
 }

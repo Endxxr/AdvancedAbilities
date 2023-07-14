@@ -49,10 +49,12 @@ public class Stun extends TargetAbility implements Listener {
                 .replace("%seconds%", String.valueOf(seconds))));
         target.playSound(target.getLocation(), getSound(), 1, 0 );
         target.setWalkSpeed(0);
-        Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getInstance(), () -> {
+        api.runTaskLater(() -> {
             stunnedPlayers.remove(target.getUniqueId());
             target.setWalkSpeed(0.2F);
         }, seconds*20L);
+
+        playSound(player);
     }
 
     @EventHandler

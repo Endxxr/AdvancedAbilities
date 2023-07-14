@@ -46,6 +46,7 @@ public class TimeWarpPearl extends ThrowableAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         addCooldown(player);
         teleportedPlayers.put(player.getUniqueId(), player.getLocation());
+        playSound(player);
     }
 
     @EventHandler
@@ -55,7 +56,7 @@ public class TimeWarpPearl extends ThrowableAbility {
         final Player player = (Player) event.getEntity().getShooter();
         if (!teleportedPlayers.containsKey(player.getUniqueId())) return;
         removeThrow(player);
-        Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getInstance(), () -> {
+        api.runTaskLater(() -> {
             if (!teleportedPlayers.containsKey(player.getUniqueId())) return; // check if they died or something
             if (api.getAbilityManager().inSpawn(player, player.getLocation())) return;
             player.teleport(teleportedPlayers.get(player.getUniqueId()), PlayerTeleportEvent.TeleportCause.PLUGIN);

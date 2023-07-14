@@ -1,7 +1,8 @@
 package me.delected.advancedabilities.ability;
 
-import me.delected.advancedabilities.AdvancedAbilities;
+import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.ChatUtils;
+import me.delected.advancedabilities.api.enums.NMSVersion;
 import me.delected.advancedabilities.api.objects.ability.Ability;
 import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
 import me.delected.advancedabilities.api.objects.ability.TargetAbility;
@@ -20,7 +21,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class AbilityListener implements Listener {
 
-    private final AdvancedAbilities plugin = AdvancedAbilities.getInstance();
+    private final AdvancedAPI api;
+
+    public AbilityListener (AdvancedAPI api) {
+        this.api = api;
+    }
+
 
     @EventHandler
     public void onClickableAbility(PlayerInteractEvent event) {
@@ -28,10 +34,12 @@ public class AbilityListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (item==null) return; //Interacts with AIR
-        Ability ability = AdvancedAbilities.getInstance().getAbilityManager().getAbilityByItem(item);
+        Ability ability = api.getAbilityManager().getAbilityByItem(item);
         if (ability==null) return;
         if (checkItem(item)) {
             event.setCancelled(true);
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.setUseItemInHand(Event.Result.DENY);
             player.updateInventory();
         }
         if (ability instanceof ClickableAbility) {
@@ -45,7 +53,7 @@ public class AbilityListener implements Listener {
                 }
             }
             player.updateInventory();
-            plugin.getAbilityManager().addGlobalCooldown(player);
+            api.getAbilityManager().addGlobalCooldown(player);
             ((ClickableAbility) ability).run(player);
 
         } else if (ability instanceof ThrowableAbility) {
@@ -91,13 +99,13 @@ public class AbilityListener implements Listener {
             Projectile projectile = (Projectile) event.getDamager();
             if (target == projectile.getShooter()) return; //Damage from EnderPearl TP
             if (projectile.hasMetadata("ability_id")) {
-                ability = plugin.getAbilityManager().getAbilityByName(projectile.getMetadata("ability_id").get(0).asString());
+                ability = api.getAbilityManager().getAbilityByName(projectile.getMetadata("ability_id").get(0).asString());
             } else {
                 return;
             }
         } else {
             if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return;
-            ability = plugin.getAbilityManager().getAbilityByItem(item);
+            ability = api.getAbilityManager().getAbilityByItem(item);
         }
 
 
@@ -113,7 +121,7 @@ public class AbilityListener implements Listener {
             if (isRunnable(player, ability)) return;
 
             player.updateInventory();
-            plugin.getAbilityManager().addGlobalCooldown(player);
+            api.getAbilityManager().addGlobalCooldown(player);
             ((TargetAbility) ability).processHit(player, target);
 
         } else if (ability instanceof ThrowableAbility) {
@@ -126,13 +134,13 @@ public class AbilityListener implements Listener {
 
     private boolean isRunnable(Player player, Ability ability) {
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
-            player.sendMessage(ChatUtils.colorize(plugin.getConfig().getString("messages.no-permission")));
+            player.sendMessage(ChatUtils.colorize(api.getConfig().getString("messages.no-permission")));
             return true;
         }
 
-        if (plugin.getAbilityManager().inCooldown(player, ability)) return true;
+        if (api.getAbilityManager().inCooldown(player, ability)) return true;
 
-        return plugin.getAbilityManager().inSpawn(player, player.getLocation());
+        return api.getAbilityManager().inSpawn(player, player.getLocation());
     }
 
 
@@ -145,7 +153,12 @@ public class AbilityListener implements Listener {
             return true;
         }
 
-        if (material.getId()==351 && item.getDurability()==15) return true; //Bone Meal
+        if (NMSVersion.isLegacy()) {
+            if (material.getId()==351 && item.getDurability()==15) return true; //Bone Meal
+        } else {
+            if (material==Material.BONE_MEAL) return true;
+        }
+
         return material.toString().contains("SEEDS");
     }
 
@@ -154,7 +167,7 @@ public class AbilityListener implements Listener {
     public void antiEat(PlayerItemConsumeEvent event) {
 
         if (event.isCancelled()) return;
-        if (plugin.getAbilityManager().getAbilityByItem(event.getItem())!=null) event.setCancelled(true);
+        if (api.getAbilityManager().getAbilityByItem(event.getItem())!=null) event.setCancelled(true);
 
     }
 

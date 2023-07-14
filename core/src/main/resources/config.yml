@@ -1,21 +1,20 @@
 messages:
-  cooldown: "&cDevi aspettare ancora &f%cooldown% secondi &cdi riutilizzare questa abilità"
-  no-permission: "&cNon hai il permesso di usare questa abilità"
-  use-on-target: "&cUtilizza questa abilità su un nemico"
+  cooldown: "&cYou need to wait &f%cooldown% seconds &cbefore using again this ability"
+  no-permission: "&cYou don't have the permission to use this ability"
 
 spawn-region:
   world: "world"
-  x1: 76
-  y1: 130
-  z1: 1221
-  x2: 217
-  y2: 257
-  z2: 1331
-  deny: "&cNon puoi utilizzare questa abilità qui"
+  x1: 0
+  y1: 0
+  z1: 0
+  x2: 0
+  y2: 0
+  z2: 0
+  deny: "&cYou can't use this ability in this region"
 
 commands:
   give:
-    message: "&fHai dato &c%amount% %item% &fa &c%player%"
+    message: "&fYou gave &c%amount% %item% &fto &c%player%"
     usage: "&c/giveability <player> <ability> <amount>"
-    offline: "&cQuesto giocatore è offline"
-    invalid: "&cI parametri inseriti non sono corretti"
+    offline: "&cThe player is offline"
+    invalid: "&cThe parameters are invalid"

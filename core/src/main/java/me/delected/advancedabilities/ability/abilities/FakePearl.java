@@ -47,6 +47,7 @@ public class FakePearl extends ThrowableAbility {
         player.sendMessage(ChatUtils.colorize(getExecuteMessage()));
         playerList.add(player.getUniqueId());
         addCooldown(player);
+        playSound(player);
 
     }
 

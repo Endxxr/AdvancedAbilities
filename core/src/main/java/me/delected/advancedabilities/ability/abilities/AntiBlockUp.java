@@ -1,9 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.objects.ability.TargetAbility;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -42,10 +40,10 @@ public class AntiBlockUp extends TargetAbility {
                 .replaceAll("%seconds%", String.valueOf(seconds))
                 .replaceAll("%player%", player.getDisplayName())));
 
-        target.playSound(target.getLocation(), getSound(), 0, 1);
+        playSound(target);
 
         addCooldown(player);
-        Bukkit.getScheduler().runTaskLater(AdvancedAbilities.getInstance(), () -> blockedPlayers.remove(target.getUniqueId()), seconds*20L);
+        api.runTaskLater(() -> blockedPlayers.remove(target.getUniqueId()), seconds*20L);
 
     }
 

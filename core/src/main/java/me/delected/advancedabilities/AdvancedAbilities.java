@@ -35,8 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Getter
-    private static AdvancedAbilities instance;
-    @Getter
     private FileConfiguration abilitiesConfig;
     @Getter
     private AbilityManagerImpl abilityManager;
@@ -51,7 +49,6 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Override
     public void onEnable() {
 
-        instance = this;
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
         getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.0");
@@ -87,9 +84,9 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
 
     private void registerCommands() {
 
-        getCommand("getability").setExecutor(new GetAbilityCommand());
-        getCommand("getability").setTabCompleter(new GetAbilityCommand());
-        getCommand("ability").setExecutor(new AbilityCommand(instance));
+        getCommand("getability").setExecutor(new GetAbilityCommand(this));
+        getCommand("getability").setTabCompleter(new GetAbilityCommand(this));
+        getCommand("ability").setExecutor(new AbilityCommand(this));
 
     }
 
@@ -124,8 +121,8 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     }
 
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new AbilityListener(), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(), this);
+        getServer().getPluginManager().registerEvents(new AbilityListener(this), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
     }
 
     private void checkVersion() {
@@ -184,6 +181,11 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     @Override
     public void runTaskAsync(Runnable runnable) {
         Bukkit.getScheduler().runTaskAsynchronously(this, runnable);
+    }
+
+    @Override
+    public void runTaskLater(Runnable runnable, long delay) {
+        Bukkit.getScheduler().runTaskLater(this, runnable, delay);
     }
 
     @Override

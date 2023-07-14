@@ -63,5 +63,7 @@ public class SwitcherSnowBall extends ThrowableAbility {
 
         hit.teleport(shooterLocation);
         player.teleport(hitLocation);
+        playSound(player);
+        playSound(hit);
     }
 }

@@ -38,18 +38,18 @@ public class AbilityManagerImpl implements AbilityManager {
         this.abilities = new HashMap<>();
         projectiles = new HashSet<>();
 
-        boolean globalCooldownEnabled = instance.getConfig().getBoolean("global-cooldown.enabled");
-        if (globalCooldownEnabled) globalCoolDownPlayers = new ConcurrentHashMap<>();
+        boolean globalCoolDownEnabled = instance.getConfig().getBoolean("global-cooldown.enabled");
+        if (globalCoolDownEnabled) globalCoolDownPlayers = new ConcurrentHashMap<>();
 
         setSpawn();
-        startCleanup(globalCooldownEnabled);
+        startCleanup(globalCoolDownEnabled);
     }
 
     @Override
     public Ability getAbilityByItem(ItemStack item) {
 
         if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) {
-            AdvancedAbilities.getInstance().getLogger().warning("Attempted to get ability from null item");
+            instance.getLogger().warning("Attempted to get ability from null item");
             return null;
         }
 

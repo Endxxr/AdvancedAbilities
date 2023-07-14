@@ -36,8 +36,10 @@ public interface AdvancedAPI {
      */
     AbilityManager getAbilityManager();
     Logger getLogger();
-    void runTaskAsync(Runnable runnable);
     Plugin getPlugin();
-
+    String getLatestVersion();
+    boolean isUpdateAvailable();
+    void runTaskAsync(Runnable runnable);
+    void runTaskLater(Runnable runnable, long delay);
 
 }
