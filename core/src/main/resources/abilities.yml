@@ -1,0 +1,308 @@
+anti-blockup:
+  messages:
+    done: "&c%player% &fcan't build for &c%seconds% &fseconds" #The message that the player will see when he uses the ability
+    target: "You can't build for &c%seconds% &fseconds" #The message that the target will see when he is hit by the ability
+  seconds: 10 #The time in seconds that the player can't build
+  cooldown: 60 #The cooldown in seconds
+  sound: ANVIL_LAND #The sound that the player will hear when he uses the ability. List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Sound.html
+  item:
+    material: OBSIDIAN #List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Material.html
+    data: 0 #The data of the item, only Legacy Version (<1.13)
+    custom-model-data: 0 #The custom model data of the item, only Modern Version (>1.13)
+    glow: true
+    name: "&4&lAnti Build" #The name of the item
+    lore:
+      - "&fDenies the targeted enemy"
+      - "&fto &cbuild or destroy &ffor &c%seconds% seconds"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+bamboozle:
+  messages:
+    done: "&fYou bamboozled &c%player%&f's hotbar"
+    target: "&fYour hotbar has been &cbamboozled &fby &c%player%"
+  cooldown: 120
+  item:
+    material: BLAZE_ROD
+    glow: true
+    name: "&e&lBamboozle"
+    lore:
+      - "&fBamboozles the enemy &ehotbar"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
+
+fake-pearl:
+  messages:
+    done: "&fYou threw a &dFake Pearl"
+    wait: "&fWait before throwing another &dpearl"
+  cooldown: 60
+  item:
+    glow: true
+    name: "&d&lFake &fPearl"
+    lore:
+      - "&fThrow an EnderPearl"
+      - "&fthat won't teleport you"
+      - ""
+      - "&d&lCooldown: &f%cooldown%"
+grappling-hook:
+  cooldown: 10
+  item:
+    glow: true
+    name: "&3&lGrappling Hook"
+    lore:
+      - "&fUse the &egrapling hook &rto move"
+      - "&frapidly in the map"
+      - ""
+      - "&b&lCooldown: &f%cooldown%"
+instant-crapple:
+  messages:
+    done: "&fYou ate an &eInstant Crapple"
+  cooldown: 15
+  item:
+    glow: true
+    name: "&f&lInstant &e&lCrapple"
+    lore:
+      - "&fGives you the effect of a &eGolden Apple"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
+
+instant-gapple:
+  messages:
+    done: "&fYou ate an &6Instant Gapple"
+  cooldown: 60
+  item:
+    glow: true
+    name: "&f&lInstant &6&lGapple"
+    lore:
+      - "&fGives you the effect of a &6God Apple"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
+
+invulnerability:
+  messages:
+    done: "&fYou're now &cinvincible &ffor &c%seconds% seconds."
+  cooldown: 6000
+  seconds: 5
+  item:
+    material: NETHER_STAR
+    glow: true
+    name: "&6&lInvulnerability"
+    lore:
+      - "&fYou won't take any kind of damage"
+      - "&ffor &6%seconds% seconds"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
+
+leap:
+  messages:
+    done: "&fYou made a &cleap &fforward! "
+  cooldown: 15
+  multiply-x: 3
+  multiply-y: 1
+  item:
+    material: RABBIT_FOOT
+    glow: true
+    name: "&3&lLeap"
+    lore:
+      - "&fDo a leap &bin air"
+      - "&fto move faster"
+      - ""
+      - "&3&lCooldown: &f%cooldown%"
+
+portable-bard:
+
+  cooldown: 60
+  item:
+    material: ENCHANTED_BOOK
+    glow: true
+    name: "&a&lPortable &fBard"
+    lore:
+      - "&fChoose an &aeffect &ffrom the bard"
+      - "&fto get &aimmediately"
+      - ""
+      - "&a&lCooldown: &f%cooldown%"
+
+  inventory:
+    size: 9
+    title: "&b&lPortable Bard"
+    items:
+      fill: # Required
+        material: STAINED_GLASS_PANE
+        data: 15
+        amount: 1
+        name: ""
+        lore: []
+
+      speed:
+        material: SUGAR
+        amount: 20
+        slot: 2
+        name: "&f&lSpeed"
+        lore:
+          - "&fDa un effetto di &bVelocità"
+          - ""
+          - "&f&lDurata: &c%seconds% &fseconds"
+          - "&f&lCooldown: &c%cooldown% &fseconds"
+        effect: SPEED:20:2 #EFFECT:DURATION:AMPLIFIER
+
+      resistance:
+        material: IRON_CHESTPLATE
+        amount: 20
+        slot: 6
+        name: "&f&lResistanza"
+        lore:
+          - "&fDa un effetto di &cResistenza"
+          - ""
+          - "&f&lDurata: &c%seconds% &fseconds"
+          - "&f&lCooldown: &c%cooldown% &fseconds"
+        effect: DAMAGE_RESISTANCE:20:2 #EFFECT:DURATION:AMPLIFIER
+
+
+
+pot-counter:
+  messages:
+    done: "&c%target% &fhas &c%count% &fpots"
+    target: "&c%player% &fhas used on you the pot counter!"
+  cooldown: 10
+  item:
+    material: GLASS_BOTTLE
+    glow: true
+    name: "&c&lPot &fCounter"
+    lore:
+      - "&fGet the numbers of potions"
+      - "&fwhich a player has in their inventory"
+      - ""
+      - "&c&lCooldown: &f%cooldown%"
+
+
+rabbit-soul:
+  messages:
+    done: "&fYou activated the &erabbit soul!"
+  cooldown: 15
+  jump-boost:
+    level: 1
+    duration: 5
+  speed:
+    level: 1
+    duration: 5
+  item:
+    material: RABBIT_FOOT
+    glow: true
+    name: "&6&lRabbit Soul"
+    lore:
+      - "&fGives you &espeed &fand &ejump boost"
+      - ""
+      - "&6&lCooldown: &f%cooldown%"
+repair:
+  messages:
+    done: "&fYou repaired your &carmor"
+  cooldown: 120
+  item:
+    glow: true
+    name: "&4&lArmor &c&lRepair"
+    material: ANVIL
+    lore:
+      - "&fRepair the equipped &carmor"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+repair-all:
+  messages:
+    done: "&fYou repaired your entire &cinventory"
+  cooldown: 300
+  item:
+    material: ANVIL
+    glow: true
+    name: "&4&lRepair&c&lAll"
+    lore:
+      - "&fRepair the &centire inventory"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+rotten-egg:
+  messages:
+    done: "&fYou hit &c%target% &fwith a &crotten egg"
+    hit: "&fYou've been hit by a &cRotten Egg &fthrown by &c%player%"
+    wait: "&fYou already threw an &cegg!"
+  cooldown: 30
+  item:
+    glow: true
+    name: "&c&lUovo &f&lPutrido"
+    lore:
+      - "&fThrow a &crotten egg"
+      - "&fwhich inflicts &cnegative effects"
+      - ""
+      - "&c&lCooldown: &f%cooldown%"
+  duration: 5
+  effects:
+    - CONFUSION:2
+    - BLINDNESS:2
+    - SLOW:1
+
+
+
+saviour:
+  messages:
+    done: "&fThe totem &csaved you &ffrom death!"
+  cooldown: 600
+  item:
+    glow: true
+    material: BOOK
+    name: "&6&lTotem"
+    lore:
+      - "Saves you from &edeath"
+      - ""
+      - "&e&lCooldown: &f%cooldown%"
+  duration: 10
+  effects:
+    - CONFUSION:2
+    - BLINDNESS:2
+    - REGENERATION:3
+
+
+stun:
+  messages:
+    done: "&c%player% &fisn't able to move for &c%seconds% &fseconds"
+    target: "&c%player% &fblocked you for &c%seconds% &fseconds"
+    already-stun: "&cThis player is already stun."
+  seconds: 5
+  cooldown: 120
+  item:
+    material: ICE
+    glow: false
+    name: "&b&lStun"
+    lore:
+      - "&fStuns for &b5 seconds"
+      - "&fthe hit player"
+      - ""
+      - "&4&lCooldown: &f%cooldown%"
+switcher-snowball:
+  messages:
+    done: "&fYou hit &c%target% &fwith a &cSwitcher Snowball"
+    hit: "&fYou've been hit by a &cSwitcher Snowbaal &fthrown by &c%player%"
+    wait: "&fYou already threw a &cSwitcher Snowball!"
+  cooldown: 600
+  item:
+    glow: true
+    name: "&f&lPalla di &b&lNeve"
+    lore:
+      - "&fThrew a &bSwitcher Snowball"
+      - "&fthat &bteleports you"
+      - "&fto &benemy position &fand viceversa"
+      - ""
+      - "&b&lCooldown: &f%cooldown%"
+
+time-warp-pearl:
+  messages:
+    done: "&fYou threw a &cTime Warp Pearl"
+    wait: "&fYou already threw a &cTime Warp Pearl!"
+  cooldown: 300
+  seconds: 5
+  item:
+    glow: true
+    material: ENDER_PEARL
+    name: "&5&lEnderpearl &dTemporale"
+    lore:
+      - "&fThrew a Time Warp Pearl"
+      - "&fthat &dteleports"
+      - "&fto the &doriginal position"
+      - "&fafter &d%seconds% seconds"
+      - ""
+      - "&5&lCooldown: &f%cooldown%"

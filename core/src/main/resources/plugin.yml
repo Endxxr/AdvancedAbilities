@@ -1,0 +1,38 @@
+name: AdvancedAbilities
+version: ${project.version}
+main: me.delected.advancedabilities.AdvancedAbilities
+authors: [ Endxxr, Delected_ ]
+description: Some abilities for your server!
+api-version: 1.13
+
+commands:
+  getability:
+    aliases: [giveitem, gi, hcfitem]
+    usage: /<command> [itemName] [player] [amount]
+  ability:
+    aliases: [advancedability, aa, advancedabilities]
+    usage: /<command> [help|clearcooldowns]
+
+permissions:
+  advancedabilities.get:
+    description: Gives the player an ability item
+    default: op
+  advancedabilities.ability.*:
+    description: Permission to execute all abilities
+    default: op
+    children:
+      advancedabilities.ability.anti-blockUp: true
+      advancedabilities.ability.bamboozle: true
+      advancedabilities.ability.fake-pearl: true
+      advancedabilities.ability.grappling-hook: true
+      advancedabilities.ability.instant-crapple: true
+      advancedabilities.ability.instant-gapple: true
+      advancedabilities.ability.invulnerability: true
+      advancedabilities.ability.leap: true
+      advancedabilities.ability.portable-bard: true
+      advancedabilities.ability.pot-counter: true
+      advancedabilities.ability.repair: true
+      advancedabilities.ability.repair-all: true
+      advancedabilities.ability.saviour: true
+      advancedabilities.ability.stun: true
+      advancedabilities.ability.time-warp-pearl: true

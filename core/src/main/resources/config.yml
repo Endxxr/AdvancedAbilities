@@ -1,0 +1,20 @@
+messages:
+  cooldown: "&cYou need to wait &f%cooldown% seconds &cbefore using again this ability"
+  no-permission: "&cYou don't have the permission to use this ability"
+
+spawn-region:
+  world: "world"
+  x1: 0
+  y1: 0
+  z1: 0
+  x2: 0
+  y2: 0
+  z2: 0
+  deny: "&cYou can't use this ability in this region"
+
+commands:
+  give:
+    message: "&fYou gave &c%amount% %item% &fto &c%player%"
+    usage: "&c/giveability <player> <ability> <amount>"
+    offline: "&cThe player is offline"
+    invalid: "&cThe parameters are invalid"
