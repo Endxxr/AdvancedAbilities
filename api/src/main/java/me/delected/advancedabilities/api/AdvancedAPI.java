@@ -1,7 +1,8 @@
-package me.delected.advancedabilities.api;
+    package me.delected.advancedabilities.api;
 
 import me.delected.advancedabilities.api.objects.ItemGenerator;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
+import me.delected.advancedabilities.api.objects.managers.RegionChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -30,11 +31,21 @@ public interface AdvancedAPI {
 
     /**
      *
-     * Gets the ability manager
+     * Get the ability manager
      *
      * @return the ability manager
      */
     AbilityManager getAbilityManager();
+
+    /**
+     *
+     * Get the region checker
+     *
+     * @return the region checker
+     */
+
+    RegionChecker getRegionChecker();
+
     Logger getLogger();
     Plugin getPlugin();
     String getLatestVersion();

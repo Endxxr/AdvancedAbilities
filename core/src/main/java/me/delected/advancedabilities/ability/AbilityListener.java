@@ -44,7 +44,7 @@ public class AbilityListener implements Listener {
         }
         if (ability instanceof ClickableAbility) {
             event.setCancelled(true);
-            if (isRunnable(player, ability)) return;
+            if (isNotRunnable(player, ability)) return;
             if (ability.removeItem()) {
                 if (item.getAmount() == 1) {
                     player.setItemInHand(new ItemStack(Material.AIR));
@@ -118,7 +118,7 @@ public class AbilityListener implements Listener {
                 item.setAmount(item.getAmount() - 1);
             }
 
-            if (isRunnable(player, ability)) return;
+            if (isNotRunnable(player, ability)) return;
 
             player.updateInventory();
             api.getAbilityManager().addGlobalCooldown(player);
@@ -132,11 +132,14 @@ public class AbilityListener implements Listener {
         }
     }
 
-    private boolean isRunnable(Player player, Ability ability) {
+    private boolean isNotRunnable(Player player, Ability ability) {
+
         if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
             player.sendMessage(ChatUtils.colorize(api.getConfig().getString("messages.no-permission")));
             return true;
+
         }
+        if (api.getRegionChecker().isInForbiddenRegion(player)) return true;
 
         if (api.getAbilityManager().inCooldown(player, ability)) return true;
 

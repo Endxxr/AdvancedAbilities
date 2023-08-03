@@ -6,7 +6,7 @@
     <parent>
         <groupId>me.delected</groupId>
         <artifactId>AdvancedAbilities</artifactId>
-        <version>4.0.0-BETA</version>
+        <version>4.0.0-STABLE</version>
     </parent>
 
     <artifactId>legacy</artifactId>
@@ -32,6 +32,14 @@
         </resources>
     </build>
 
+
+    <repositories>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -42,11 +50,17 @@
         <dependency>
             <groupId>me.delected</groupId>
             <artifactId>api</artifactId>
-            <version>4.0.0-BETA</version>
+            <version>4.0.0-STABLE</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>6.1.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
+
 
 
 </project>

@@ -8,13 +8,16 @@ import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.enums.NMSVersion;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
+import me.delected.advancedabilities.api.objects.managers.RegionChecker;
 import me.delected.advancedabilities.commands.AbilityCommand;
 import me.delected.advancedabilities.commands.GetAbilityCommand;
 import me.delected.advancedabilities.legacy.LegacyItemGenerator;
+import me.delected.advancedabilities.legacy.WG6RegionChecker;
 import me.delected.advancedabilities.legacy.abilities.LegacyGrapplingHook;
 import me.delected.advancedabilities.listeners.JoinListener;
 import me.delected.advancedabilities.managers.AbilityManagerImpl;
 import me.delected.advancedabilities.modern.ModernItemGenerator;
+import me.delected.advancedabilities.modern.WG7RegionChecker;
 import me.delected.advancedabilities.modern.abilities.ModernGrapplingHook;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -40,6 +43,8 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     private AbilityManagerImpl abilityManager;
     @Getter
     private ItemGenerator itemGenerator;
+    @Getter
+    private RegionChecker regionChecker;
     @Getter
     private String latestVersion;
     @Getter
@@ -158,7 +163,32 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         } else {
             itemGenerator = new ModernItemGenerator(this);
         }
+
         abilityManager = new AbilityManagerImpl(this);
+
+        setUpWorldGuard();
+
+    }
+
+    private void setUpWorldGuard() {
+
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) return;
+
+        boolean oldWGVersion = false;
+        try {
+            Class.forName("com.sk89q.worldguard.WorldGuard"); //Checks for WorldGuard class only in version 7.0.0
+        } catch (ClassNotFoundException e) {
+            oldWGVersion = true;
+            AdvancedProvider.getAPI().getLogger().info("Detected WorldGuard v6.x.x!");
+        }
+
+        if (oldWGVersion) {
+            regionChecker = new WG6RegionChecker();
+        } else {
+            regionChecker = new WG7RegionChecker();
+        }
+
+
 
     }
 
