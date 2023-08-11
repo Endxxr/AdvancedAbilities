@@ -4,6 +4,8 @@ main: me.delected.advancedabilities.AdvancedAbilities
 authors: [ Endxxr, Delected_ ]
 description: Some abilities for your server!
 api-version: 1.13
+softdepend:
+  - WorldGuard
 
 commands:
   getability:

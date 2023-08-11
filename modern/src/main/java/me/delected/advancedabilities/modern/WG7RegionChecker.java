@@ -1,8 +1,6 @@
 package me.delected.advancedabilities.modern;
 
-import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extension.platform.Actor;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.LocalPlayer;
@@ -10,7 +8,6 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.RegionResultSet;
-import com.sk89q.worldguard.protection.association.RegionAssociable;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
@@ -34,11 +31,11 @@ public class WG7RegionChecker implements RegionChecker {
 
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            StateFlag flag = new StateFlag("no-abilities", false);
+            StateFlag flag = new StateFlag("use-abilities", false);
             registry.register(flag);
             NO_ABILITIES_FLAG = flag;
-        } catch (FlagConflictException e) {
-            Flag<?> existingFlag = registry.get("no-abilities");
+        } catch (FlagConflictException | IllegalStateException e) {
+            Flag<?> existingFlag = registry.get("use-abilities");
             if (existingFlag instanceof StateFlag) {
                 AdvancedProvider.getAPI().getLogger().warning("The WorldGuard flag was already registered? Have you done a reload?");
                 NO_ABILITIES_FLAG = (StateFlag) existingFlag;
@@ -57,7 +54,7 @@ public class WG7RegionChecker implements RegionChecker {
             ApplicableRegionSet regions = getPlayerRegions(player);
             StateFlag.State flagState = regions.queryState(wgPlayer, NO_ABILITIES_FLAG);
 
-            return flagState == StateFlag.State.ALLOW;
+            return flagState == StateFlag.State.DENY;
         });
 
         boolean isInForbiddenRegion = false;

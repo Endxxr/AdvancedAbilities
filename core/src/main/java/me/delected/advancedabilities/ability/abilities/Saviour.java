@@ -1,6 +1,5 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

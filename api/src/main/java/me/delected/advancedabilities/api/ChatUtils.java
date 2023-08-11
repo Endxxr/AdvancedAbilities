@@ -1,5 +1,6 @@
 package me.delected.advancedabilities.api;
 
+import me.delected.advancedabilities.api.enums.NMSVersion;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.List;
@@ -48,8 +49,8 @@ public class ChatUtils {
 
 
     private static String translateHexColors(String string) {
+        if (NMSVersion.getSeverVersion().getInt() < NMSVersion.v1_16_r1.getInt()) return string;
         Matcher matcher = HEX_PATTERN.matcher(string);
-
         while (matcher.find()) {
             String color = matcher.group(0); // &#FFFFFF
             StringBuilder replacement = new StringBuilder();

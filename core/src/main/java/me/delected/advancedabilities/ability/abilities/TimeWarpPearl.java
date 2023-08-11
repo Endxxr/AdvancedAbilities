@@ -1,9 +1,7 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.objects.ability.ThrowableAbility;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

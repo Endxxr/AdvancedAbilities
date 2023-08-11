@@ -6,9 +6,12 @@ anti-blockup:
   cooldown: 60 #The cooldown in seconds
   sound: ANVIL_LAND #The sound that the player will hear when he uses the ability. List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Sound.html
   item:
-    material: OBSIDIAN #List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Material.html
+    #List available at: https://helpch.at/docs/<your-server-version>/org/bukkit/Material.html
+    #USE PLAYER_HEAD (1.13+) or SKULL_ITEM (1.12-) FOR CUSTOM HEADS
+    material: OBSIDIAN
     data: 0 #The data of the item, only Legacy Version (<1.13)
     custom-model-data: 0 #The custom model data of the item, only Modern Version (>1.13)
+    texture: example #Texture for a custom head
     glow: true
     name: "&4&lAnti Build" #The name of the item
     lore:
