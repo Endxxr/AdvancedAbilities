@@ -6,7 +6,7 @@
     <parent>
         <groupId>me.delected</groupId>
         <artifactId>AdvancedAbilities</artifactId>
-        <version>4.0.0-STABLE</version>
+        <version>4.1.0-STABLE</version>
     </parent>
 
     <artifactId>modern</artifactId>
@@ -41,21 +41,21 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.14-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>me.delected</groupId>
             <artifactId>api</artifactId>
-            <version>4.0.0-STABLE</version>
+            <version>4.1.0-STABLE</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

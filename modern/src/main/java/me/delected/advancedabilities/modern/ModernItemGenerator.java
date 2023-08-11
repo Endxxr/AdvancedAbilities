@@ -1,26 +1,30 @@
 package me.delected.advancedabilities.modern;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import de.tr7zw.nbtapi.NBTItem;
-import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.objects.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
+import me.delected.advancedabilities.api.objects.ability.Ability;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ModernItemGenerator extends ItemGenerator {
 
     private final HashMap<String, Material> FORCED_ITEMS;
 
-    public ModernItemGenerator(AdvancedAPI api) {
-        super(api);
+    public ModernItemGenerator() {
 
         FORCED_ITEMS = new HashMap<String, Material>() {
             {
@@ -35,7 +39,6 @@ public class ModernItemGenerator extends ItemGenerator {
     }
 
 
-    //TODO add custom model data
     @Override
     public ItemStack createItem(Ability ability) {
         Material material = FORCED_ITEMS.get(ability.getId());
@@ -50,6 +53,20 @@ public class ModernItemGenerator extends ItemGenerator {
         ItemStack item = new ItemStack(material);
         if (ability.getConfig().getBoolean("item.glow")) item.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
+        if (material == Material.PLAYER_HEAD) {
+            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+            profile.getProperties().put("textures", new Property("textures", ability.getConfig().getString("item.texture")));
+            Field profileField;
+            try {
+                profileField = skullMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(skullMeta, profile);
+            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {
+            }
+            item.setItemMeta(skullMeta);
+        }
+
         ItemMeta meta = item.getItemMeta();
         if (meta!=null) {
             String displayName = ability.getConfig().getString("item.name");
@@ -58,7 +75,7 @@ public class ModernItemGenerator extends ItemGenerator {
             meta.setCustomModelData(ability.getConfig().getInt("item.custom-model-data"));
 
             List<String> lore = ability.getConfig().getStringList("item.lore");
-            lore.forEach(ChatUtils::colorize);
+            lore.replaceAll(s -> colorizeLore(s, ability));
             meta.setLore(lore);
 
             meta.setUnbreakable(true);
@@ -78,4 +95,13 @@ public class ModernItemGenerator extends ItemGenerator {
     public HashMap<String, Material> getForcedItems() {
         return FORCED_ITEMS;
     }
+
+    private String colorizeLore(String lore, Ability ability) {
+        String seconds = ability.getConfig().getString("seconds");
+        if (seconds == null) seconds = "0";
+        return ChatUtils.colorize(lore.replaceAll("%cooldown%", ChatUtils.parseTime(ability.getCooldownTime())).replaceAll("%seconds%", seconds));
+    }
+
+
+
 }

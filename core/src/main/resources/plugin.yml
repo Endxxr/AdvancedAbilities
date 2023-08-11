@@ -8,14 +8,20 @@ api-version: 1.13
 commands:
   getability:
     aliases: [giveitem, gi, hcfitem]
-    usage: /<command> [itemName] [player] [amount]
+    permission: advancedabilities.get
+    description: Get a registered ability item
+    usage: /<command> <itemName> <player> <amount>
   ability:
     aliases: [advancedability, aa, advancedabilities]
-    usage: /<command> [help|clearcooldowns]
+    permission: advancedabilities.admin
+    usage: /<command> [reload|clearcooldowns]
 
 permissions:
   advancedabilities.get:
     description: Gives the player an ability item
+    default: op
+  advancedabilities.admin:
+    description: Permission to use the /advancedabilities command
     default: op
   advancedabilities.ability.*:
     description: Permission to execute all abilities

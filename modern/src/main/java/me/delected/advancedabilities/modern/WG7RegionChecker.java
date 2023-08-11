@@ -40,7 +40,7 @@ public class WG7RegionChecker implements RegionChecker {
         } catch (FlagConflictException e) {
             Flag<?> existingFlag = registry.get("no-abilities");
             if (existingFlag instanceof StateFlag) {
-                AdvancedProvider.getAPI().getLogger().warning("The worldguard flag was already registered? Have you done a reload?");
+                AdvancedProvider.getAPI().getLogger().warning("The WorldGuard flag was already registered? Have you done a reload?");
                 NO_ABILITIES_FLAG = (StateFlag) existingFlag;
             }
         }
@@ -64,7 +64,7 @@ public class WG7RegionChecker implements RegionChecker {
         try {
             isInForbiddenRegion = future.get();
         } catch (InterruptedException | ExecutionException e) {
-            AdvancedProvider.getAPI().getLogger().severe("Had an error while retrieving player's WorldGuard Region!");
+            AdvancedProvider.getAPI().getLogger().severe("Error while retrieving player's WorldGuard Region!");
         }
 
         return isInForbiddenRegion;

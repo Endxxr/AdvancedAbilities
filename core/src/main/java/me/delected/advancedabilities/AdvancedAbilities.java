@@ -133,7 +133,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     private void checkVersion() {
 
         NMSVersion nmsVersion = NMSVersion.getSeverVersion();
-        if (nmsVersion.getInt() < 80 || nmsVersion.getInt() > 192) {
+        if (nmsVersion.getInt() < 80 || nmsVersion.getInt() > 201) {
             getLogger().severe("Your version ("+nmsVersion.name()+") isn't supported!");
             getLogger().severe("Disabling the plugin...");
             getLogger().info("§8§l§m------------------");
@@ -159,9 +159,9 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         AdvancedProvider.setApi(this);
 
         if (NMSVersion.isLegacy()) {
-            itemGenerator = new LegacyItemGenerator(this);
+            itemGenerator = new LegacyItemGenerator();
         } else {
-            itemGenerator = new ModernItemGenerator(this);
+            itemGenerator = new ModernItemGenerator();
         }
 
         abilityManager = new AbilityManagerImpl(this);
@@ -187,6 +187,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         } else {
             regionChecker = new WG7RegionChecker();
         }
+        regionChecker.registerFlags();
 
 
 

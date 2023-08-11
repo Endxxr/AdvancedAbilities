@@ -32,22 +32,28 @@ public class GetAbilityCommand implements CommandExecutor, TabExecutor {
             return true;
         }
 
+        // If the player doesn't specify an amount, it defaults to 1.
+        int amount = 0;
         if (!(args.length==3)) {
-            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.usage")));
-            return true;
+            if (args.length == 2) {
+                amount = 1;
+            } else {
+                sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.usage")));
+                return true;
+            }
         }
 
         Player player = Bukkit.getPlayer(args[0]);
         Ability ability = api.getAbilityManager().getAbilityByName(args[1]);
-        int amount;
 
-        try {
-            amount = Integer.parseInt(args[2]);
-        } catch (NumberFormatException e) {
-            sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.invalid")));
-            return true;
+        if (amount == 0) {
+            try {
+                amount = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.invalid")));
+                return true;
+            }
         }
-
         if (player == null) {
             sender.sendMessage(ChatUtils.colorize(api.getConfig().getString("commands.give.offline")));
             return true;

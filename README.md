@@ -1,3 +1,5 @@
 # AdvancedHCFAbilities
 
-https://www.spigotmc.org/resources/advancedhcfabilities-fully-customziable.73132/
+https://www.spigotmc.org/resources/73132/
+
+Read the [Wiki](https://github.com/Endxxr/AdvancedAbilities/wiki)

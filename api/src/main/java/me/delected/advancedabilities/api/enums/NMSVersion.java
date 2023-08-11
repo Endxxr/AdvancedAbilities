@@ -22,7 +22,11 @@ public enum NMSVersion {
     v1_18_r1(181),
     v1_18_r2(182),
     v1_19_r1(191),
-    v1_19_r2(192);
+    v1_19_r2(192),
+    v1_19_r3(193),
+    v1_20_r1(201),
+    ;
+
 
     private final int shortVersion;
 

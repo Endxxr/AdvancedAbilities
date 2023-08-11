@@ -6,7 +6,7 @@
     <parent>
         <groupId>me.delected</groupId>
         <artifactId>AdvancedAbilities</artifactId>
-        <version>4.0.0-STABLE</version>
+        <version>4.1.0-STABLE</version>
     </parent>
 
     <artifactId>api</artifactId>

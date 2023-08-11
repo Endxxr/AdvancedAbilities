@@ -1,26 +1,29 @@
 package me.delected.advancedabilities.legacy;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import de.tr7zw.nbtapi.NBTItem;
-import me.delected.advancedabilities.api.AdvancedAPI;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
-import me.delected.advancedabilities.api.objects.ability.Ability;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
+import me.delected.advancedabilities.api.objects.ability.Ability;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class LegacyItemGenerator extends ItemGenerator {
 
     private final HashMap<String, Material> FORCED_ITEMS;
 
-    public LegacyItemGenerator(AdvancedAPI api) {
-        super(api);
+    public LegacyItemGenerator() {
         FORCED_ITEMS  = new HashMap<String, Material>() {
             {
                 put("fake-pearl", Material.ENDER_PEARL);
@@ -47,11 +50,26 @@ public class LegacyItemGenerator extends ItemGenerator {
 
         short data = (short) ability.getConfig().getInt("item.data");
 
+
         if (ability.getId().equalsIgnoreCase("instant-gapple")) data = 1;
         ItemStack item = new ItemStack(material, 1, data);
 
-        if (ability.getConfig().getBoolean("item.glow")) item.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        if (material == Material.SKULL_ITEM && data == 3) {
+            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+            profile.getProperties().put("textures", new Property("textures", ability.getConfig().getString("item.texture")));
+            Field profileField;
+            try {
+                profileField = skullMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(skullMeta, profile);
+            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {
+            }
+            item.setItemMeta(skullMeta);
+        }
 
+
+        if (ability.getConfig().getBoolean("item.glow")) item.addUnsafeEnchantment(Enchantment.LUCK, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatUtils.colorize(ability.getConfig().getString("item.name")));
 
