@@ -1,8 +1,8 @@
 package me.delected.advancedabilities.modern;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -12,9 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -53,17 +51,14 @@ public class ModernItemGenerator extends ItemGenerator {
         if (ability.getConfig().getBoolean("item.glow")) item.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         if (material == Material.PLAYER_HEAD) {
-            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            profile.getProperties().put("textures", new Property("textures", ability.getConfig().getString("item.texture")));
-            Field profileField;
-            try {
-                profileField = skullMeta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(skullMeta, profile);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {
+            String headTexture = ability.getConfig().getString("item.texture");
+            if (headTexture!=null) {
+                NBT.modify(item, nbt -> {
+                    ReadWriteNBT skullOwner = nbt.getOrCreateCompound("SkullOwner");
+                    skullOwner.setUUID("Id", UUID.randomUUID());
+                    skullOwner.getOrCreateCompound("Properties").getCompoundList("textures").addCompound().setString("Value", headTexture);
+                });
             }
-            item.setItemMeta(skullMeta);
         }
 
         ItemMeta meta = item.getItemMeta();

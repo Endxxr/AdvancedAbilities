@@ -6,7 +6,7 @@
 
     <groupId>me.delected</groupId>
     <artifactId>AdvancedAbilities</artifactId>
-    <version>4.1.0-STABLE</version>
+    <version>4.1.1-STABLE</version>
     <packaging>pom</packaging>
 
     <name>AdvancedAbilities</name>
@@ -47,8 +47,8 @@
                             <shadedPattern>me.delected.advancedabilities.metrics</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>de.tr7zw</pattern>
-                            <shadedPattern>me.delected.advancedabilities.nbt</shadedPattern>
+                            <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                            <shadedPattern>me.delected.advancedabilities.utils.nbtapi</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -99,9 +99,8 @@
         </dependency>
         <dependency>
             <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.11.2</version>
-            <scope>compile</scope>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.11.3</version>
         </dependency>
     </dependencies>
 

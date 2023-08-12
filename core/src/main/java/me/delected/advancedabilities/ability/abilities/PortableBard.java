@@ -1,6 +1,6 @@
 package me.delected.advancedabilities.ability.abilities;
 
-import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.objects.ability.ClickableAbility;
 import me.delected.advancedabilities.utils.AbilitiesUtils;
@@ -42,7 +42,7 @@ public class PortableBard extends ClickableAbility implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getClickedInventory() != inv || inv == null) return;
+        if (!event.getClickedInventory().equals(inv)) return;
         if (!(event.getWhoClicked() instanceof Player)) return;
 
         event.setCancelled(true);

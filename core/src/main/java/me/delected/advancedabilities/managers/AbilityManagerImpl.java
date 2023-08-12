@@ -1,6 +1,6 @@
 package me.delected.advancedabilities.managers;
 
-import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import me.delected.advancedabilities.AdvancedAbilities;
 import me.delected.advancedabilities.api.AdvancedProvider;

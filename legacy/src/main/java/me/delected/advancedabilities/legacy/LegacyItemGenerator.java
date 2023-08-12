@@ -1,8 +1,8 @@
 package me.delected.advancedabilities.legacy;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import me.delected.advancedabilities.api.AdvancedProvider;
 import me.delected.advancedabilities.api.ChatUtils;
 import me.delected.advancedabilities.api.objects.ItemGenerator;
@@ -12,9 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -50,22 +48,22 @@ public class LegacyItemGenerator extends ItemGenerator {
 
         short data = (short) ability.getConfig().getInt("item.data");
 
-
         if (ability.getId().equalsIgnoreCase("instant-gapple")) data = 1;
         ItemStack item = new ItemStack(material, 1, data);
 
-        if (material == Material.SKULL_ITEM && data == 3) {
-            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            profile.getProperties().put("textures", new Property("textures", ability.getConfig().getString("item.texture")));
-            Field profileField;
-            try {
-                profileField = skullMeta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(skullMeta, profile);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {
+        if (material == Material.SKULL_ITEM ) {
+            if (data == 3) {
+                String headTexture = ability.getConfig().getString("item.texture");
+                if (headTexture!=null) {
+                    NBT.modify(item, nbt -> {
+                        ReadWriteNBT skullOwner = nbt.getOrCreateCompound("SkullOwner");
+                        skullOwner.setUUID("Id", UUID.randomUUID());
+                        skullOwner.getOrCreateCompound("Properties").getCompoundList("textures").addCompound().setString("Value", headTexture);
+                    });
+                }
+            } else {
+                AdvancedProvider.getAPI().getLogger().warning("You're using a skull item with a data value other than 3! You won't be able to apply a texture to it!");
             }
-            item.setItemMeta(skullMeta);
         }
 
 
