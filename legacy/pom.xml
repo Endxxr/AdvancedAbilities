@@ -6,7 +6,7 @@
     <parent>
         <groupId>me.delected</groupId>
         <artifactId>AdvancedAbilities</artifactId>
-        <version>4.1.1-STABLE</version>
+        <version>4.1.2-STABLE</version>
     </parent>
 
     <artifactId>legacy</artifactId>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>me.delected</groupId>
             <artifactId>api</artifactId>
-            <version>4.1.1-STABLE</version>
+            <version>4.1.2-STABLE</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

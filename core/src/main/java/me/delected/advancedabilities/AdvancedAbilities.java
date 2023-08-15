@@ -51,20 +51,27 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     private boolean worldGuardEnabled = false;
     private final String CURRENT_VERSION = getPlugin().getDescription().getVersion();
 
-
     @Override
-    public void onEnable() {
-
+    public void onLoad() {
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
-        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.0");
+        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l${project.version}");
         getLogger().info("§e§lby Endxxr");
         getLogger().info("§e§l& Delected_ §7(Original Author)");
         getLogger().info("");
-        getLogger().info("Loading...");
-        getLogger().info("");
+        getLogger().info("§8§l§m------------------");
+        AdvancedProvider.setApi(this);
+        setUpWorldGuard();
         checkVersion();
         checkUpdate();
+    }
+
+    @Override
+    public void onEnable() {
+        getLogger().info("§8§l§m------------------");
+        getLogger().info("");
+        getLogger().info("Loading...");
+        getLogger().info("");
         saveConfigs();
         setInstances();
         registerCommands();
@@ -81,7 +88,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     public void onDisable() {
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
-        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.0");
+        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.1.2");
         getLogger().info("");
         getLogger().info("Disabling...");
         getLogger().info("§8§l§m------------------");
@@ -157,8 +164,6 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
 
     private void setInstances() {
 
-        AdvancedProvider.setApi(this);
-
         if (NMSVersion.isLegacy()) {
             itemGenerator = new LegacyItemGenerator();
         } else {
@@ -166,8 +171,6 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
         }
 
         abilityManager = new AbilityManagerImpl(this);
-
-        setUpWorldGuard();
 
     }
 
@@ -181,7 +184,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
             Class.forName("com.sk89q.worldguard.WorldGuard"); //Checks for WorldGuard class only in version 7.0.0
         } catch (ClassNotFoundException e) {
             oldWGVersion = true;
-            AdvancedProvider.getAPI().getLogger().info("Detected WorldGuard v6.x.x!");
+            getLogger().info("Detected WorldGuard v6.x.x!");
         }
 
         if (oldWGVersion) {

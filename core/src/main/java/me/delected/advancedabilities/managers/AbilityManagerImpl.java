@@ -174,7 +174,6 @@ public class AbilityManagerImpl implements AbilityManager {
         abilities.put(ability.getId(), ability);
         if (ability instanceof Listener) Bukkit.getPluginManager().registerEvents((Listener) ability, instance);
         instance.getLogger().info("Registered ability " + ability.getId());
-
     }
 
     public void setSpawn() {

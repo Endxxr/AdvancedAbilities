@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 public class WG7RegionChecker implements RegionChecker {
 
-    private static StateFlag NO_ABILITIES_FLAG;
+    private static StateFlag USE_ABILITIES_FLAG;
 
     @Override
     public void registerFlags() {
@@ -33,12 +33,12 @@ public class WG7RegionChecker implements RegionChecker {
         try {
             StateFlag flag = new StateFlag("use-abilities", true);
             registry.register(flag);
-            NO_ABILITIES_FLAG = flag;
+            USE_ABILITIES_FLAG = flag;
         } catch (FlagConflictException | IllegalStateException e) {
             Flag<?> existingFlag = registry.get("use-abilities");
             if (existingFlag instanceof StateFlag) {
                 AdvancedProvider.getAPI().getLogger().warning("The WorldGuard flag was already registered? Have you done a reload?");
-                NO_ABILITIES_FLAG = (StateFlag) existingFlag;
+                USE_ABILITIES_FLAG = (StateFlag) existingFlag;
             }
         }
 
@@ -52,7 +52,7 @@ public class WG7RegionChecker implements RegionChecker {
 
             LocalPlayer wgPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
             ApplicableRegionSet regions = getPlayerRegions(player);
-            StateFlag.State flagState = regions.queryState(wgPlayer, NO_ABILITIES_FLAG);
+            StateFlag.State flagState = regions.queryState(wgPlayer, USE_ABILITIES_FLAG);
 
             return flagState == StateFlag.State.DENY;
         });
