@@ -31,7 +31,7 @@ public class WG7RegionChecker implements RegionChecker {
 
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            StateFlag flag = new StateFlag("use-abilities", false);
+            StateFlag flag = new StateFlag("use-abilities", true);
             registry.register(flag);
             NO_ABILITIES_FLAG = flag;
         } catch (FlagConflictException | IllegalStateException e) {

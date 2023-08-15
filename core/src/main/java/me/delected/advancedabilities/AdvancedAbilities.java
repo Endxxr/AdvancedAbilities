@@ -43,13 +43,14 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     private AbilityManagerImpl abilityManager;
     @Getter
     private ItemGenerator itemGenerator;
-    @Getter
     private RegionChecker regionChecker;
     @Getter
     private String latestVersion;
     @Getter
     private boolean updateAvailable = false;
+    private boolean worldGuardEnabled = false;
     private final String CURRENT_VERSION = getPlugin().getDescription().getVersion();
+
 
     @Override
     public void onEnable() {
@@ -174,6 +175,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
 
         if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) return;
 
+        worldGuardEnabled = true;
         boolean oldWGVersion = false;
         try {
             Class.forName("com.sk89q.worldguard.WorldGuard"); //Checks for WorldGuard class only in version 7.0.0
@@ -188,9 +190,18 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
             regionChecker = new WG7RegionChecker();
         }
         regionChecker.registerFlags();
+    }
 
 
+    public RegionChecker getRegionChecker() {
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) return regionChecker;
+        getLogger().severe("WorldGuard not found! You won't be able to use the region checker!");
+        return null;
+    }
 
+    @Override
+    public boolean isWorldGuardEnabled() {
+        return worldGuardEnabled;
     }
 
 

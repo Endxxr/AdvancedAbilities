@@ -1,4 +1,4 @@
-    package me.delected.advancedabilities.api;
+package me.delected.advancedabilities.api;
 
 import me.delected.advancedabilities.api.objects.ItemGenerator;
 import me.delected.advancedabilities.api.objects.managers.AbilityManager;
@@ -45,6 +45,7 @@ public interface AdvancedAPI {
      */
 
     RegionChecker getRegionChecker();
+    boolean isWorldGuardEnabled();
 
     Logger getLogger();
     Plugin getPlugin();

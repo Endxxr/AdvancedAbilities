@@ -139,7 +139,7 @@ public class AbilityListener implements Listener {
             return true;
 
         }
-        if (api.getRegionChecker().isInForbiddenRegion(player)) return true;
+        if (api.isWorldGuardEnabled() && api.getRegionChecker().isInForbiddenRegion(player)) return true;
 
         if (api.getAbilityManager().inCooldown(player, ability)) return true;
 
