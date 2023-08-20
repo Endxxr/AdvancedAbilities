@@ -53,6 +53,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.11.3</version>
+        </dependency>
+        <dependency>
             <groupId>me.delected</groupId>
             <artifactId>api</artifactId>
             <version>4.1.2-STABLE</version>

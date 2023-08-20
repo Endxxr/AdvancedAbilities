@@ -42,6 +42,7 @@ public class PortableBard extends ClickableAbility implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
+        if (event.getClickedInventory() == null) return;
         if (!event.getClickedInventory().equals(inv)) return;
         if (!(event.getWhoClicked() instanceof Player)) return;
 

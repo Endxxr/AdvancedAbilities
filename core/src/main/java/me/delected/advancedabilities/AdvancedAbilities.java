@@ -55,7 +55,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     public void onLoad() {
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
-        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l${project.version}");
+        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l$4.1.2}");
         getLogger().info("§e§lby Endxxr");
         getLogger().info("§e§l& Delected_ §7(Original Author)");
         getLogger().info("");

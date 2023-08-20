@@ -43,14 +43,14 @@ public abstract class ThrowableAbility extends Ability implements Listener {
 
     public abstract void run(Player player, ItemStack item);
     public void onHit(Player player, Player hit, ItemStack item) {}
-    public boolean isRunnable(Player player, ItemStack item) { // True = cant run, false = can run
-        if (item == null || !item.getType().equals(getItem().getType())) return false;
-        if (AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item) != this) return false; //Avoid bugs
+    public boolean isNotRunnable(Player player, ItemStack item) {
+        if (item == null || !item.getType().equals(getItem().getType())) return true;
+        if (AdvancedProvider.getAPI().getAbilityManager().getAbilityByItem(item) != this) return true; //Avoid bugs
         AbilityManager abilityManager = AdvancedProvider.getAPI().getAbilityManager();
         if (AdvancedProvider.getAPI().getAbilityManager().inSpawn(player, player.getLocation())) {
             return true;
         }
-        if (abilityManager.inCooldown(player, this)) return false;
+        if (abilityManager.inCooldown(player, this)) return true;
         if (getConfig().getBoolean("multipleProjectiles") && playerList.contains(player.getUniqueId()) && !allowMultipleProjectiles()) {
             player.sendMessage(ChatUtils.colorize(getConfig().getString("messages.wait")));
             return true;

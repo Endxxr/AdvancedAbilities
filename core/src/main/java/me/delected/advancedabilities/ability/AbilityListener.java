@@ -58,10 +58,13 @@ public class AbilityListener implements Listener {
 
         } else if (ability instanceof ThrowableAbility) {
 
-            if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) return; // It's not punching something
+            if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) return; // It's punching something
 
             ThrowableAbility throwableAbility = (ThrowableAbility) ability;
-            if (throwableAbility.isRunnable(player, event.getItem())) return;
+            if (throwableAbility.isNotRunnable(player, event.getItem())) {
+                event.setCancelled(true);
+                return;
+            }
 
             throwableAbility.run(player, event.getItem());
             throwableAbility.addThrow(player);
@@ -112,13 +115,13 @@ public class AbilityListener implements Listener {
         if (ability==null) return;
         if (ability instanceof TargetAbility) {
 
+            if (isNotRunnable(player, ability)) return;
+
             if (item.getAmount() == 1) {
                 player.setItemInHand(new ItemStack(Material.AIR));
             } else {
                 item.setAmount(item.getAmount() - 1);
             }
-
-            if (isNotRunnable(player, ability)) return;
 
             player.updateInventory();
             api.getAbilityManager().addGlobalCooldown(player);
@@ -134,7 +137,7 @@ public class AbilityListener implements Listener {
 
     private boolean isNotRunnable(Player player, Ability ability) {
 
-        if (!player.hasPermission("advancedabilties.ability."+ability.getId())) {
+        if (!player.hasPermission("advancedabilities.ability."+ability.getId())) {
             player.sendMessage(ChatUtils.colorize(api.getConfig().getString("messages.no-permission")));
             return true;
 

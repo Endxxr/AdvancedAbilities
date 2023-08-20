@@ -26,6 +26,7 @@ public abstract class TargetAbility extends Ability implements Listener {
         hitPlayers.replace(player.getUniqueId(), hitPlayers.get(player.getUniqueId())-1);
         if (hitPlayers.get(player.getUniqueId())<=0) {
             hitPlayers.remove(player.getUniqueId());
+            addCooldown(player);
             run(player, target);
         }
     }
