@@ -25,6 +25,8 @@ public enum NMSVersion {
     v1_19_r2(192),
     v1_19_r3(193),
     v1_20_r1(201),
+    v1_20_r2(202),
+    v1_20_r3(203),
     ;
 
 
@@ -48,9 +50,13 @@ public enum NMSVersion {
 
 
     public static NMSVersion getSeverVersion() {
-        String packageName = Bukkit.getServer().getClass().getPackage().getName();
-        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-        return fromString(version);
+        try {
+            String packageName = Bukkit.getServer().getClass().getPackage().getName();
+            String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+            return fromString(version);
+        } catch (Exception e) {
+            return NMSVersion.UNKNOWN;
+        }
     }
 
     public static boolean isLegacy() {

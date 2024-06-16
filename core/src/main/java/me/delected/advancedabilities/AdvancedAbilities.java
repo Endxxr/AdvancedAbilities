@@ -55,7 +55,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     public void onLoad() {
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
-        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l$4.1.2}");
+        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l$4.1.4");
         getLogger().info("§e§lby Endxxr");
         getLogger().info("§e§l& Delected_ §7(Original Author)");
         getLogger().info("");
@@ -88,7 +88,7 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     public void onDisable() {
         getLogger().info("§8§l§m------------------");
         getLogger().info("");
-        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.1.2");
+        getLogger().info("§6§lAdvancedAbilities §8§l» §e§l4.1.4");
         getLogger().info("");
         getLogger().info("Disabling...");
         getLogger().info("§8§l§m------------------");
@@ -141,11 +141,10 @@ public final class AdvancedAbilities extends JavaPlugin implements AdvancedAPI {
     private void checkVersion() {
 
         NMSVersion nmsVersion = NMSVersion.getSeverVersion();
-        if (nmsVersion.getInt() < 80 || nmsVersion.getInt() > 201) {
+        if (nmsVersion.getInt() < 80 || nmsVersion.getInt() > 203) {
             getLogger().severe("Your version ("+nmsVersion.name()+") isn't supported!");
-            getLogger().severe("Disabling the plugin...");
+            getLogger().severe("This could lead to some bugs!");
             getLogger().info("§8§l§m------------------");
-            getServer().getPluginManager().disablePlugin(this);
         }
     }
 
